@@ -1,0 +1,15 @@
+{
+  "project": "User Management API",
+  "framework_version": "1.0.0",
+  "constraints": {
+    "max_files": 5,
+    "max_lines": 200,
+    "mock_timeout": 30,
+    "drs_target": 85
+  },
+  "patterns": ["PATTERN-001", "PATTERN-002"],
+  "contracts": [
+    "api/openapi.yaml",
+    "db/schema.sql"
+  ]
+}
