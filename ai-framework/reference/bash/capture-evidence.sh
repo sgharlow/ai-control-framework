@@ -51,7 +51,7 @@ Timestamp: $(date)
 Endpoint: $endpoint
 Method: $method
 Response File: $output_file
-Session: $(cat Claude-template/code.md | grep "Mission" -A 1 | tail -1)
+Session: $(cat ai-framework/templates/code.md | grep "Mission" -A 1 | tail -1)
 
 Verification:
 - Real endpoint contacted: YES

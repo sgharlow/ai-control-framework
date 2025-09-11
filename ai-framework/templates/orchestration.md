@@ -20,13 +20,37 @@ This file GOVERNS ALL ACTIONS. Check every 10 minutes. Violations = STOP.
 - ./check-scope.sh - Fails if files/LOC exceed session limits
 - ./verify-real-endpoints.sh - Fails if no real traffic in last 10m
 
+## FRAMEWORK EXCLUSION RULE (CRITICAL)
+
+**NEVER assess, modify, or count framework files:**
+- ai-framework/ directory and all contents
+- DO NOT TOUCH/ directory and all contents  
+- CLAUDE.md, *.sh scripts, .contract-hashes, .drs-*
+- Any file with "FRAMEWORK" in the name
+- Framework documentation (OPERATIONALIZATION-GUIDE.md, etc.)
+
+**ONLY assess USER PROJECT files - the actual application being built**
+
 ## SESSION SCOPE BOUNDARIES (Hard Limits)
 
-- **Max Files Changed:** 5 files (excluding tests/docs)
-- **Max Lines Added:** 200 LOC net additions
+### DEVELOPMENT Session (Default)
+- **Max Files Changed:** 5 USER files (excluding tests/docs/framework)
+- **Max Lines Added:** 200 LOC net additions (USER code only)
 - **Max New Dependencies:** 0 (unless pre-approved)
 - **Max Contract Changes:** 0 (CCR required for ANY change)
 - **Session Goal:** ONE specific acceptance test passing
+
+### ASSESSMENT Session (Discovery Mode)
+- **Max Files Changed:** 0 (read-only analysis of USER project only)
+- **Max Lines Added:** 0 (no code modifications)
+- **Duration:** 30 minutes max
+- **Session Goal:** Complete USER project understanding and status assessment
+
+### DEPLOYMENT Session (Ship Mode)
+- **Max Files Changed:** 3 USER files (deployment configs only)
+- **Max Lines Added:** 50 LOC (deployment scripts/configs)
+- **Duration:** 60 minutes max
+- **Session Goal:** Production deployment with rollback plan
 
 ## CONVERGENCE GATES (Focus on Deployability)
 

@@ -13,7 +13,7 @@
 ### Starting a New Session
 1. Read **overview.md** (this file)
 2. Load **orchestration.md** - Check gates and boundaries
-3. Review **code.md** - Understand current state
+3. Review **templates/code.md** - Understand current state
 4. Select pattern from **patterns.md**
 5. Check **requirements.md** - Confirm session goal
 
@@ -39,7 +39,7 @@
 
 ## File Hierarchy
 1. **orchestration.md** - GOVERNS ALL (check every 10 min)
-2. **code.md** - Current session state
+2. **templates/code.md** - Current session state
 3. **design.md** - Contract guardian (NEVER modify contracts)
 4. **patterns.md** - Must select before coding
 5. **requirements.md** - Single test focus

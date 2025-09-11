@@ -1,26 +1,50 @@
 # CLAUDE CODE CONFIGURATION
 **AI Agent Operating Instructions - READ FIRST**
 
+## ⚠️ CRITICAL: IMPLEMENTATION REQUIRED
+
+**This framework uses a "Specification-First, Implementation-Flexible" approach.**
+
+The framework provides:
+- **SPECIFICATIONS** of what to check (`ai-framework/specs/`)
+- **REFERENCE IMPLEMENTATIONS** as examples (`ai-framework/reference/`)
+- **MANUAL CHECKLISTS** as fallback (`ai-framework/reference/checklists/`)
+
+**YOU MUST:**
+1. Read `ai-framework/IMPLEMENTATION-GUIDE.md` FIRST
+2. Choose or adapt an implementation that works in your environment
+3. Use the specifications to understand WHAT to check
+4. Use the references to understand HOW to check
+5. Fall back to manual checklists if scripts fail
+
+**The scripts are NOT magic - they are EXAMPLES that need adaptation!**
+
 ## MANDATORY SESSION START PROCEDURE
 
 1. **Load Framework Files** (Every Session)
-   - Read `Claude-template/code.md` - Current session state
-   - Read `Claude-template/templates/orchestration.md` - Control rules
-   - Read `Claude-template/templates/patterns.md` - Implementation patterns
-   - Run `./can-i-continue.sh` - Verify safe to proceed
+   - Read `ai-framework/templates/code.md` - Current session state
+   - Read `ai-framework/templates/orchestration.md` - Control rules
+   - Read `ai-framework/templates/patterns.md` - Implementation patterns
+   - Read `ai-framework/IMPLEMENTATION-GUIDE.md` - How to run checks
+   - Perform safety checks per `ai-framework/specs/` guidelines
 
 2. **Select Pattern Before Coding**
    - NO implementation without pattern selection
    - Match task to PATTERN-XXX from patterns.md
-   - Document pattern choice in code.md
+   - Document pattern choice in templates/code.md
 
-3. **Automated Checks** (Every 10 minutes)
-   ```bash
-   ./check-contracts.sh    # Verify interfaces unchanged
-   ./detect-mocks.sh       # Ensure real services used
-   ./check-scope.sh        # Prevent scope creep
-   ./drs-calculate.sh      # Measure deployability
-   ```
+3. **Framework Checks** (Every 10 minutes)
+   
+   **CRITICAL**: These checks MUST be performed using appropriate implementation:
+   - **Specification Location**: `ai-framework/specs/`
+   - **Reference Implementations**: `ai-framework/reference/`
+   - **Choose**: Bash, PowerShell, Python, or Manual Checklist
+   
+   Required Checks:
+   - Contract Integrity (specs/contract-integrity.md)
+   - Mock Detection (specs/mock-detection.md)  
+   - Scope Control (specs/scope-control.md)
+   - DRS Calculation (specs/drs-calculation.md)
 
 ## HARD STOP CONDITIONS
 **ANY of these = STOP IMMEDIATELY:**
@@ -54,37 +78,37 @@ Default Action: [safe fallback if no response in 5min]
 
 ## EVIDENCE REQUIREMENTS
 
-Capture every 30 minutes:
-```bash
-./capture-evidence.sh api https://real-endpoint.com GET
-./capture-evidence.sh test
-./capture-evidence.sh perf https://real-endpoint.com
-```
+Capture every 30 minutes using appropriate method:
+- If scripts work: Use reference implementation
+- If not: Document manually in evidence/ folder
+- Include: API responses, test results, performance metrics
 
 ## SESSION WORKFLOW
 
 ### Starting Work
-1. Run `./can-i-continue.sh`
+1. Perform safety checks using appropriate implementation:
+   - See `ai-framework/IMPLEMENTATION-GUIDE.md`
+   - Use reference scripts OR manual checklists
 2. Load orchestration.md rules
 3. Select pattern from patterns.md
-4. Update code.md with mission
+4. Update templates/code.md with mission
 5. Begin implementation
 
 ### During Work
 - Check orchestration.md every 10 minutes
-- Run automated checks regularly
+- Perform framework checks regularly (use appropriate implementation)
 - Update progress.md with completion %
 - Capture evidence every 30 minutes
 - Mark todos completed immediately
 
 ### Ending Session
-1. Run `./drs-calculate.sh > handoff.txt`
+1. Calculate final DRS (use appropriate implementation)
 2. Update all tracking documents
 3. Commit with message: `SESSION-END: DRS [XX], Task [XXX] [STATUS]`
 
 ## PROMPT SHORTCUTS
 
-Use these exact prompts from `Claude-template/prompts.md`:
+Use these exact prompts from `ai-framework/prompts.md`:
 - **A** - Initialize session
 - **B** - Set context and rules
 - **C** - Resume work safely

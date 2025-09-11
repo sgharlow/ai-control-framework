@@ -19,6 +19,29 @@
 - Time to deployable: ~45 minutes
 - Next highest impact: Complete authentication (+20% deployability)
 
+## Auto-Validation Checks (Updated Every 5 Minutes)
+
+**FRAMEWORK EXCLUSION:** Only validate USER project files, never framework files
+
+**File Completeness (USER PROJECT ONLY):**
+- Required USER files exist: ✓/✗
+- No missing USER dependencies: ✓/✗
+- USER build configuration present: ✓/✗
+
+**Test Status (USER TESTS ONLY):**
+- USER tests executable: ✓/✗
+- USER tests passing: ✓/✗
+- USER coverage above minimum: ✓/✗
+
+**Integration Status (USER APPLICATION ONLY):**
+- USER endpoints responding: ✓/✗
+- USER authentication working: ✓/✗
+- USER data flow complete: ✓/✗
+
+**Status Validation:**
+- Manual estimate matches auto-detection: ✓/⚠/✗
+- If mismatch: Review actual USER PROJECT completion vs reported progress
+
 ## Recovery Options
 
 1. **Complete Auth Integration**

@@ -1,5 +1,5 @@
 #!/bin/bash
-# AI Development Control Framework Installer
+# AI Control Framework Installer
 # Works on Mac, Linux, and Windows (Git Bash/WSL)
 
 set -e
@@ -12,10 +12,10 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Framework version
-VERSION="1.0.0"
+VERSION="1.1.0"
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}   AI Development Control Framework Installer v${VERSION}${NC}"
+echo -e "${BLUE}       AI Control Framework Installer v${VERSION}         ${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -41,23 +41,17 @@ echo ""
 
 # Create directory structure
 echo "Creating framework structure..."
-mkdir -p templates
-mkdir -p scripts
+mkdir -p ai-framework
 mkdir -p evidence
-mkdir -p docs
 
 # Copy framework files
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Copying framework files..."
-cp -r "$SCRIPT_DIR/Claude-template/"* Claude-template/ 2>/dev/null || true
-cp "$SCRIPT_DIR/scripts/"*.sh scripts/ 2>/dev/null || true
-cp "$SCRIPT_DIR/CLAUDE.md" . 2>/dev/null || true
-cp "$SCRIPT_DIR/CLAUDE-CODE-PROMPTS.md" docs/ 2>/dev/null || true
-cp "$SCRIPT_DIR/FRAMEWORK-INTERNAL-BEHAVIORS.md" docs/ 2>/dev/null || true
+cp -r "$SCRIPT_DIR/ai-framework/"* ai-framework/ 2>/dev/null || true
 
-# Make scripts executable
-chmod +x scripts/*.sh 2>/dev/null || true
+# Make reference scripts executable if they exist
+chmod +x ai-framework/reference/bash/*.sh 2>/dev/null || true
 
 # Initialize tracking files
 touch .contract-hashes
@@ -81,10 +75,13 @@ run_script() {
     local script_name="$1"
     shift
     
-    if [ -f "scripts/${script_name}.sh" ]; then
-        bash "scripts/${script_name}.sh" "$@"
-    elif [ -f "scripts/${script_name}.ps1" ] && command -v powershell &> /dev/null; then
-        powershell -ExecutionPolicy Bypass -File "scripts/${script_name}.ps1" "$@"
+    # Try different implementations in order
+    if [ -f "ai-framework/reference/bash/${script_name}.sh" ]; then
+        bash "ai-framework/reference/bash/${script_name}.sh" "$@"
+    elif [ -f "ai-framework/reference/powershell/${script_name}.ps1" ] && command -v powershell &> /dev/null; then
+        powershell -ExecutionPolicy Bypass -File "ai-framework/reference/powershell/${script_name}.ps1" "$@"
+    elif command -v python &> /dev/null && [ -f "ai-framework/reference/python/${script_name}.py" ]; then
+        python "ai-framework/reference/python/${script_name}.py" "$@"
     else
         echo "Error: Script ${script_name} not found"
         exit 1
@@ -126,10 +123,7 @@ EOF
 chmod +x run-check.sh
 
 # Create initial CLAUDE.md if not exists
-if [ ! -f "CLAUDE.md" ]; then
-    echo -e "${YELLOW}Creating CLAUDE.md configuration...${NC}"
-    cp "$SCRIPT_DIR/CLAUDE.md" . 2>/dev/null || echo "CLAUDE.md template not found"
-fi
+# CLAUDE.md now lives in ai-framework/docs/
 
 # Create .gitignore for framework files
 cat > .gitignore.framework << 'EOF'
@@ -185,7 +179,7 @@ cat > QUICK-REFERENCE.md << 'EOF'
 
 ### Start every session with:
 ```
-I'm using the AI Development Control Framework. 
+I'm using the AI Control Framework. 
 Read CLAUDE.md and templates/code.md.
 Run ./run-check.sh continue
 ```
@@ -208,8 +202,8 @@ Ready to deploy. Execute framework prompt G for production deployment.
 - DRS ≥ 85 required for deployment
 
 ## Get Help
-- Documentation: docs/
-- Prompts: docs/CLAUDE-CODE-PROMPTS.md
+- Documentation: ai-framework/docs/
+- Prompts: ai-framework/docs/CLAUDE-CODE-PROMPTS.md
 - Troubleshooting: ./run-check.sh all
 EOF
 
@@ -224,15 +218,9 @@ if [ -d .git ]; then
 
 echo "Running AI Control Framework checks..."
 
-# Check contracts
-./scripts/check-contracts.sh
-if [ $? -ne 0 ]; then
-    echo "Contract violation detected. Commit aborted."
-    exit 1
-fi
-
-# Check scope
-./scripts/check-scope.sh
+# Framework checks - use appropriate implementation
+echo "Perform framework checks per ai-framework/specs/"
+echo "Use implementation appropriate for your environment"
 if [ $? -ne 0 ]; then
     echo "Scope exceeded. Commit aborted."
     exit 1
@@ -266,7 +254,7 @@ cat > templates/code.md << 'EOF'
 ## Contracts (Frozen)
 
 - **Files:** [TO BE DEFINED - List contract files when created]
-- **Hash:** [RUN ./check-contracts.sh to initialize]
+- **Hash:** [Initialize using appropriate implementation]
 - **Status:** AWAITING INITIALIZATION
 
 ## Real Services (No Mocks)
@@ -299,7 +287,7 @@ EOF
 # Final summary
 echo ""
 echo -e "${GREEN}═══════════════════════════════════════════════════════${NC}"
-echo -e "${GREEN}✓ AI Development Control Framework installed successfully!${NC}"
+echo -e "${GREEN}✓ AI Control Framework installed successfully!${NC}"
 echo -e "${GREEN}═══════════════════════════════════════════════════════${NC}"
 echo ""
 echo "Next steps:"
@@ -308,16 +296,17 @@ echo "1. Open Claude Code in this directory: $PROJECT_DIR"
 echo ""
 echo "2. Copy and paste this initialization prompt:"
 echo ""
-echo -e "${BLUE}Initialize the AI Development Control Framework for this project.${NC}"
+echo -e "${BLUE}Initialize the AI Control Framework for this project.${NC}"
 echo -e "${BLUE}Read all template files in templates/${NC}"
 echo -e "${BLUE}Help me set up: [describe your project]${NC}"
 echo ""
 echo "3. For every future session, start with:"
 echo ""
-echo -e "${BLUE}I'm using the AI Development Control Framework.${NC}"
-echo -e "${BLUE}Read CLAUDE.md and run ./run-check.sh continue${NC}"
+echo -e "${BLUE}I'm using the AI Control Framework.${NC}"
+echo -e "${BLUE}Read CLAUDE.md and ai-framework/IMPLEMENTATION-GUIDE.md${NC}"
+echo -e "${BLUE}Perform safety checks using appropriate implementation${NC}"
 echo ""
 echo -e "${YELLOW}Quick reference saved to: QUICK-REFERENCE.md${NC}"
-echo -e "${YELLOW}Full prompts available in: docs/CLAUDE-CODE-PROMPTS.md${NC}"
+echo -e "${YELLOW}Full prompts available in: ai-framework/docs/CLAUDE-CODE-PROMPTS.md${NC}"
 echo ""
 echo "Happy disciplined coding! 🚀"

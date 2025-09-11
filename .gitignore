@@ -14,6 +14,12 @@ handoff.txt
 *.log
 ccr-log.txt
 
+# Analytics and internal tracking
+.analytics/
+*-SUMMARY.md
+NAME-UPDATE-SUMMARY.md
+PACKAGE-STRUCTURE.md
+
 # Session files
 .session-*
 .claude-session

@@ -1,6 +1,6 @@
 {
   "project": "User Management API",
-  "framework_version": "1.0.0",
+  "framework_version": "1.1.0",
   "constraints": {
     "max_files": 5,
     "max_lines": 200,

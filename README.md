@@ -1,4 +1,4 @@
-# AI Development Control Framework
+# AI Control Framework
 **Stop wasting time on non-deployable AI-generated code. Ship with confidence.**
 
 [![Framework Version](https://img.shields.io/badge/version-1.0.0-blue)]()
@@ -16,7 +16,7 @@ AI coding assistants fail in predictable ways:
 
 ## 🚀 The Solution
 
-The AI Development Control Framework enforces discipline through:
+The AI Control Framework enforces discipline through:
 - **Contract Freezing**: Interfaces locked with SHA256 hashes
 - **Mock Timeout**: 30-minute expiration on all fake data
 - **Scope Control**: Hard limits of 5 files, 200 lines per session
@@ -48,9 +48,9 @@ cd ai-control-framework
 ### 2. Initialize Your Project
 Open Claude Code and paste:
 ```
-Initialize the AI Development Control Framework for this project. 
+Initialize the AI Control Framework for this project. 
 
-Read all 9 template files in Claude-template/templates/ and help me populate them with project-specific values.
+Read all 9 template files in ai-framework/templates/ and help me populate them with project-specific values.
 
 [Project details: your app name, main goal, tech stack]
 ```
@@ -58,43 +58,59 @@ Read all 9 template files in Claude-template/templates/ and help me populate the
 ### 3. Start Coding with Discipline
 For every session, paste:
 ```
-I'm using the AI Development Control Framework for disciplined, convergent development.
+I'm using the AI Control Framework for disciplined, convergent development.
 
 MANDATORY: Read these files in order:
 1. CLAUDE.md - Your operating instructions
-2. Claude-template/code.md - Current session state
+2. ai-framework/templates/code.md - Current session state
 
-Run ./can-i-continue.sh now. Only proceed if it returns CONTINUE.
+Run ./ai-framework/scripts/can-i-continue.sh now. Only proceed if it returns CONTINUE.
 ```
 
 ## 🎬 See It In Action
 
 ### Example: Building a User Authentication API
 
-**Session 1: Contract Definition (0→25 DRS)**
+**Session 1: Project Assessment (Discovery)**
 ```bash
-$ ./drs-calculate.sh
+$ ./ai-framework/scripts/assess-project.sh
+🔍 SCANNING USER PROJECT (excluding framework files)...
+User code files: 12
+Estimated completion: 45%
+Recommended session type: DEVELOPMENT
+$ ./ai-framework/scripts/check-scope.sh
+Session Type: ASSESSMENT
+User files changed: 0/0 ✓ (read-only, framework excluded)
+```
+
+**Session 2: Contract Definition (0→25 DRS)**
+```bash
+$ ./ai-framework/scripts/check-scope.sh
+Session Type: DEVELOPMENT
+Files changed: 2/5 ✓
+$ ./ai-framework/scripts/drs-calculate.sh
 Contracts defined: +20
 Project initialized: +5
 DRS: 25/100
 ```
 
-**Session 2: Real Service Connection (25→55 DRS)**
+**Session 3: Real Service Connection (25→55 DRS)**
 ```bash
-$ ./capture-evidence.sh api https://api.auth.example.com
+$ ./ai-framework/scripts/capture-evidence.sh api https://api.auth.example.com
 ✓ Real endpoint connected
-$ ./drs-calculate.sh
+$ ./ai-framework/scripts/drs-calculate.sh
 Real services: +20
 Tests passing: +10
 DRS: 55/100
 ```
 
-**Session 3: Implementation (55→85 DRS)**
+**Session 4: Implementation (55→85 DRS)**
 ```bash
-$ ./check-scope.sh
-Files changed: 3/5 ✓
+$ ./ai-framework/scripts/check-scope.sh
+Session Type: DEVELOPMENT
+User files changed: 3/5 ✓ [framework files excluded]
 Lines added: 147/200 ✓
-$ ./drs-calculate.sh
+$ ./ai-framework/scripts/drs-calculate.sh
 All tests passing: +15
 Error handling: +10
 Documentation: +5
@@ -107,18 +123,20 @@ DRS: 85/100 ★ READY TO DEPLOY ★
 your-project/
 ├── CLAUDE.md                    # AI agent instructions
 ├── scripts/
+│   ├── assess-project.sh       # Project discovery and analysis
 │   ├── check-contracts.sh      # Prevents interface drift
 │   ├── detect-mocks.sh         # Enforces real services
-│   ├── check-scope.sh          # Prevents scope creep
+│   ├── check-scope.sh          # Prevents scope creep (session-aware)
 │   ├── drs-calculate.sh        # Measures deployability
 │   ├── can-i-continue.sh       # Master safety check
 │   └── capture-evidence.sh     # Records real API calls
-└── Claude-template/
+└── ai-framework/
     ├── code.md                  # Session state tracking
     └── templates/
-        ├── orchestration.md     # Control rules
+        ├── orchestration.md     # Control rules (session types)
         ├── patterns.md          # Proven approaches
-        └── [7 more templates]   # Complete framework
+        ├── progress.md          # Auto-validation tracking
+        └── [6 more templates]   # Complete framework
 ```
 
 ## 🛠 How It Works
@@ -126,11 +144,11 @@ your-project/
 ### 1. Contract Freezing
 ```bash
 # First run captures interface hashes
-$ ./check-contracts.sh
+$ ./ai-framework/scripts/check-contracts.sh
 ✓ Contracts frozen: api/openapi.yaml, db/schema.sql
 
 # Any change triggers immediate stop
-$ ./check-contracts.sh
+$ ./ai-framework/scripts/check-contracts.sh
 ✗ CONTRACT VIOLATION DETECTED!
 STOP: Contract Change Request required
 ```
@@ -138,18 +156,18 @@ STOP: Contract Change Request required
 ### 2. Mock Timeout Enforcement
 ```bash
 # Mocks allowed for experimentation (first 30 min)
-$ ./detect-mocks.sh
+$ ./ai-framework/scripts/detect-mocks.sh
 ⚠ 2 mocks detected - 18 minutes remaining
 
 # After 30 minutes - forced to use real services
-$ ./detect-mocks.sh
+$ ./ai-framework/scripts/detect-mocks.sh
 ✗ VIOLATION: Mocks detected after 30-minute mark!
 Required: Replace with real service calls
 ```
 
 ### 3. Deployability Rating Score (DRS)
 ```bash
-$ ./drs-calculate.sh
+$ ./ai-framework/scripts/drs-calculate.sh
 ═══════════════════════════════
 DEPLOYABILITY SCORE: 72/100
 ═══════════════════════════════
@@ -166,29 +184,29 @@ DEPLOYABILITY SCORE: 72/100
 ## 📚 Complete Documentation
 
 ### For Developers
-- [QUICKSTART.md](./docs/QUICKSTART.md) - Get running in 2 minutes
-- [PATTERNS.md](./Claude-template/templates/patterns.md) - Proven implementation patterns
-- [TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) - Common issues and solutions
+- [QUICKSTART.md](./ai-framework/docs/QUICKSTART.md) - Get running in 2 minutes
+- [PATTERNS.md](./ai-framework/templates/patterns.md) - Proven implementation patterns
+- [TROUBLESHOOTING.md](./ai-framework/docs/TROUBLESHOOTING.md) - Common issues and solutions
 
 ### For Team Leads
-- [TEAM-SETUP.md](./docs/TEAM-SETUP.md) - Standardize team AI coding
-- [METRICS.md](./docs/METRICS.md) - Track team productivity
-- [CUSTOMIZATION.md](./docs/CUSTOMIZATION.md) - Adjust limits for your needs
+- [TEAM-SETUP.md](./ai-framework/docs/TEAM-SETUP.md) - Standardize team AI coding
+- [METRICS.md](./ai-framework/docs/METRICS.md) - Track team productivity
+- [CUSTOMIZATION.md](./ai-framework/docs/CUSTOMIZATION.md) - Adjust limits for your needs
 
 ### For AI Agents
 - [CLAUDE.md](./CLAUDE.md) - Instructions for Claude Code
-- [PROMPTS.md](./CLAUDE-CODE-PROMPTS.md) - User command reference
-- [BEHAVIORS.md](./FRAMEWORK-INTERNAL-BEHAVIORS.md) - Automatic behaviors
+- [PROMPTS.md](./ai-framework/docs/CLAUDE-CODE-PROMPTS.md) - User command reference
+- [BEHAVIORS.md](./ai-framework/docs/FRAMEWORK-INTERNAL-BEHAVIORS.md) - Automatic behaviors
 
 ## 🔧 Configuration
 
 ### Adjust Limits (Optional)
 ```bash
-# Edit scripts/check-scope.sh
+# Edit ai-framework/scripts/check-scope.sh
 MAX_FILES=5      # Default: 5 files per session
 MAX_LINES=200    # Default: 200 lines per session
 
-# Edit scripts/detect-mocks.sh  
+# Edit ai-framework/scripts/detect-mocks.sh  
 MOCK_TIMEOUT=30  # Default: 30 minutes
 ```
 
@@ -221,10 +239,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check Contracts
-        run: ./scripts/check-contracts.sh
+        run: ./ai-framework/scripts/check-contracts.sh
       - name: Check DRS
         run: |
-          DRS=$(./scripts/drs-calculate.sh | grep SCORE | cut -d: -f2 | cut -d/ -f1)
+          DRS=$(./ai-framework/scripts/drs-calculate.sh | grep SCORE | cut -d: -f2 | cut -d/ -f1)
           if [ $DRS -lt 70 ]; then exit 1; fi
 ```
 
@@ -232,8 +250,8 @@ jobs:
 ```bash
 # .git/hooks/pre-commit
 #!/bin/bash
-./scripts/check-contracts.sh || exit 1
-./scripts/check-scope.sh || exit 1
+./ai-framework/scripts/check-contracts.sh || exit 1
+./ai-framework/scripts/check-scope.sh || exit 1
 ```
 
 ### Future: MCP Server
@@ -257,6 +275,7 @@ const aiControl = new MCPServer({
 
 | Prompt | Purpose | When to Use |
 |--------|---------|------------|
+| ASSESS | Discover project status | Unknown project state |
 | START | Initialize project | First time only |
 | SET CONTEXT | Load framework rules | Every session start |
 | RESUME WORK | Continue tasks | Returning to work |
@@ -297,7 +316,7 @@ $ cat .drs-history
 2024-01-15 12:00:00: 85
 
 # Calculate session productivity  
-$ ./scripts/session-stats.sh
+$ ./ai-framework/scripts/session-stats.sh
 Session duration: 3h
 DRS improvement: +60
 Files changed: 4/5
@@ -313,7 +332,7 @@ A: Complete current session (reach DRS 85), deploy, then start fresh. This force
 A: No. This is intentional. 30 minutes is enough for exploration, then you must use real services.
 
 **Q: What if contracts must change?**
-A: Run `./approve-contract-change.sh` with justification. This creates an audit trail and resets DRS.
+A: Run `./ai-framework/scripts/approve-contract-change.sh` with justification. This creates an audit trail and resets DRS.
 
 **Q: Does this work with all AI assistants?**
 A: Optimized for Claude Code, compatible with any AI that can read project files.
@@ -340,7 +359,7 @@ A: Optimized for Claude Code, compatible with any AI that can read project files
 
 ## 🙏 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+We welcome contributions! See [CONTRIBUTING.md](./ai-framework/docs/CONTRIBUTING.md) for guidelines.
 
 ### Priority Areas
 - Language-specific patterns

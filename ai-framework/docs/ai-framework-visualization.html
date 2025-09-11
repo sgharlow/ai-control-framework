@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Control Framework - System Architecture</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .layer {
+            grid-column: span 4;
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .layer-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .file-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #4299e1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .file-desc {
+            font-size: 11px;
+            color: #718096;
+            line-height: 1.4;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 4px;
+        }
+        
+        .badge-critical { background: #fed7d7; color: #c53030; }
+        .badge-auto { background: #bee3f8; color: #2c5282; }
+        .badge-manual { background: #c6f6d5; color: #22543d; }
+        .badge-gate { background: #feebc8; color: #7c2d12; }
+        
+        .flow-diagram {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .flow-step {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .flow-step.active {
+            background: #4299e1;
+            color: white;
+            border-color: #3182ce;
+        }
+        
+        .flow-arrow {
+            width: 30px;
+            text-align: center;
+            color: #4299e1;
+            font-size: 20px;
+        }
+        
+        .scripts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .script-card {
+            background: #edf2f7;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .script-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2b6cb0;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .script-desc {
+            font-size: 11px;
+            color: #4a5568;
+        }
+        
+        .enforcement-rule {
+            background: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .enforcement-title {
+            font-weight: bold;
+            color: #c53030;
+            margin-bottom: 4px;
+        }
+        
+        .enforcement-desc {
+            font-size: 12px;
+            color: #742a2a;
+        }
+        
+        .time-gates {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .gate {
+            flex: 1;
+            background: white;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .gate-time {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 16px;
+        }
+        
+        .gate-progress {
+            color: #4299e1;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .gate-req {
+            font-size: 11px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 AI Control Framework - Complete System Architecture</h1>
+        <p class="subtitle">Preventing Mock-First Development & Contract Violations</p>
+        
+        <!-- Session Flow Diagram -->
+        <div class="flow-diagram">
+            <h3 style="color: #2d3748; margin-bottom: 20px;">📊 Session Execution Flow</h3>
+            <div class="flow-row">
+                <div class="flow-step active">
+                    <strong>START</strong><br>
+                    <small>Load orchestration.md<br>Select pattern<br>Freeze contracts</small>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <strong>ASSESS</strong><br>
+                    <small>Run assess-project.sh<br>Determine session type<br>Check USER files only</small>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <strong>DEVELOP</strong><br>
+                    <small>Apply pattern<br>Connect real services<br>Monitor scope</small>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <strong>VALIDATE</strong><br>
+                    <small>Check contracts<br>Verify no mocks<br>Calculate DRS</small>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <strong>DEPLOY</strong><br>
+                    <small>DRS ≥ 85<br>All gates green<br>Ship to prod</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Framework Layers -->
+        <div class="framework-grid">
+            
+            <!-- Layer 1: Control & Governance -->
+            <div class="layer" style="background: #fef5e7; border-color: #f39c12;">
+                <div class="layer-title">
+                    <span>⚡</span>
+                    Layer 1: Control & Governance (Check Every 10 Min)
+                </div>
+                <div class="files-grid">
+                    <div class="file-card">
+                        <div class="badge badge-critical">Critical</div>
+                        <div class="file-name">orchestration.md</div>
+                        <div class="file-desc">GOVERNS ALL ACTIONS<br>Stop triggers, time gates, session boundaries<br>Framework exclusion rules</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-critical">Critical</div>
+                        <div class="file-name">code.md</div>
+                        <div class="file-desc">Current session state<br>Mission, contracts, services<br>Deployability score tracking</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-auto">Auto</div>
+                        <div class="file-name">prompts.md</div>
+                        <div class="file-desc">AI behavior instructions<br>A-O exact procedures<br>Confidence protocols</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-manual">Manual</div>
+                        <div class="file-name">overview.md</div>
+                        <div class="file-desc">Navigation guide<br>When to use which file<br>High-level context</div>
+                    </div>
+                </div>
+                
+                <div class="enforcement-rule">
+                    <div class="enforcement-title">🛑 STOP Triggers (Any = Immediate Stop)</div>
+                    <div class="enforcement-desc">
+                        • Contract hash mismatch • Mock after 30m • >5 files changed • >200 LOC added • No real API in 10m • Confidence = LOW/BLOCKED
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer 2: Architecture & Contracts -->
+            <div class="layer" style="background: #fef2f2; border-color: #ef4444;">
+                <div class="layer-title">
+                    <span>🔒</span>
+                    Layer 2: Architecture & Contracts (FROZEN - No Changes Without CCR)
+                </div>
+                <div class="files-grid">
+                    <div class="file-card">
+                        <div class="badge badge-critical">Frozen</div>
+                        <div class="file-name">design.md</div>
+                        <div class="file-desc">Contract guardian<br>API/DB/Message contracts<br>SHA256 hashes frozen</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-critical">Frozen</div>
+                        <div class="file-name">requirements.md</div>
+                        <div class="file-desc">Single session scope<br>ONE acceptance test<br>Definition of deployable</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-manual">Reference</div>
+                        <div class="file-name">patterns.md</div>
+                        <div class="file-desc">Mandatory patterns<br>Success patterns (94% rate)<br>Anti-patterns to avoid</div>
+                    </div>
+                </div>
+                
+                <div class="enforcement-rule">
+                    <div class="enforcement-title">📝 Contract Change Request (CCR) Process</div>
+                    <div class="enforcement-desc">
+                        If contract change detected: STOP → Document justification → Prove no alternative → Get approval → Update hash → Full regression → Reset DRS
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer 3: Progress & Tracking -->
+            <div class="layer" style="background: #f0fdf4; border-color: #10b981;">
+                <div class="layer-title">
+                    <span>📈</span>
+                    Layer 3: Progress & Execution Tracking
+                </div>
+                <div class="files-grid">
+                    <div class="file-card">
+                        <div class="badge badge-auto">Auto</div>
+                        <div class="file-name">progress.md</div>
+                        <div class="file-desc">Deployability tracking<br>Auto-validation checks<br>USER PROJECT ONLY</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-manual">Manual</div>
+                        <div class="file-name">tasks.md</div>
+                        <div class="file-desc">Task breakdown<br>Partial completion %<br>Confidence levels</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-auto">Auto</div>
+                        <div class="file-name">todos.md</div>
+                        <div class="file-desc">Active issues<br>Mock tracking (72h expiry)<br>Blockers documented</div>
+                    </div>
+                    <div class="file-card">
+                        <div class="badge badge-gate">Gate</div>
+                        <div class="file-name">deploy.md</div>
+                        <div class="file-desc">Deploy checklist<br>Rollback procedures<br>DRS ≥ 85 required</div>
+                    </div>
+                </div>
+                
+                <div class="time-gates">
+                    <div class="gate">
+                        <div class="gate-time">30 min</div>
+                        <div class="gate-progress">10%</div>
+                        <div class="gate-req">Real service connected<br>Contracts frozen</div>
+                    </div>
+                    <div class="gate">
+                        <div class="gate-time">60 min</div>
+                        <div class="gate-progress">40%</div>
+                        <div class="gate-req">ONE test passing<br>3 Proofs captured</div>
+                    </div>
+                    <div class="gate">
+                        <div class="gate-time">90 min</div>
+                        <div class="gate-progress">70%</div>
+                        <div class="gate-req">Error paths handled<br>Performance OK</div>
+                    </div>
+                    <div class="gate">
+                        <div class="gate-time">120 min</div>
+                        <div class="gate-progress">100%</div>
+                        <div class="gate-req">DRS ≥ 85<br>Ready to ship</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer 4: Automation Scripts -->
+            <div class="layer" style="background: #eff6ff; border-color: #3b82f6;">
+                <div class="layer-title">
+                    <span>🤖</span>
+                    Layer 4: Automation & Validation Scripts
+                </div>
+                <div class="scripts-section">
+                    <div class="script-card">
+                        <div class="script-name">./assess-project.sh</div>
+                        <div class="script-desc">Analyzes USER project only<br>Excludes framework files<br>Recommends session type</div>
+                    </div>
+                    <div class="script-card">
+                        <div class="script-name">./check-contracts.sh</div>
+                        <div class="script-desc">Verifies contract hashes<br>Auto-reverts on mismatch<br>Runs every 10 min</div>
+                    </div>
+                    <div class="script-card">
+                        <div class="script-name">./check-scope.sh</div>
+                        <div class="script-desc">Enforces file/LOC limits<br>Session-type aware<br>USER files only</div>
+                    </div>
+                    <div class="script-card">
+                        <div class="script-name">./detect-mocks.sh</div>
+                        <div class="script-desc">Finds mock usage<br>Fails after 30m mark<br>Critical for deployment</div>
+                    </div>
+                    <div class="script-card">
+                        <div class="script-name">./verify-real-endpoints.sh</div>
+                        <div class="script-desc">Confirms real API calls<br>Checks last 10 min<br>No mocks allowed</div>
+                    </div>
+                    <div class="script-card">
+                        <div class="script-name">./drs-calculate.sh</div>
+                        <div class="script-desc">Deployability score<br>Must be ≥ 85<br>8 weighted factors</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Types -->
+            <div class="layer" style="background: #faf5ff; border-color: #9333ea;">
+                <div class="layer-title">
+                    <span>🎯</span>
+                    Session Types & Boundaries
+                </div>
+                <div class="files-grid">
+                    <div class="file-card" style="border-color: #4ade80;">
+                        <div class="badge" style="background: #86efac; color: #166534;">ASSESSMENT</div>
+                        <div class="file-name">Discovery Mode</div>
+                        <div class="file-desc">0 files changed<br>Read-only analysis<br>30 min max<br>USER project only</div>
+                    </div>
+                    <div class="file-card" style="border-color: #60a5fa;">
+                        <div class="badge" style="background: #93c5fd; color: #1e3a8a;">DEVELOPMENT</div>
+                        <div class="file-name">Build Mode (Default)</div>
+                        <div class="file-desc">5 USER files max<br>200 LOC limit<br>120 min session<br>ONE test passing</div>
+                    </div>
+                    <div class="file-card" style="border-color: #f87171;">
+                        <div class="badge" style="background: #fca5a5; color: #7f1d1d;">DEPLOYMENT</div>
+                        <div class="file-name">Ship Mode</div>
+                        <div class="file-desc">3 config files max<br>50 LOC limit<br>60 min session<br>Production ready</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Exclusions -->
+            <div class="layer" style="background: #fff7ed; border-color: #f97316;">
+                <div class="layer-title">
+                    <span>⚠️</span>
+                    Framework Exclusion Rule (CRITICAL)
+                </div>
+                <div class="enforcement-rule">
+                    <div class="enforcement-title">🚫 NEVER Assess or Modify Framework Files</div>
+                    <div class="enforcement-desc">
+                        <strong>Excluded from ALL assessments:</strong><br>
+                        • ai-framework/ directory • DO NOT TOUCH/ directory • CLAUDE.md • All *.sh scripts<br>
+                        • .contract-hashes • .drs-* files • Any file with "FRAMEWORK" in name<br>
+                        <strong>ONLY assess USER PROJECT files - the actual application being built</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DRS Calculation -->
+        <div style="background: #f7fafc; border-radius: 12px; padding: 20px; margin-top: 20px;">
+            <h3 style="color: #2d3748;">📊 DRS (Deployability Readiness Score) Components</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px;">
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #48bb78;">
+                    <strong>Evidence (20%)</strong><br>
+                    <small>3 proofs ≤ 2h old</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #48bb78;">
+                    <strong>Contracts (20%)</strong><br>
+                    <small>No unapproved changes</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #48bb78;">
+                    <strong>Tests (18%)</strong><br>
+                    <small>All green</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #ed8936;">
+                    <strong>Patterns (10%)</strong><br>
+                    <small>Using success patterns</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #ed8936;">
+                    <strong>Mocks (8%)</strong><br>
+                    <small>Zero in critical path</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #ed8936;">
+                    <strong>Performance (8%)</strong><br>
+                    <small>p95 < target</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #ed8936;">
+                    <strong>Observability (8%)</strong><br>
+                    <small>Trace IDs E2E</small>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 6px; border-left: 4px solid #ed8936;">
+                    <strong>Confidence (8%)</strong><br>
+                    <small>No LOW without ticket</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

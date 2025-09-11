@@ -115,14 +115,14 @@ test('connects to database', async () => {
 **Solution:**
 Always start sessions with:
 ```
-I'm using the AI Development Control Framework.
-MANDATORY: Read CLAUDE.md and Claude-template/code.md
+I'm using the AI Control Framework.
+MANDATORY: Read CLAUDE.md and ai-framework/templates/code.md
 Run ./run-check.sh continue
 ```
 
 If Claude still doesn't comply:
 ```
-STOP. You must follow the AI Development Control Framework.
+STOP. You must follow the AI Control Framework.
 Read CLAUDE.md again. The framework is MANDATORY.
 Show me the current DRS and pattern selection.
 ```
@@ -216,8 +216,8 @@ cat handoff.txt
 
 2. Start new session with:
 ```
-Resume work following the AI Development Control Framework.
-Read handoff.txt and Claude-template/code.md
+Resume work following the AI Control Framework.
+Read handoff.txt and ai-framework/templates/code.md
 Continue from where we left off.
 ```
 
@@ -279,7 +279,7 @@ grep -r "mock" --exclude-dir={node_modules,dist,build} src/
 **When everything is broken:**
 ```bash
 # Backup current state
-cp -r Claude-template Claude-template.backup
+cp -r ai-framework ai-framework.backup
 cp .drs-* backup/
 
 # Reset framework
@@ -364,7 +364,7 @@ Framework Version: $(cat VERSION)
 OS: $(uname -a)
 Git Version: $(git --version)
 Current DRS: $(cat .drs-score)
-Session Duration: $(stat -c %Y Claude-template/code.md)
+Session Duration: $(stat -c %Y ai-framework/templates/code.md)
 
 Recent Commands:
 $(history | tail -20)
@@ -375,7 +375,7 @@ $(./run-check.sh all 2>&1)
 Directory Structure:
 $(ls -la)
 $(ls -la scripts/)
-$(ls -la Claude-template/)
+$(ls -la ai-framework/)
 EOF
 ```
 

@@ -14,7 +14,7 @@ cd ~/projects/user-api
 ### Claude Code Session 1: Initialize
 **Human Prompt:**
 ```
-Initialize the AI Development Control Framework for this project.
+Initialize the AI Control Framework for this project.
 
 Project: User Management REST API
 - Create, read, update, delete users
@@ -46,7 +46,7 @@ Next: Connect to real PostgreSQL instance
 
 ### Human: Start Session
 ```
-I'm using the AI Development Control Framework.
+I'm using the AI Control Framework.
 Read CLAUDE.md and run ./run-check.sh continue
 ```
 
@@ -352,13 +352,13 @@ curl https://api.example.com/users
 
 1. Install the framework:
 ```bash
-git clone https://github.com/ai-control-framework/framework.git
-./framework/install.sh your-project
+git clone https://github.com/yourusername/ai-control-framework.git
+./ai-control-framework/install.sh your-project
 ```
 
 2. Start with this prompt:
 ```
-Initialize the AI Development Control Framework.
+Initialize the AI Control Framework.
 My project: [describe your project]
 ```
 

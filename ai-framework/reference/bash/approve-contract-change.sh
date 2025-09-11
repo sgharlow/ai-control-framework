@@ -80,7 +80,7 @@ echo "0" > .drs-score
 echo "$(date '+%Y-%m-%d %H:%M:%S'): 0 (CCR Reset)" >> .drs-history
 
 # Update code.md
-if [ -f "Claude-template/code.md" ]; then
+if [ -f "ai-framework/templates/code.md" ]; then
     echo ""
     echo "Updating session control..."
     # Note: In real implementation, this would update the file

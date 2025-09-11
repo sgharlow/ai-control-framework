@@ -20,7 +20,7 @@ ERRORS=0
 
 # Check 1: Contract integrity
 echo -n "1. Contract integrity... "
-if ./check-contracts.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/check-contracts.sh" > /dev/null 2>&1; then
     echo -e "${GREEN}✓ OK${NC}"
 else
     echo -e "${RED}✗ STOP - Contract violation${NC}"
@@ -30,7 +30,7 @@ fi
 
 # Check 2: Scope boundaries
 echo -n "2. Scope boundaries... "
-if ./check-scope.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/check-scope.sh" > /dev/null 2>&1; then
     echo -e "${GREEN}✓ OK${NC}"
 else
     echo -e "${RED}✗ STOP - Scope exceeded${NC}"
@@ -40,10 +40,10 @@ fi
 
 # Check 3: Mock time limit
 echo -n "3. Mock time limit... "
-if ./detect-mocks.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/detect-mocks.sh" > /dev/null 2>&1; then
     echo -e "${GREEN}✓ OK${NC}"
 else
-    SESSION_START_FILE="Claude-template/code.md"
+    SESSION_START_FILE="ai-framework/templates/code.md"
     if [ -f "$SESSION_START_FILE" ]; then
         MINUTES=$((($(date +%s) - $(stat -c %Y "$SESSION_START_FILE" 2>/dev/null || stat -f %m "$SESSION_START_FILE" 2>/dev/null || echo 0)) / 60))
         if [ $MINUTES -gt 30 ]; then
@@ -96,7 +96,7 @@ fi
 
 # Check 6: Session time limits
 echo -n "6. Session duration... "
-SESSION_START_FILE="Claude-template/code.md"
+SESSION_START_FILE="ai-framework/templates/code.md"
 if [ -f "$SESSION_START_FILE" ]; then
     MINUTES=$((($(date +%s) - $(stat -c %Y "$SESSION_START_FILE" 2>/dev/null || stat -f %m "$SESSION_START_FILE" 2>/dev/null || echo 0)) / 60))
     if [ $MINUTES -gt 120 ]; then

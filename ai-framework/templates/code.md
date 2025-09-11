@@ -5,7 +5,8 @@
 
 - **Goal:** [TO BE DEFINED - Set specific test/feature goal]
 - **Pattern:** [TO BE SELECTED - Choose from patterns.md]
-- **Scope:** 5 files max, 200 LOC max
+- **Session Type:** [ASSESSMENT/DEVELOPMENT/DEPLOYMENT]
+- **Scope:** [Depends on session type - see orchestration.md]
 
 ## Contracts (Frozen)
 

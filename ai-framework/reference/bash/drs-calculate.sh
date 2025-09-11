@@ -21,7 +21,7 @@ DETAILS=""
 
 # Check 1: Contract Integrity (20 points)
 echo -n "Checking contract integrity... "
-if ./check-contracts.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/check-contracts.sh" > /dev/null 2>&1; then
     DRS=$((DRS + 20))
     echo -e "${GREEN}✓ +20${NC}"
     DETAILS="${DETAILS}\n✓ Contracts unchanged (20/20)"
@@ -32,7 +32,7 @@ fi
 
 # Check 2: No Mocks in Production Path (20 points)
 echo -n "Checking for mocks... "
-if ./detect-mocks.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/detect-mocks.sh" > /dev/null 2>&1; then
     DRS=$((DRS + 20))
     echo -e "${GREEN}✓ +20${NC}"
     DETAILS="${DETAILS}\n✓ No mocks detected (20/20)"
@@ -60,7 +60,7 @@ fi
 
 # Check 4: Scope Control (10 points)
 echo -n "Checking scope boundaries... "
-if ./check-scope.sh > /dev/null 2>&1; then
+if "$(dirname "$0")/check-scope.sh" > /dev/null 2>&1; then
     DRS=$((DRS + 10))
     echo -e "${GREEN}✓ +10${NC}"
     DETAILS="${DETAILS}\n✓ Within scope (10/10)"
@@ -91,9 +91,9 @@ fi
 # Check 6: Documentation (10 points)
 echo -n "Checking documentation... "
 DOCS_COMPLETE=0
-[ -f "Claude-template/code.md" ] && ((DOCS_COMPLETE++))
-[ -f "Claude-template/templates/progress.md" ] && ((DOCS_COMPLETE++))
-[ -f "Claude-template/templates/tasks.md" ] && ((DOCS_COMPLETE++))
+[ -f "ai-framework/templates/code.md" ] && ((DOCS_COMPLETE++))
+[ -f "ai-framework/templates/progress.md" ] && ((DOCS_COMPLETE++))
+[ -f "ai-framework/templates/tasks.md" ] && ((DOCS_COMPLETE++))
 
 if [ $DOCS_COMPLETE -eq 3 ]; then
     DRS=$((DRS + 10))

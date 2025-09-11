@@ -1,11 +1,53 @@
-# Claude Code Prompts for AI Development Control Framework
+# Claude Code Prompts for AI Control Framework
 
-## A. START - Initialize Project Templates
+## A. ASSESS - Discover Project Status
 
 ```
-Initialize the AI Development Control Framework for this project. 
+Run project assessment using the AI Control Framework.
 
-Read all 9 template files in Claude-template/templates/ and help me populate them with project-specific values:
+SESSION TYPE: ASSESSMENT (read-only, 30 minutes max)
+
+CRITICAL: ONLY assess USER PROJECT files. NEVER assess framework files:
+- Ignore ai-framework/, DO NOT TOUCH/, CLAUDE.md, *.sh scripts
+- Ignore any file with "FRAMEWORK" in the name
+- Focus ONLY on the actual application being built
+
+1. Run project assessment (see ai-framework/IMPLEMENTATION-GUIDE.md for your environment)
+
+2. Read key USER project files to understand:
+   - Current completion status of the APPLICATION
+   - Architecture and patterns in use by USER CODE
+   - Test coverage and quality of USER TESTS
+   - Deployment readiness of USER APPLICATION
+   - Outstanding issues or blockers in USER PROJECT
+
+3. Update progress.md with auto-validation results:
+   - USER file completeness checks
+   - USER test status verification
+   - USER integration status assessment
+   - Manual vs auto-detected progress comparison
+
+4. Provide assessment summary:
+   - Estimated completion percentage of USER PROJECT
+   - Key USER components and their status
+   - Recommended next session type (DEVELOPMENT/DEPLOYMENT)
+   - Critical blockers or missing pieces in USER CODE
+   - Time estimate to USER APPLICATION deployment readiness
+
+5. If USER project appears complete but marked as incomplete:
+   - Document the discrepancy
+   - Verify actual USER functionality
+   - Update status to reflect USER PROJECT reality
+
+NO CODE CHANGES during assessment - USER project discovery only.
+```
+
+## B. START - Initialize Project Templates
+
+```
+Initialize the AI Control Framework for this project. 
+
+Read all 9 template files in ai-framework/templates/ and help me populate them with project-specific values:
 
 1. First, ask me for:
    - Project name and primary goal
@@ -23,17 +65,15 @@ Read all 9 template files in Claude-template/templates/ and help me populate the
    - todos.md: Create initial todo items with deadlines
    - progress.md: Initialize component tracking at 0%
    - deploy.md: Set deployment requirements and rollback procedures
-   - code.md: Set the mission, pattern, and initial DRS
+   - templates/code.md: Set the mission, pattern, and initial DRS
 
-3. Create the automation scripts if they don't exist:
-   - check-contracts.sh
-   - detect-mocks.sh  
-   - check-scope.sh
-   - drs-calculate.sh
-   - can-i-continue.sh
-   - capture-evidence.sh
+3. Set up framework checks for your environment:
+   - Read ai-framework/IMPLEMENTATION-GUIDE.md
+   - Choose implementation: Bash, PowerShell, Python, or Manual
+   - Adapt reference implementations from ai-framework/reference/
+   - Test that checks work in your environment
 
-4. Initialize contract hashes by running ./check-contracts.sh
+4. Initialize contract hashes using your chosen implementation
 
 5. Create CLAUDE.md with project-specific configuration
 
@@ -43,37 +83,47 @@ Output a summary showing all initialized values and confirm the framework is rea
 ## B. SET CONTEXT - Begin Claude Code Session
 
 ```
-I'm using the AI Development Control Framework for disciplined, convergent development.
+I'm using the AI Control Framework for disciplined, convergent development.
 
 MANDATORY: Read these files in order:
-1. CLAUDE.md - Your operating instructions
-2. Claude-template/code.md - Current session state
-3. Claude-template/templates/orchestration.md - Control rules (check every 10 min)
-4. Claude-template/templates/patterns.md - Required patterns
-5. Claude-template/templates/progress.md - Current progress
+1. ai-framework/IMPLEMENTATION-GUIDE.md - How to run checks
+2. CLAUDE.md - Your operating instructions
+3. ai-framework/templates/code.md - Current session state
+4. ai-framework/templates/orchestration.md - Control rules (check every 10 min)
+5. ai-framework/templates/patterns.md - Required patterns
+6. ai-framework/templates/progress.md - Current progress
+
+DECLARE SESSION TYPE:
+- ASSESSMENT: Read-only USER project discovery (0 USER files changed, 30 min max)
+- DEVELOPMENT: Active USER coding (5 USER files max, 200 USER LOC max, 120 min max)
+- DEPLOYMENT: USER production deployment (3 USER config files max, 50 USER LOC max, 60 min max)
+
+FRAMEWORK EXCLUSION: Never assess, modify, or count framework files (ai-framework/, scripts/, CLAUDE.md, etc.)
 
 ENFORCE these rules for ALL work:
 - NO implementation without pattern selection from patterns.md
 - NO changes to contract files without CCR approval
 - NO mocks after 30 minutes (enforced by detect-mocks.sh)
-- MAX 5 files, 200 LOC per session (enforced by check-scope.sh)
+- Respect session type boundaries (enforced by check-scope.sh)
 - STOP immediately if DRS drops >10% or confidence is LOW
 
-Run ./can-i-continue.sh now. Only proceed if it returns CONTINUE.
+Perform safety checks per ai-framework/specs/ now.
+Use appropriate implementation (Bash/PowerShell/Python/Manual).
+Only proceed if checks pass.
 
 For this session:
 - Check orchestration.md every 10 minutes
-- Update progress.md every 15 minutes
+- Update progress.md every 15 minutes (including auto-validation checks)
 - Capture evidence every 30 minutes
 - Declare confidence level with each decision
 
-Confirm you've loaded the framework and state current DRS, active pattern, and mission.
+Confirm you've loaded the framework and state current DRS, active pattern, session type, and mission.
 ```
 
 ## C. RESUME WORK - Continue Existing Tasks
 
 ```
-Resume work following the AI Development Control Framework.
+Resume work following the AI Control Framework.
 
 1. Run these checks immediately:
    ./can-i-continue.sh
@@ -81,10 +131,10 @@ Resume work following the AI Development Control Framework.
    git diff --stat
 
 2. Load current state:
-   - Read Claude-template/code.md for mission and pattern
-   - Read Claude-template/templates/tasks.md for current task
-   - Read Claude-template/templates/todos.md for pending items
-   - Read Claude-template/templates/progress.md for completion status
+   - Read ai-framework/templates/code.md for mission and pattern
+   - Read ai-framework/templates/tasks.md for current task
+   - Read ai-framework/templates/todos.md for pending items
+   - Read ai-framework/templates/progress.md for completion status
 
 3. Identify next action:
    - Find the highest-impact incomplete task
@@ -109,7 +159,7 @@ Begin work on the identified task, updating todos as you complete them.
 ## D. NEW WORK - Add and Execute New Task
 
 ```
-Add new work item to the AI Development Control Framework.
+Add new work item to the AI Control Framework.
 
 1. Describe the new work:
    - Type: [feature/bug/task]
@@ -123,9 +173,9 @@ Add new work item to the AI Development Control Framework.
    - Is this higher priority than existing todos?
 
 3. If approved, update:
-   - Claude-template/templates/tasks.md - Add new task with DoD
-   - Claude-template/templates/todos.md - Add specific todo items
-   - Claude-template/code.md - Update mission if this is now primary goal
+   - ai-framework/templates/tasks.md - Add new task with DoD
+   - ai-framework/templates/todos.md - Add specific todo items
+   - ai-framework/templates/code.md - Update mission if this is now primary goal
 
 4. Before starting:
    - Run ./can-i-continue.sh
@@ -144,7 +194,7 @@ Begin implementation ONLY after all checks pass.
 ## E. VERIFY WORK - Audit Current State
 
 ```
-Perform comprehensive audit of current work against the AI Development Control Framework.
+Perform comprehensive audit of current work against the AI Control Framework.
 
 Run all verification scripts:
 1. ./can-i-continue.sh - Check continuation safety
@@ -166,6 +216,8 @@ Review all control documents for violations:
 3. progress.md accuracy:
    - Do percentages reflect actual completion?
    - Is deployability assessment honest?
+   - Do auto-validation checks match manual estimates?
+   - Are file completeness, test status, and integration checks current?
 
 4. todos.md status:
    - Are any mocks past expiry?
@@ -189,7 +241,7 @@ Can continue: [YES/NO]
 ## F. BLOCKED - Handle Hard Stops
 
 ```
-I'm blocked and need to document the issue per the AI Development Control Framework.
+I'm blocked and need to document the issue per the AI Control Framework.
 
 Current blocker:
 - Type: [contract violation / scope exceeded / DRS declining / confidence LOW / external dependency]
@@ -226,7 +278,7 @@ STOP all work if contract violation or DRS < 50%.
 ## G. DEPLOY - Ready for Production
 
 ```
-Initiate production deployment following the AI Development Control Framework.
+Initiate production deployment following the AI Control Framework.
 
 Pre-deployment verification:
 1. Run ./deploy-check.sh --verbose
@@ -266,7 +318,7 @@ Rollback trigger (any):
 ## H. HANDOFF - End Session Cleanly
 
 ```
-End the current session with proper handoff documentation per the AI Development Control Framework.
+End the current session with proper handoff documentation per the AI Control Framework.
 
 Generate handoff artifacts:
 1. ./drs-calculate.sh > handoff.txt
@@ -313,7 +365,7 @@ Save as: handoff-[YYYYMMDD-HHMM].md
 ## I. UNCERTAINTY - Request Human Guidance
 
 ```
-I need human guidance per the AI Development Control Framework uncertainty protocol.
+I need human guidance per the AI Control Framework uncertainty protocol.
 
 Current situation:
 - Overall Confidence: [LOW/UNCERTAIN]
@@ -352,7 +404,7 @@ Current framework status:
 ## J. PR-READY - Generate Pull Request
 
 ```
-Generate a pull request per the AI Development Control Framework standards.
+Generate a pull request per the AI Control Framework standards.
 
 Pre-PR checklist:
 1. All tests passing? [YES/NO]

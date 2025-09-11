@@ -15,7 +15,7 @@ echo "Time: $(date '+%Y-%m-%d %H:%M:%S')"
 echo "========================================="
 
 # Get session start time from code.md if it exists
-SESSION_START_FILE="Claude-template/code.md"
+SESSION_START_FILE="ai-framework/templates/code.md"
 if [ -f "$SESSION_START_FILE" ]; then
     SESSION_DURATION=$(($(date +%s) - $(stat -c %Y "$SESSION_START_FILE" 2>/dev/null || stat -f %m "$SESSION_START_FILE" 2>/dev/null || echo 0)))
     MINUTES=$((SESSION_DURATION / 60))
