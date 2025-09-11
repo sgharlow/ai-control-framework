@@ -1,0 +1,17 @@
+# Generated framework files
+.contract-hashes
+.drs-score
+.drs-history
+evidence/
+handoff*.md
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE files
+.vscode/
+.idea/
