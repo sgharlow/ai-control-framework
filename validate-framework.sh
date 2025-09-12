@@ -65,18 +65,68 @@ TEST_DIR=$(mktemp -d)
 echo "Test directory: $TEST_DIR"
 echo ""
 
-# Copy framework files - the ai-framework folder should be in the same directory as this script
+# Define exclusion patterns for validation
+EXCLUDE_PATTERNS=(
+    "node_modules"
+    ".git"
+    "dist"
+    "build"
+    "*.log"
+    "*.tmp"
+    ".DS_Store"
+    "Thumbs.db"
+    "package-lock.json"
+    "yarn.lock"
+    ".env"
+    ".env.local"
+)
+
+# Function to copy with exclusions
+copy_with_exclusions() {
+    local source="$1"
+    local dest="$2"
+    
+    if command -v rsync &> /dev/null; then
+        # Use rsync with exclusions
+        local exclude_args=""
+        for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+            exclude_args="$exclude_args --exclude='$pattern'"
+        done
+        eval rsync -av $exclude_args "$source/" "$dest/"
+    else
+        # Manual copy excluding patterns
+        find "$source" -type f | while read -r file; do
+            rel_path="${file#$source/}"
+            should_exclude=false
+            
+            for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+                if [[ "$rel_path" == *"$pattern"* ]]; then
+                    should_exclude=true
+                    break
+                fi
+            done
+            
+            if [ "$should_exclude" = false ]; then
+                target_dir="$(dirname "$dest/$rel_path")"
+                mkdir -p "$target_dir"
+                cp "$file" "$dest/$rel_path"
+            fi
+        done
+    fi
+}
+
+# Copy framework files (excluding node_modules, etc.)
 if [ -d "$SCRIPT_DIR/ai-framework" ]; then
-    cp -r "$SCRIPT_DIR/ai-framework" "$TEST_DIR/" 2>/dev/null || true
-    echo "Copied framework from: $SCRIPT_DIR/ai-framework"
+    copy_with_exclusions "$SCRIPT_DIR/ai-framework" "$TEST_DIR/ai-framework"
+    echo "Copied framework from: $SCRIPT_DIR/ai-framework (with exclusions)"
 else
     echo "Warning: ai-framework not found at $SCRIPT_DIR/ai-framework"
 fi
 
-# Copy MCP server files
+# Copy MCP server files (excluding node_modules, etc.)
 if [ -d "$SCRIPT_DIR/ai-framework-mcp-server" ]; then
-    cp -r "$SCRIPT_DIR/ai-framework-mcp-server" "$TEST_DIR/" 2>/dev/null || true
-    echo "Copied MCP server from: $SCRIPT_DIR/ai-framework-mcp-server"
+    copy_with_exclusions "$SCRIPT_DIR/ai-framework-mcp-server" "$TEST_DIR/ai-framework-mcp-server"
+    echo "Copied MCP server from: $SCRIPT_DIR/ai-framework-mcp-server (with exclusions)"
 else
     echo "Note: MCP server not found at $SCRIPT_DIR/ai-framework-mcp-server (optional component)"
 fi

@@ -67,12 +67,74 @@ New-Item -ItemType Directory -Path $TestDir -Force | Out-Null
 Write-Host "Test directory: $TestDir"
 Write-Host ""
 
-# Copy framework files
+# Define exclusion patterns for validation
+$ExcludePatterns = @(
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "*.log",
+    "*.tmp",
+    ".DS_Store",
+    "Thumbs.db",
+    "package-lock.json",
+    "yarn.lock",
+    ".env",
+    ".env.local"
+)
+
+# Function to check if path should be excluded
+function Should-Exclude {
+    param([string]$Path)
+    
+    foreach ($pattern in $ExcludePatterns) {
+        if ($Path -like "*$pattern*") {
+            return $true
+        }
+    }
+    return $false
+}
+
+# Function to copy files with exclusions
+function Copy-WithExclusions {
+    param(
+        [string]$Source,
+        [string]$Destination
+    )
+    
+    # Create destination directory
+    if (-not (Test-Path $Destination)) {
+        New-Item -ItemType Directory -Path $Destination -Force | Out-Null
+    }
+    
+    Get-ChildItem -Path $Source -Recurse -Force | ForEach-Object {
+        $relativePath = $_.FullName.Substring($Source.Length + 1)
+        $targetPath = Join-Path $Destination $relativePath
+        
+        if (-not (Should-Exclude $relativePath)) {
+            if ($_.PSIsContainer) {
+                # Create directory if it doesn't exist
+                if (-not (Test-Path $targetPath)) {
+                    New-Item -ItemType Directory -Path $targetPath -Force | Out-Null
+                }
+            } else {
+                # Copy file
+                $targetDir = Split-Path $targetPath -Parent
+                if (-not (Test-Path $targetDir)) {
+                    New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+                }
+                Copy-Item -Path $_.FullName -Destination $targetPath -Force
+            }
+        }
+    }
+}
+
+# Copy framework files (excluding node_modules, etc.)
 $FrameworkSource = Join-Path $ScriptDir "ai-framework"
 if (Test-Path $FrameworkSource) {
     try {
-        Copy-Item -Path $FrameworkSource -Destination $TestDir -Recurse -Force
-        Write-Host "Copied framework from: $FrameworkSource"
+        Copy-WithExclusions -Source $FrameworkSource -Destination (Join-Path $TestDir "ai-framework")
+        Write-Host "Copied framework from: $FrameworkSource (with exclusions)"
     }
     catch {
         Write-Host "Warning: Failed to copy framework files: $($_.Exception.Message)"
@@ -81,12 +143,12 @@ if (Test-Path $FrameworkSource) {
     Write-Host "Warning: ai-framework not found at $FrameworkSource"
 }
 
-# Copy MCP server files
+# Copy MCP server files (excluding node_modules, etc.)
 $MCPServerSource = Join-Path $ScriptDir "ai-framework-mcp-server"
 if (Test-Path $MCPServerSource) {
     try {
-        Copy-Item -Path $MCPServerSource -Destination $TestDir -Recurse -Force
-        Write-Host "Copied MCP server from: $MCPServerSource"
+        Copy-WithExclusions -Source $MCPServerSource -Destination (Join-Path $TestDir "ai-framework-mcp-server")
+        Write-Host "Copied MCP server from: $MCPServerSource (with exclusions)"
     }
     catch {
         Write-Host "Warning: Failed to copy MCP server files: $($_.Exception.Message)"

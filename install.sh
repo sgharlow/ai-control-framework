@@ -51,34 +51,88 @@ mkdir -p evidence
 # Copy framework files
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "Copying framework files..."
+# Define files/directories to exclude
+EXCLUDE_PATTERNS=(
+    "node_modules"
+    ".git"
+    "dist"
+    "build"
+    "*.log"
+    "*.tmp"
+    ".DS_Store"
+    "Thumbs.db"
+    "package-lock.json"
+    "yarn.lock"
+    ".env"
+    ".env.local"
+)
+
+# Create rsync exclude arguments
+EXCLUDE_ARGS=""
+for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+    EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude='$pattern'"
+done
+
+echo "Copying framework files (excluding node_modules, etc.)..."
 if [ -d "$SCRIPT_DIR/ai-framework" ]; then
-    cp -r "$SCRIPT_DIR/ai-framework/." ai-framework/ 2>/dev/null || {
-        echo "Warning: Failed to copy some framework files. Trying alternative method..."
-        for item in "$SCRIPT_DIR/ai-framework"/*; do
-            if [ -e "$item" ]; then
-                cp -r "$item" ai-framework/
+    # Try rsync first (best option)
+    if command -v rsync &> /dev/null; then
+        eval rsync -av $EXCLUDE_ARGS "$SCRIPT_DIR/ai-framework/" ai-framework/
+        echo -e "${GREEN}✓ Framework files copied (using rsync)${NC}"
+    else
+        # Fallback to manual copy with exclusions
+        echo "Using manual copy (rsync not available)..."
+        find "$SCRIPT_DIR/ai-framework" -type f -print0 | while IFS= read -r -d '' file; do
+            # Get relative path
+            rel_path="${file#$SCRIPT_DIR/ai-framework/}"
+            
+            # Check if file should be excluded
+            should_exclude=false
+            for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+                if [[ "$rel_path" == *"$pattern"* ]]; then
+                    should_exclude=true
+                    break
+                fi
+            done
+            
+            if [ "$should_exclude" = false ]; then
+                # Create directory if needed
+                target_dir="$(dirname "ai-framework/$rel_path")"
+                mkdir -p "$target_dir"
+                cp "$file" "ai-framework/$rel_path"
             fi
         done
-    }
-    echo -e "${GREEN}✓ Framework files copied${NC}"
+        echo -e "${GREEN}✓ Framework files copied (manual copy)${NC}"
+    fi
 else
     echo "Error: Source ai-framework directory not found at $SCRIPT_DIR/ai-framework"
     exit 1
 fi
 
 # Copy MCP server files
-echo "Copying MCP server files..."
+echo "Copying MCP server files (excluding node_modules, etc.)..."
 if [ -d "$SCRIPT_DIR/ai-framework-mcp-server" ]; then
-    cp -r "$SCRIPT_DIR/ai-framework-mcp-server/." ai-framework-mcp-server/ 2>/dev/null || {
-        echo "Warning: Failed to copy some MCP server files. Trying alternative method..."
-        for item in "$SCRIPT_DIR/ai-framework-mcp-server"/*; do
-            if [ -e "$item" ]; then
-                cp -r "$item" ai-framework-mcp-server/
+    # Try rsync first
+    if command -v rsync &> /dev/null; then
+        eval rsync -av $EXCLUDE_ARGS "$SCRIPT_DIR/ai-framework-mcp-server/" ai-framework-mcp-server/
+        echo -e "${GREEN}✓ MCP server files copied (using rsync)${NC}"
+    else
+        # Manual copy excluding patterns
+        echo "Using manual copy for MCP server files..."
+        # Copy only essential files
+        for file in package.json tsconfig.json README.md; do
+            if [ -f "$SCRIPT_DIR/ai-framework-mcp-server/$file" ]; then
+                cp "$SCRIPT_DIR/ai-framework-mcp-server/$file" ai-framework-mcp-server/
             fi
         done
-    }
-    echo -e "${GREEN}✓ MCP server files copied${NC}"
+        
+        # Copy src directory
+        if [ -d "$SCRIPT_DIR/ai-framework-mcp-server/src" ]; then
+            mkdir -p ai-framework-mcp-server/src
+            cp -r "$SCRIPT_DIR/ai-framework-mcp-server/src/"* ai-framework-mcp-server/src/ 2>/dev/null || true
+        fi
+        echo -e "${GREEN}✓ MCP server files copied (manual copy)${NC}"
+    fi
     
     # Check if npm is available and install dependencies
     if command -v npm &> /dev/null; then
