@@ -1,189 +1,209 @@
 # AI Framework MCP Server v2.0
 
-**Intelligent prompt selection and comprehensive validation for ai-framework development**
+**Complete MCP integration exposing all 24 AI Framework prompts with enhanced Claude-optimized outputs**
 
-## Overview
+## 🎯 Overview
 
-The AI Framework MCP Server provides intelligent, context-aware prompt recommendations with comprehensive framework coverage. It analyzes your project state across **13 validation components**, detects framework violations, and recommends optimal actions with real-time project context and comprehensive security, data integrity, and production readiness assessment.
+The AI Framework MCP Server provides:
+- **24 Framework Prompts** accessible as MCP tools
+- **Claude-Optimized Outputs** with rich context and implementation guidance
+- **DRS Calculation** across 13 validation components
+- **Setup Capability** for non-Kiro environments (Claude Code, etc.)
+- **Smart Recommendations** based on project state
 
-## Features
-
-### 🎯 Core MCP Tools
-
-1. **get_framework_state** - Complete project analysis with DRS, violations, and recommendations
-2. **select_optimal_prompt** - Context-aware prompt selection for 5 development scenarios  
-3. **generate_contextualized_prompt** - Dynamic prompt generation with project context
-
-### 🔒 Comprehensive AI-Framework Compliance
-
-- **13-Component DRS**: Complete deployability assessment across all validation areas
-- **Security Validation**: Vulnerability scanning, compliance checking, secret detection
-- **Data Integrity**: Transaction safety, business rule validation, audit trails
-- **Production Readiness**: Environment validation, resource management, operational readiness
-- **Context Preservation**: ADR tracking, naming consistency, pattern adherence
-- **Time Gate Enforcement**: Hard limits respected and reported
-- **Framework Violations**: Detected, prioritized, and addressed across all 13 problem areas
-- **Confidence Declaration**: Every analysis includes confidence + reasoning
-- **Evidence-Based**: Real service connections, evidence freshness tracking
-
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+ and npm
 - TypeScript 5.0+
-- An ai-framework project with `orchestration.md` and `tasks.md`
+- MCP-compatible IDE (Kiro, VSCode with MCP extension, Claude Code)
 
 ### Installation
 
 ```bash
+# 1. Navigate to the MCP server directory
 cd ai-framework-mcp-server
+
+# 2. Install dependencies
 npm install
+
+# 3. Build the server
 npm run build
+
+# 4. Test the server
+npm test
+
+# Install dependencies
+npm install
+
+# Build the server
+npm run build
+
+# Verify installation (optional)
+node verify-installation.js
 ```
 
 ### Configuration in Kiro
 
-Add to your `mcp.json` configuration:
+#### Workspace Configuration
+
+### Configuration
+
+#### For Kiro IDE
+
+Create `.kiro/settings/mcp.json` in your project root:
 
 ```json
 {
   "mcpServers": {
     "ai-framework": {
       "command": "node",
-      "args": ["path/to/ai-framework-mcp-server/dist/index.js"],
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
       "env": {},
-      "disabled": false,
-      "autoApprove": [
-        "get_framework_state",
-        "select_optimal_prompt", 
-        "generate_contextualized_prompt"
-      ]
+      "disabled": false
     }
   }
 }
 ```
 
-## Usage Guide
+#### For Claude Code / Other MCP-Compatible Tools
 
-### 1. Project State Analysis
+Add to your MCP configuration:
 
-Get comprehensive analysis of your ai-framework project:
-
-```
-Tool: get_framework_state
-Parameters: 
-  - projectPath: "/path/to/your/project" (optional)
-```
-
-**Returns:**
-- Current DRS score and project state
-- Framework violations and recommendations
-- Evidence freshness and compliance status
-- Critical path items and next actions
-
-### 2. Optimal Prompt Selection
-
-Get context-aware prompt recommendations:
-
-```
-Tool: select_optimal_prompt
-Parameters:
-  - scenario: "assess" | "next-action" | "enhance" | "debug" | "deploy"
-  - projectPath: "/path/to/your/project" (optional)
-  - userIntent: "What you want to accomplish" (optional)
+```json
+{
+  "name": "ai-framework",
+  "command": "node",
+  "args": ["path/to/ai-framework-mcp-server/dist/index.js"]
+}
 ```
 
-**Scenarios:**
-- **assess** - Project state assessment (uses P. ASSESS)
-- **next-action** - Next development step (uses Q. DECIDE)
-- **enhance** - Feature enhancement (uses R. ENHANCE)
-- **debug** - Issue debugging (uses S. CORRECT)
-- **deploy** - Deployment readiness (uses T. DEPLOY-DECIDE)
+## 📋 All 24 Framework Prompts
 
-### 3. Contextualized Prompt Generation
+The MCP server exposes all 24 framework prompts as tools:
 
-Generate prompts with your project context:
+### Session Management
+- **start** - Initialize NEW session (first time only)
+- **resume** - Re-enter EXISTING session (use every return)
+- **set_context** - Load framework rules into context
+- **handoff** - Properly end session with state capture
 
+### Planning & Decision
+- **assess** - Full project analysis with DRS score
+- **decide** - Get next optimal action based on state
+- **plan** - Plan implementation approach
+- **select_pattern** - Choose best implementation pattern
+
+### Development Actions
+- **enhance** - Add new features with scope control
+- **correct** - Fix bugs with minimal changes
+- **debug** - Enter debug mode for troubleshooting
+
+### Validation & Compliance
+- **verify** - Check all 13 validation components
+- **evidence** - Capture functionality proof
+- **checkpoint** - Validate time gate requirements
+
+### Deployment
+- **deploy_decide** - Check if ready (DRS≥85)
+- **deploy** - Execute deployment procedures
+- **pr** - Create pull request with context
+
+### Problem Resolution
+- **blocked** - Handle blockers systematically
+- **decline** - DRS recovery procedures
+- **uncertainty** - Request human guidance
+- **emergency** - Contract change request (LAST RESORT)
+
+### Setup (Non-Kiro Environments)
+- **setup** - Create all framework files
+- **init_requirements** - Create requirements.md
+- **init_design** - Create design.md
+- **init_tasks** - Create tasks.md
+
+## 🔄 Common Workflows
+
+### First Time Setup (Claude Code/Non-Kiro)
+```javascript
+// Create framework files
+await execute("setup", { projectName: "my-app" });
+// Start first session
+await execute("start");
+// Load rules
+await execute("set_context");
 ```
-Tool: generate_contextualized_prompt
-Parameters:
-  - promptId: "P_ASSESS" | "Q_DECIDE" | "R_ENHANCE" | "S_CORRECT" | "T_DEPLOY_DECIDE"
-  - projectPath: "/path/to/your/project" (optional)
-  - customVariables: { "key": "value" } (optional)
+
+### Returning to Work
+```javascript
+// ALWAYS use resume, not start
+await execute("resume");
+// Check current state
+await execute("assess");
+// Get next action
+await execute("decide");
 ```
 
-**Available Prompts:**
-- **P_ASSESS** - Comprehensive project state analysis
-- **Q_DECIDE** - Automatic next action selection
-- **R_ENHANCE** - Context-aware enhancement handler
-- **S_CORRECT** - Debugging and correction context
-- **T_DEPLOY_DECIDE** - Intelligent deployment decision
-
-## Example Workflows
-
-### Starting a Development Session
-
-1. **Assess Current State**
-   ```
-   select_optimal_prompt(scenario: "assess")
-   ```
-   → Recommends P. ASSESS for project analysis
-
-2. **Get Contextualized Guidance**
-   ```
-   generate_contextualized_prompt(promptId: "P_ASSESS")
-   ```
-   → Returns P. ASSESS with current DRS, violations, and recommendations
-
-### During Development
-
-1. **Determine Next Action**
-   ```
-   select_optimal_prompt(scenario: "next-action", userIntent: "Add new feature")
-   ```
-   → Recommends appropriate prompt based on project state
-
-2. **Handle Issues**
-   ```
-   select_optimal_prompt(scenario: "debug", userIntent: "Fix validation error")
-   ```
-   → Recommends S. CORRECT with debugging context
+### Every 30 Minutes
+```javascript
+// Check time gates
+await execute("checkpoint");
+// Capture evidence
+await execute("evidence");
+// Verify compliance
+await execute("verify");
+```
 
 ### Before Deployment
-
-1. **Check Deployment Readiness**
-   ```
-   select_optimal_prompt(scenario: "deploy")
-   ```
-   → Recommends T. DEPLOY-DECIDE with readiness assessment
-
-## Framework Integration
-
-### Project Structure Expected
-
-```
-your-project/
-├── orchestration.md          # Session control and framework state
-├── tasks.md                  # Task list and completion tracking
-├── evidence/                 # Evidence files (< 2h old)
-│   ├── api-connection.log
-│   └── integration-test.json
-└── .drs-score               # Current deployability rating
+```javascript
+// Check readiness
+const ready = await execute("deploy_decide");
+if (ready.status === "GREEN") {
+  await execute("deploy");
+  await execute("pr");
+}
 ```
 
-### Framework Files Detected
+## 📊 DRS Components (100 Points Total)
 
-The MCP server automatically detects framework files in these locations:
-- `orchestration.md`, `tasks.md` in project root
-- `.ai-framework/orchestration.md`, `.ai-framework/tasks.md`
-- `docs/orchestration.md`, `docs/tasks.md`
-- `evidence/` directory for proof files
+| Component | Points | What It Checks |
+|-----------|--------|----------------|
+| Security Validation | 16 | Vulnerabilities, secrets, compliance |
+| Production Readiness | 14 | Deployment, monitoring, rollback |
+| Data Integrity | 9 | Transactions, business rules, audit |
+| Integration Evidence | 9 | E2E tests, real API calls |
+| Contract Integrity | 7 | Interface stability, hashes |
+| Behavioral Contracts | 7 | Module behaviors, invariants |
+| No Mocks | 7 | Real service usage after 30min |
+| Tests Passing | 7 | Automated test suites |
+| Architecture Stability | 7 | Structure, dependencies |
+| Context Preservation | 7 | ADRs, naming, patterns |
+| Error Handling | 4 | Graceful failures, recovery |
+| Scope Compliance | 4 | ≤5 files, ≤200 LOC |
+| Documentation | 2 | Comments, README updates |
 
-## Response Formats
+**Deployment Gate: DRS ≥ 85**
 
-### Framework State Response
+## 📦 Output Formats
 
+All prompts return enhanced, Claude-optimized outputs with:
+
+### Structured Sections
+```markdown
+## Current State
+[Project analysis with DRS, violations, evidence]
+
+## Recommended Action
+[Specific next step with implementation guidance]
+
+## Success Criteria
+[Measurable outcomes to achieve]
+
+## Validation Steps
+[How to verify success]
+```
+
+### Example Response
 ```json
 {
   "frameworkState": {

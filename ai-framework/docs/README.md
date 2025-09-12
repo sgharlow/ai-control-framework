@@ -1,22 +1,27 @@
 # AI Control Framework Documentation
 
-## Core Documents
+## Essential Guides
 
-### Getting Started
-- **[GETTING-STARTED.md](GETTING-STARTED.md)** - Quick start guide and overview
-- **[IMPLEMENTATION-GUIDE.md](../IMPLEMENTATION-GUIDE.md)** - How to adapt the framework to your environment
-- **[FRAMEWORK-APPROACH.md](../FRAMEWORK-APPROACH.md)** - Philosophy and architecture
-
-### Using the Framework
-- **[CLAUDE-CODE-PROMPTS.md](CLAUDE-CODE-PROMPTS.md)** - Prompts for AI assistants
+- **[GETTING-STARTED.md](GETTING-STARTED.md)** - Quick start guide for new users
 - **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
-- **[EXAMPLE-WALKTHROUGH.md](EXAMPLE-WALKTHROUGH.md)** - Step-by-step tutorial
+- **[CUSTOMIZATION.md](CUSTOMIZATION.md)** - How to adapt the framework for your needs
+- **[TEAM-SETUP.md](TEAM-SETUP.md)** - Setting up the framework for teams
 
-### Advanced Topics
-- **[TEAM-SETUP.md](TEAM-SETUP.md)** - Team standardization guide
-- **[CUSTOMIZATION.md](CUSTOMIZATION.md)** - Adapting limits and rules
-- **[METRICS.md](METRICS.md)** - Tracking productivity and quality
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+## Additional Resources
+
+- **[EXAMPLE-WALKTHROUGH.md](EXAMPLE-WALKTHROUGH.md)** - Step-by-step example project
+- **[METRICS.md](METRICS.md)** - Understanding DRS and other metrics
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to the framework
+
+## Interactive Visualization
+
+Open **[ai-framework-visualization.html](ai-framework-visualization.html)** in your browser for an interactive system diagram.
+
+## Main Documentation
+
+- **[Framework README](../README.md)** - Comprehensive framework documentation
+- **[Implementation Guide](../IMPLEMENTATION-GUIDE.md)** - Platform-specific implementation
+- **[MCP Server](../../ai-framework-mcp-server/README.md)** - MCP integration for IDEs
 
 ## Framework Structure
 
@@ -71,7 +76,7 @@ ai-framework/
 - **Implementations**: See reference folder
 
 ## Version
-Current Version: **1.1.0**
+Current Version: **2.0.0** (24 Prompts, MCP Server Integration)
 
 ## License
 MIT - See LICENSE file in root

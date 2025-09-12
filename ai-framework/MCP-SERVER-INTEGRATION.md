@@ -2,6 +2,51 @@
 
 **Intelligent prompt selection for ai-framework development**
 
+## Prerequisites
+
+Before installing the AI Framework MCP Server, ensure your system meets these requirements:
+
+### System Requirements
+
+- **Node.js**: Version 18.0 or higher
+- **npm**: Version 8.0 or higher (comes with Node.js)
+- **TypeScript**: Version 5.0 or higher
+- **Kiro IDE**: With MCP support enabled
+
+### Verification Commands
+
+Check your system compatibility:
+
+**Node.js version:**
+```bash
+node --version
+```
+Expected output: `v18.0.0` or higher
+
+**npm version:**
+```bash
+npm --version
+```
+Expected output: `8.0.0` or higher
+
+**TypeScript availability:**
+```bash
+npx tsc --version
+```
+Expected output: `Version 5.0.0` or higher
+
+### Platform Compatibility
+
+- **Windows**: PowerShell or Command Prompt
+- **macOS**: Terminal with bash/zsh
+- **Linux**: bash shell
+
+### Installation Requirements
+
+- Write access to your project directory
+- Internet connection for downloading dependencies
+- Approximately 50MB of disk space
+
 ## Overview
 
 The AI Framework MCP Server provides context-aware prompt recommendations that automatically maintain ai-framework discipline. It analyzes your project state and recommends optimal prompts with real-time context injection.
@@ -58,6 +103,65 @@ RECOMMENDED ACTIONS:
 - Use E. VERIFY to maintain compliance
 ```
 
+## Verification and Testing
+
+### Step 1: Restart Kiro
+
+After configuring the MCP server, restart Kiro to load the new configuration.
+
+### Step 2: Verify MCP Server Connection
+
+1. Open Kiro's MCP Server panel (View → MCP Servers)
+2. Look for "ai-framework" in the server list
+3. Status should show "Connected" with a green indicator
+
+### Step 3: Test MCP Tools
+
+Test each tool to ensure proper functionality:
+
+**Test Framework State Analysis:**
+1. In Kiro, use the MCP tool `get_framework_state`
+2. Expected response should include:
+   ```json
+   {
+     "frameworkState": {
+       "drsScore": 75,
+       "projectState": "DEVELOPMENT",
+       "frameworkCompliance": true
+     }
+   }
+   ```
+
+**Test Prompt Selection:**
+1. Use MCP tool `select_optimal_prompt`
+2. Set scenario to "assess"
+3. Expected response should include a recommended prompt ID and reasoning
+
+**Test Contextualized Prompts:**
+1. Use MCP tool `generate_contextualized_prompt`
+2. Set promptId to "P_ASSESS"
+3. Expected response should include a formatted prompt with project context
+
+### Step 4: Verify Auto-Approval
+
+If configured, the tools should execute without requiring manual approval for each invocation.
+
+### Troubleshooting Verification Issues
+
+**Server Not Connecting:**
+- Check that the path in `mcp.json` is correct
+- Verify the server builds without errors (`npm run build`)
+- Check Kiro's MCP server logs for error messages
+
+**Tools Not Available:**
+- Restart Kiro after configuration changes
+- Verify JSON syntax in `mcp.json` is valid
+- Check that `autoApprove` array includes the tool names
+
+**Permission Errors:**
+- Ensure Node.js has permission to execute the server script
+- Check file permissions on the MCP server directory
+
 ## Usage Scenarios
 
 ### 1. Starting a Development Session
@@ -72,11 +176,9 @@ RECOMMENDED ACTIONS:
 ```
 
 **With MCP Server:**
-```
-1. select_optimal_prompt(scenario: "assess")
+1. Use Kiro MCP tool: `select_optimal_prompt` with scenario "assess"
 2. Automatically get P. ASSESS with full context
 3. Follow contextualized recommendations
-```
 
 ### 2. During Enhancement Work
 
@@ -86,14 +188,15 @@ RECOMMENDED ACTIONS:
 - Choose between multiple prompts
 
 **MCP Server Approach:**
-```
-select_optimal_prompt(scenario: "enhance", userIntent: "Add batch processing")
-→ Returns R. ENHANCE with:
-  - Current scope analysis
-  - Framework compliance status
-  - Specific enhancement guidance
-  - Risk assessment
-```
+Use Kiro MCP tool `select_optimal_prompt` with:
+- scenario: "enhance"
+- userIntent: "Add batch processing"
+
+Returns R. ENHANCE with:
+- Current scope analysis
+- Framework compliance status
+- Specific enhancement guidance
+- Risk assessment
 
 ### 3. Deployment Decisions
 
@@ -104,14 +207,13 @@ select_optimal_prompt(scenario: "enhance", userIntent: "Add batch processing")
 - Choose deployment prompt
 
 **Automated Process:**
-```
-select_optimal_prompt(scenario: "deploy")
-→ Returns T. DEPLOY-DECIDE with:
-  - Complete gate analysis
-  - Deployment readiness assessment
-  - Specific blockers identified
-  - Risk evaluation
-```
+Use Kiro MCP tool `select_optimal_prompt` with scenario "deploy"
+
+Returns T. DEPLOY-DECIDE with:
+- Complete gate analysis
+- Deployment readiness assessment
+- Specific blockers identified
+- Risk evaluation
 
 ## Framework Compliance Verification
 
@@ -176,25 +278,17 @@ flowchart TD
 
 Instead of guessing which prompt to use:
 
-```
-# Good: Let MCP server decide
-select_optimal_prompt(scenario: "next-action")
+**Good**: Use Kiro MCP tool `select_optimal_prompt` with scenario "next-action"
 
-# Less optimal: Manual prompt selection
-"I think I should use D. PLAN"
-```
+**Less optimal**: Manual prompt selection - "I think I should use D. PLAN"
 
 ### 2. Leverage Context Injection
 
 Instead of manually gathering context:
 
-```
-# Good: Automatic context injection
-generate_contextualized_prompt(promptId: "P_ASSESS")
+**Good**: Use Kiro MCP tool `generate_contextualized_prompt` with promptId "P_ASSESS"
 
-# Less optimal: Manual context gathering
-"Let me check the DRS score and orchestration.md..."
-```
+**Less optimal**: Manual context gathering - "Let me check the DRS score and orchestration.md..."
 
 ### 3. Trust Framework Discipline
 
@@ -226,70 +320,397 @@ Match your intent to the right scenario:
 4. Manually add context
 
 **After:**
-1. Call `select_optimal_prompt(scenario: "assess")`
+1. Use Kiro MCP tool `select_optimal_prompt` with scenario "assess"
 2. Use recommended prompt with injected context
 3. Follow framework-compliant recommendations
 
-### Integration Steps
+## Installation
 
-1. **Install MCP Server**
-   ```bash
-   cd ai-framework-mcp-server
-   npm install && npm run build
-   ```
+### Step 1: Navigate to MCP Server Directory
 
-2. **Configure Kiro**
-   ```json
-   {
-     "mcpServers": {
-       "ai-framework": {
-         "command": "node",
-         "args": ["path/to/ai-framework-mcp-server/dist/index.js"]
-       }
-     }
-   }
-   ```
+```bash
+cd ai-framework-mcp-server
+```
 
-3. **Start Using**
-   - Use MCP tools instead of manual prompt selection
-   - Trust the framework discipline enforcement
-   - Follow contextualized recommendations
+### Step 2: Install Dependencies
 
-## Troubleshooting
+```bash
+npm install
+```
 
-### Common Issues
+Expected output:
+```
+added 45 packages, and audited 46 packages in 3s
+found 0 vulnerabilities
+```
 
-1. **"No framework files found"**
-   - Ensure `orchestration.md` and `tasks.md` exist
-   - Check file locations (root, `.ai-framework/`, `docs/`)
+### Step 3: Build the Server
 
-2. **Unexpected prompt recommendations**
-   - Check for framework violations (they take priority)
-   - Verify project state matches expectations
-   - Review time gate status
+```bash
+npm run build
+```
 
-3. **Context seems wrong**
-   - Verify framework files are up to date
-   - Check DRS calculation accuracy
-   - Ensure evidence files are current
+Expected output:
+```
+> ai-framework-mcp-server@1.0.0 build
+> tsc
+```
 
-### Debug Information
+### Step 4: Verify Installation
 
-Use `get_framework_state` to see what the MCP server detects:
+**Option 1: Automated Verification (Recommended)**
+```bash
+node verify-installation.js
+```
+
+This script checks prerequisites, installation, and configuration automatically.
+
+**Option 2: Manual Verification**
+Test that the server builds successfully:
+
+```bash
+npm start
+```
+
+Expected output:
+```
+AI Framework MCP Server v2.0 starting...
+Server ready on stdio
+```
+
+Press `Ctrl+C` to stop the test server.
+
+## Kiro Configuration
+
+### Workspace-Level Configuration
+
+Create or edit `.kiro/settings/mcp.json` in your project root:
 
 ```json
 {
-  "frameworkState": {
-    "drsScore": 75,
-    "projectState": "DEVELOPMENT",
-    "frameworkCompliance": false
-  },
-  "analysis": {
-    "frameworkViolations": ["Evidence stale"],
-    "recommendations": ["Use K. EVIDENCE"]
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "get_framework_state",
+        "select_optimal_prompt",
+        "generate_contextualized_prompt"
+      ]
+    }
   }
 }
 ```
+
+### User-Level Configuration (Optional)
+
+For global access across all projects, create `~/.kiro/settings/mcp.json`:
+
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["C:\\path\\to\\ai-framework-mcp-server\\dist\\index.js"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "get_framework_state",
+        "select_optimal_prompt",
+        "generate_contextualized_prompt"
+      ]
+    }
+  }
+}
+```
+
+**macOS/Linux:**
+```json
+{
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["/absolute/path/to/ai-framework-mcp-server/dist/index.js"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "get_framework_state",
+        "select_optimal_prompt",
+        "generate_contextualized_prompt"
+      ]
+    }
+  }
+}
+```
+
+### Adding to Existing Configuration
+
+If you already have an `mcp.json` file, add the `ai-framework` server to your existing `mcpServers` object:
+
+```json
+{
+  "mcpServers": {
+    "existing-server": {
+      "command": "uvx",
+      "args": ["some-other-mcp-server"]
+    },
+    "ai-framework": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "get_framework_state",
+        "select_optimal_prompt",
+        "generate_contextualized_prompt"
+      ]
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Installation Issues
+
+#### "npm install" Fails
+
+**Error:** `EACCES: permission denied`
+**Solution:**
+```bash
+# Fix npm permissions (macOS/Linux)
+sudo chown -R $(whoami) ~/.npm
+npm install
+
+# Or use npx
+npx npm install
+```
+
+**Error:** `Cannot resolve dependency`
+**Solution:**
+```bash
+# Clear npm cache
+npm cache clean --force
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### Build Failures
+
+**Error:** `tsc: command not found`
+**Solution:**
+```bash
+# Install TypeScript globally
+npm install -g typescript
+
+# Or use npx
+npx tsc --version
+```
+
+**Error:** TypeScript compilation errors
+**Solution:**
+```bash
+# Check TypeScript version compatibility
+npx tsc --version
+
+# Clean and rebuild
+rm -rf dist/
+npm run build
+```
+
+### Configuration Issues
+
+#### MCP Server Not Connecting
+
+**Symptoms:** Server shows "Disconnected" in Kiro MCP panel
+
+**Solutions:**
+
+1. **Check file paths:**
+   ```bash
+   # Verify the server file exists
+   ls -la ai-framework-mcp-server/dist/index.js
+   ```
+
+2. **Validate JSON syntax:**
+   ```bash
+   # Test JSON validity
+   cat .kiro/settings/mcp.json | jq .
+   ```
+
+3. **Check permissions:**
+   ```bash
+   # Ensure Node.js can execute the file
+   node ai-framework-mcp-server/dist/index.js --help
+   ```
+
+#### Invalid mcp.json Configuration
+
+**Error:** JSON parsing errors in Kiro
+
+**Common Issues:**
+- Missing commas between objects
+- Trailing commas in JSON
+- Incorrect path separators on Windows
+
+**Valid minimal configuration:**
+```json
+{
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
+### Runtime Issues
+
+#### Tools Not Available in Kiro
+
+**Symptoms:** MCP tools don't appear in Kiro's tool list
+
+**Solutions:**
+
+1. **Restart Kiro** after configuration changes
+2. **Check server logs:**
+   ```bash
+   # Enable debug logging
+   FASTMCP_LOG_LEVEL=DEBUG node ai-framework-mcp-server/dist/index.js
+   ```
+3. **Verify auto-approval settings** in mcp.json
+
+#### Server Startup Failures
+
+**Error:** `Error: listen EADDRINUSE`
+**Solution:**
+```bash
+# Check for conflicting processes
+lsof -i :3000  # Replace with actual port
+kill -9 <PID>  # Kill conflicting process
+```
+
+**Error:** `Module not found`
+**Solution:**
+```bash
+# Rebuild dependencies
+rm -rf node_modules dist/
+npm install
+npm run build
+```
+
+### Framework-Specific Issues
+
+#### "No framework files found"
+
+**Symptoms:** MCP tools return empty or error responses
+
+**Solutions:**
+
+1. **Check file locations:**
+   ```bash
+   # Framework files should exist in one of these locations:
+   ls orchestration.md tasks.md
+   ls .ai-framework/orchestration.md .ai-framework/tasks.md
+   ls docs/orchestration.md docs/tasks.md
+   ```
+
+2. **Verify file content:**
+   ```bash
+   # Files should not be empty
+   wc -l orchestration.md tasks.md
+   ```
+
+#### Unexpected Prompt Recommendations
+
+**Symptoms:** MCP server recommends wrong prompts
+
+**Debugging Steps:**
+
+1. **Check framework violations:**
+   Use `get_framework_state` tool to see current violations
+
+2. **Verify project state:**
+   ```bash
+   # Check git status
+   git status
+   
+   # Check evidence freshness
+   find evidence/ -name "*.log" -mtime -2h
+   ```
+
+3. **Review time gates:**
+   Check session duration in orchestration.md
+
+### Debug Information Collection
+
+#### Enable Debug Logging
+
+**Method 1: Environment Variable**
+```bash
+export FASTMCP_LOG_LEVEL=DEBUG
+npm start
+```
+
+**Method 2: MCP Configuration**
+```json
+{
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "DEBUG"
+      }
+    }
+  }
+}
+```
+
+#### Log Analysis
+
+**Log Locations:**
+- Kiro MCP logs: Check Kiro's output panel
+- Server logs: Console output when running manually
+- System logs: Check system event logs for permission issues
+
+**Key Log Patterns:**
+- `Server ready on stdio` - Successful startup
+- `Framework files detected` - Project analysis working
+- `Tool invocation:` - MCP tool calls
+- `Error:` - Issues requiring attention
+
+#### Diagnostic Tool
+
+Use the verification script for automated diagnostics:
+
+```bash
+node ai-framework-mcp-server/verify-installation.js
+```
+
+### Getting Help
+
+If issues persist:
+
+1. **Run the verification script** to identify specific problems
+2. **Check the GitHub issues** for similar problems
+3. **Enable debug logging** and examine the output
+4. **Verify your ai-framework project structure** matches expectations
+
+### Configuration Validation
+
+Use this checklist to validate your setup:
+
+- [ ] Node.js 18+ installed
+- [ ] MCP server builds without errors (`npm run build`)
+- [ ] Valid mcp.json syntax (test with `jq` or JSON validator)
+- [ ] Correct file paths in configuration
+- [ ] Kiro restarted after configuration changes
+- [ ] Framework files (orchestration.md, tasks.md) exist in project
 
 ## Summary
 
@@ -302,3 +723,112 @@ The AI Framework MCP Server transforms manual prompt selection into intelligent,
 - **Faster Development**: Optimal prompt selection
 
 Start using the MCP server to experience ai-framework development with intelligent guidance that keeps you in the flow while maintaining strict framework discipline.
+
+## Development Setup
+
+### For Contributors
+
+If you want to contribute to the AI Framework MCP Server or need a development setup:
+
+#### Development Installation
+
+```bash
+# Clone the repository (if not already done)
+git clone <repository-url>
+cd ai-framework-mcp-server
+
+# Install dependencies
+npm install
+
+# Start development mode with hot-reload
+npm run dev
+```
+
+#### Development Configuration
+
+For development, use a separate MCP configuration to avoid conflicts:
+
+```json
+{
+  "mcpServers": {
+    "ai-framework-dev": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
+      "env": {
+        "NODE_ENV": "development",
+        "FASTMCP_LOG_LEVEL": "DEBUG"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+#### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run specific test files
+npm test -- --testPathPattern=integration
+```
+
+#### Debugging
+
+Enable debug logging:
+
+```bash
+# Set environment variable for detailed logging
+export FASTMCP_LOG_LEVEL=DEBUG
+npm start
+```
+
+Or in your MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "ai-framework": {
+      "command": "node",
+      "args": ["./ai-framework-mcp-server/dist/index.js"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "DEBUG"
+      }
+    }
+  }
+}
+```
+
+### Production vs Development
+
+#### Development Mode
+- Hot-reload enabled (`npm run dev`)
+- Debug logging enabled
+- No auto-approval for safety
+- Detailed error messages
+
+#### Production Mode
+- Optimized build (`npm run build`)
+- Minimal logging
+- Auto-approval configured
+- Error handling optimized
+
+### Build Optimization
+
+For production deployment:
+
+```bash
+# Clean previous builds
+npm run clean
+
+# Build with optimizations
+npm run build
+
+# Verify build
+npm run verify
+```

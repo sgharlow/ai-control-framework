@@ -15,12 +15,14 @@ import {
 import { FrameworkStateReader } from './services/framework-state-reader.js';
 import { ContextAnalyzer } from './analyzers/context-analyzer.js';
 import { PromptSelector } from './selectors/prompt-selector.js';
+import { EnhancedPromptExecutor } from './services/prompt-executor-enhanced.js';
 
 class AIFrameworkMCPServer {
   private server: Server;
   private frameworkStateReader: FrameworkStateReader;
   private contextAnalyzer: ContextAnalyzer;
   private promptSelector: PromptSelector;
+  private promptExecutor: EnhancedPromptExecutor;
 
   constructor() {
     this.server = new Server(
@@ -38,6 +40,7 @@ class AIFrameworkMCPServer {
     this.frameworkStateReader = new FrameworkStateReader();
     this.contextAnalyzer = new ContextAnalyzer();
     this.promptSelector = new PromptSelector();
+    this.promptExecutor = new EnhancedPromptExecutor();
 
     this.setupToolHandlers();
   }
@@ -45,8 +48,8 @@ class AIFrameworkMCPServer {
   private setupToolHandlers() {
     // List available tools
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
-      return {
-        tools: [
+      const promptTools = this.getPromptTools();
+      const analysisTools = [
           {
             name: 'get_framework_state',
             description: 'Read and analyze current ai-framework project state',
@@ -105,8 +108,11 @@ class AIFrameworkMCPServer {
               required: ['promptId'],
             },
           },
-        ],
-      };
+        ];
+        
+        return {
+          tools: [...promptTools, ...analysisTools]
+        };
     });
 
     // Handle tool calls
@@ -124,7 +130,32 @@ class AIFrameworkMCPServer {
           case 'generate_contextualized_prompt':
             return await this.handleGenerateContextualizedPrompt(args);
 
+          // Handle all prompt executions
+          case 'execute_prompt':
+            return await this.handleExecutePrompt(args);
+            
           default:
+            // Check if it's a direct prompt execution (new naming)
+            const knownPrompts = [
+              // Session Management
+              'start', 'resume', 'set_context', 'handoff',
+              // Planning & Decision
+              'assess', 'decide', 'plan', 'select_pattern',
+              // Development Actions
+              'enhance', 'correct', 'debug',
+              // Validation & Compliance
+              'verify', 'evidence', 'checkpoint',
+              // Deployment
+              'deploy_decide', 'deploy', 'pr',
+              // Problem Resolution
+              'blocked', 'decline', 'uncertainty', 'emergency',
+              // Setup (Non-Kiro)
+              'setup', 'init_requirements', 'init_design', 'init_tasks'
+            ];
+            if (knownPrompts.includes(name)) {
+              const promptId = name.toUpperCase();
+              return await this.handleExecutePrompt({ promptId, ...args });
+            }
             throw new McpError(
               ErrorCode.MethodNotFound,
               `Unknown tool: ${name}`
@@ -369,6 +400,319 @@ Current Project Context:
     }
 
     return contextualizedPrompt;
+  }
+
+  private async handleExecutePrompt(args: any) {
+    const { promptId, projectPath, ...additionalContext } = args;
+    
+    try {
+      const result = await this.promptExecutor.executePrompt(
+        promptId, 
+        projectPath || process.cwd(),
+        additionalContext
+      );
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(result, null, 2)
+          }
+        ]
+      };
+    } catch (error) {
+      throw new McpError(
+        ErrorCode.InternalError,
+        `Failed to execute prompt: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
+  }
+
+  private getPromptTools() {
+    // Define all prompt tools with their specific inputs
+    const prompts = [
+      {
+        id: 'START',
+        name: 'start',
+        description: 'Initialize new AI Framework session - loads orchestration.md, sets timer, declares confidence',
+        inputs: {}
+      },
+      {
+        id: 'SET_CONTEXT',
+        name: 'set_context',
+        description: 'Set rules of engagement - review orchestration.md compliance and framework rules',
+        inputs: {}
+      },
+      {
+        id: 'RESUME',
+        name: 'resume',
+        description: 'Resume work safely - check DRS, verify contracts, identify patterns',
+        inputs: {}
+      },
+      {
+        id: 'PLAN',
+        name: 'plan',
+        description: 'Plan smallest next win - choose highest DRS impact action',
+        inputs: {}
+      },
+      {
+        id: 'VERIFY',
+        name: 'verify',
+        description: 'Run compliance audit - check all framework files for violations',
+        inputs: {}
+      },
+      {
+        id: 'BLOCKED',
+        name: 'blocked',
+        description: 'Handle hard stops and blockers - diagnose and resolve',
+        inputs: {
+          blocker_description: {
+            type: 'string',
+            description: 'Description of the blocker encountered (optional)'
+          }
+        }
+      },
+      {
+        id: 'DEPLOY',
+        name: 'deploy',
+        description: 'Execute production deployment - requires DRS ≥ 85',
+        inputs: {}
+      },
+      {
+        id: 'DEBUG',
+        name: 'debug',
+        description: 'Debug without scope creep - minimal changes with regression test',
+        inputs: {
+          issue: {
+            type: 'string',
+            description: 'Description of the issue to debug (optional)'
+          }
+        }
+      },
+      {
+        id: 'HANDOFF',
+        name: 'handoff',
+        description: 'End session properly - generate handoff summary and next actions',
+        inputs: {}
+      },
+      {
+        id: 'EVIDENCE',
+        name: 'evidence',
+        description: 'Generate required proof - capture real connections, correlation IDs, metrics',
+        inputs: {}
+      },
+      {
+        id: 'CHECKPOINT',
+        name: 'checkpoint',
+        description: 'Validate time gates - check 30m/60m/90m/120m milestones',
+        inputs: {}
+      },
+      {
+        id: 'DECLINE',
+        name: 'decline',
+        description: 'Handle DRS degradation - recovery mode when DRS drops',
+        inputs: {}
+      },
+      {
+        id: 'UNCERTAINTY',
+        name: 'uncertainty',
+        description: 'Request human guidance - when confidence is LOW',
+        inputs: {
+          uncertainty: {
+            type: 'string',
+            description: 'Specific uncertainty or question (optional)'
+          }
+        }
+      },
+      {
+        id: 'PR_READY',
+        name: 'pr',
+        description: 'Generate pull request - create PR with evidence and DRS score',
+        inputs: {
+          pr_title: {
+            type: 'string',
+            description: 'Title for the pull request (optional)'
+          }
+        }
+      },
+      {
+        id: 'ASSESS',
+        name: 'assess',
+        description: 'Comprehensive project assessment - analyze health, DRS, completion, blockers',
+        inputs: {}
+      },
+      {
+        id: 'DECIDE',
+        name: 'decide',
+        description: 'Automatic next action selection - determine optimal development step',
+        inputs: {}
+      },
+      {
+        id: 'ENHANCE',
+        name: 'enhance',
+        description: 'Handle new enhancements - assess scope and framework impact',
+        inputs: {
+          feature: {
+            type: 'string',
+            description: 'Description of the enhancement to add',
+            required: true
+          },
+          scope_estimate: {
+            type: 'object',
+            description: 'Estimated scope (files and LOC)',
+            properties: {
+              files: { type: 'number', description: 'Number of files affected' },
+              loc: { type: 'number', description: 'Lines of code estimate' }
+            }
+          }
+        }
+      },
+      {
+        id: 'CORRECT',
+        name: 'correct',
+        description: 'Debug with minimal scope - fix bugs without expansion',
+        inputs: {
+          issue: {
+            type: 'string',
+            description: 'Description of the issue to correct',
+            required: true
+          },
+          severity: {
+            type: 'string',
+            enum: ['critical', 'high', 'medium', 'low'],
+            description: 'Severity of the issue'
+          }
+        }
+      },
+      {
+        id: 'DEPLOY_DECIDE',
+        name: 'deploy_decide',
+        description: 'Make deployment decision - assess readiness with GREEN/YELLOW/RED status',
+        inputs: {}
+      },
+      // Setup prompts (Non-Kiro environments)
+      {
+        id: 'SETUP',
+        name: 'setup',
+        description: 'Complete framework initialization for Claude Code/VSCode (not needed for Kiro)',
+        inputs: {
+          projectName: {
+            type: 'string',
+            description: 'Name of your project',
+            required: true
+          },
+          projectType: {
+            type: 'string',
+            enum: ['api', 'web', 'cli', 'microservice', 'general'],
+            description: 'Type of project'
+          },
+          description: {
+            type: 'string',
+            description: 'Project description/mission',
+            required: true
+          }
+        }
+      },
+      {
+        id: 'INIT_REQUIREMENTS',
+        name: 'init_requirements',
+        description: 'Initialize requirements.md only',
+        inputs: {
+          userStory: {
+            type: 'string',
+            description: 'User story for the feature'
+          },
+          acceptanceCriteria: {
+            type: 'array',
+            description: 'List of acceptance criteria'
+          }
+        }
+      },
+      {
+        id: 'INIT_DESIGN',
+        name: 'init_design',
+        description: 'Initialize design.md only',
+        inputs: {
+          architecture: {
+            type: 'string',
+            description: 'Architecture decision'
+          },
+          apiDesign: {
+            type: 'object',
+            description: 'API/interface design'
+          }
+        }
+      },
+      {
+        id: 'INIT_TASKS',
+        name: 'init_tasks',
+        description: 'Initialize tasks.md only',
+        inputs: {
+          feature: {
+            type: 'string',
+            description: 'Feature to implement'
+          },
+          tasks: {
+            type: 'number',
+            description: 'Number of tasks to break down'
+          }
+        }
+      },
+      // Pattern selection
+      {
+        id: 'SELECT_PATTERN',
+        name: 'select_pattern',
+        description: 'Select and apply implementation pattern from PATTERNS.md',
+        inputs: {
+          task: {
+            type: 'string',
+            description: 'Task to apply pattern to',
+            required: true
+          },
+          context: {
+            type: 'string',
+            description: 'Context for pattern selection'
+          }
+        }
+      },
+      // Emergency (last resort)
+      {
+        id: 'EMERGENCY',
+        name: 'emergency',
+        description: '⚠️ LAST RESORT: Request contract change (resets all progress)',
+        inputs: {
+          reason: {
+            type: 'string',
+            description: 'Critical reason for contract change',
+            required: true
+          },
+          justification: {
+            type: 'string',
+            description: 'Detailed justification why no alternatives work',
+            required: true
+          }
+        }
+      }
+    ];
+
+    // Convert to MCP tool format
+    return prompts.map(prompt => ({
+      name: prompt.name,
+      description: prompt.description,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          projectPath: {
+            type: 'string',
+            description: 'Path to the project directory (optional, defaults to current directory)'
+          },
+          ...prompt.inputs
+        },
+        required: prompt.inputs && Object.entries(prompt.inputs).filter(
+          ([_, schema]: [string, any]) => schema.required
+        ).map(([key]) => key)
+      }
+    }));
   }
 
   async run() {

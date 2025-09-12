@@ -274,28 +274,7 @@ jobs:
 ```
 
 ### MCP Server Integration (v2.0+)
-```javascript
-// Now available in v2.0
-const aiControl = new MCPServer({
-  tools: [
-    'assess_project',        // Project discovery
-    'check_contracts',       // Contract integrity
-    'calculate_drs',         // 13-component scoring
-    'validate_security',     // Security checks
-    'check_data_integrity'   // Data validation
-  ],
-  prompts: 20,              // A-T prompt system
-  components: 13            // Full DRS coverage
-});
-```
-
-Build and run:
-```bash
-cd ai-framework-mcp-server
-npm install
-npm run build
-npm start
-```
+See the instructions in: \ai-framework\MCP-SERVER-INTEGRATION.md
 
 ## 📈 Success Stories
 

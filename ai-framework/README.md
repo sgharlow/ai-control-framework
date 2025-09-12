@@ -1,61 +1,144 @@
-# AI Control Framework v2.0 - Complete Documentation
+# AI Control Framework v2.0
 
 **The definitive solution for controlling AI assistant behavior and ensuring deployable, secure, and reliable code delivery.**
 
-## 🎯 **Framework Overview**
+## 🎯 What is AI Control Framework?
 
-The AI Framework provides comprehensive protection against the most common and costly mistakes that AI coding assistants make. It addresses **13 distinct failure patterns** through systematic validation, evidence-based development, and objective deployability assessment, achieving **near-complete coverage** of identified problem areas.
+The AI Control Framework is a comprehensive system that prevents AI coding assistants from making costly mistakes through:
+- **24 Structured Prompts** for systematic development workflow
+- **13 Validation Components** measuring deployability (DRS Score)
+- **Time-Based Gates** ensuring real progress, not just activity
+- **Contract Freezing** preventing architectural drift
+- **Evidence Requirements** proving actual functionality
 
-### **Key Statistics**
-- **13 AI Assistant Failure Patterns** comprehensively addressed
-- **13 DRS Components** providing objective deployability measurement  
-- **12 Comprehensive Specifications** defining validation requirements
-- **Production Ready** with comprehensive testing and documentation
+### Why It Matters
 
-## 📁 **Directory Structure**
+AI assistants often:
+- Create mock implementations that never get replaced
+- Make breaking changes to stable interfaces
+- Generate code that looks good but doesn't actually work
+- Lose context and repeat solved problems
+- Exceed reasonable scope boundaries
+
+This framework **prevents all of these issues** through systematic validation and control.
+
+### Key Metrics
+- **DRS ≥ 85** required for deployment (100 points maximum)
+- **30-minute mock limit** - real services required after initial phase
+- **5 files, 200 LOC** maximum scope per session
+- **4 time gates** at 30/60/90/120 minutes with specific requirements
+
+## 🚀 Quick Start
+
+### 1. Initialize Your Project
+
+```bash
+# For Kiro IDE users (auto-creates requirements/design/tasks):
+mcp execute start
+
+# For Claude Code / Other AI Tools (manual setup required):
+mcp execute setup
+mcp execute start
+mcp execute set_context
+```
+
+### 2. Begin Development
+
+```bash
+# Assess current state
+mcp execute assess
+
+# Get next action
+mcp execute decide
+
+# Plan implementation
+mcp execute plan
+```
+
+### 3. Monitor Progress (Every 30 Minutes)
+
+```bash
+mcp execute checkpoint  # Check time gates
+mcp execute evidence    # Capture proof
+mcp execute verify      # Check compliance
+```
+
+### 4. Deploy When Ready
+
+```bash
+mcp execute deploy_decide  # Check if DRS ≥ 85
+mcp execute deploy         # Execute deployment
+mcp execute pr            # Create pull request
+```
+
+## 📁 Project Structure
 
 ```
 ai-framework/
-├── specs/                     # 12 Comprehensive Specifications
-│   ├── contract-integrity.md          # Prevent interface drift
-│   ├── behavioral-contracts.md        # Validate module behaviors
-│   ├── security-validation.md         # Security and compliance
-│   ├── data-integrity.md             # Data consistency and business rules
-│   ├── mock-detection.md             # Enforce real service usage
-│   ├── scope-control.md              # Limit change size
-│   ├── architecture-stability.md      # Prevent structural drift
-│   ├── integration-evidence.md        # Prove end-to-end functionality
-│   ├── production-readiness.md        # Deployment and operations
-│   ├── context-preservation.md        # Maintain consistency
-│   ├── drs-calculation.md            # Measure deployability
-│   ├── framework-overview.md         # Complete system overview
-│   └── (additional core specs)
-├── docs/                      # Complete Documentation
-│   ├── ai-framework-visualization.html   # Interactive system diagram
-│   ├── GETTING-STARTED.md              # Quick start guide
-│   ├── TROUBLESHOOTING.md              # Common issues and solutions
-│   ├── AI-FRAMEWORK-COMPLETE-SUMMARY.md # Complete implementation summary
-│   ├── FINAL-FRAMEWORK-DOCUMENTATION.md # Final comprehensive documentation
-│   ├── FINAL-GAP-ANALYSIS-COMPLETE.md  # Complete gap analysis
-│   ├── COMPREHENSIVE-GAP-ANALYSIS.md   # Detailed gap analysis
-│   ├── ENHANCEMENT-SUMMARY.md          # Enhancement implementation summary
-│   ├── QUICK-REFERENCE.md              # Quick reference guide
-│   └── (additional documentation)
-├── reference/                 # Platform-Specific Implementations
-│   ├── bash/                         # Linux/Mac/WSL scripts
-│   ├── powershell/                   # Windows scripts
-│   ├── python/                       # Universal scripts
-│   └── checklists/                   # Manual fallback procedures
-├── templates/                 # Project Templates
-│   ├── orchestration.md              # Session control template
-│   ├── tasks.md                      # Task tracking template
-│   └── (additional templates)
-├── prompts.md                # Enhanced AI Behavior Instructions (A-T)
-├── MCP-SERVER-INTEGRATION.md # MCP Server integration guide
-└── README.md                 # This file
+├── specs/                     # Validation Specifications
+│   ├── contract-integrity.md
+│   ├── behavioral-contracts.md
+│   ├── security-validation.md
+│   ├── data-integrity.md
+│   └── ...
+├── reference/                 # Implementation Examples
+│   ├── bash/                 # Linux/Mac scripts
+│   ├── powershell/           # Windows scripts
+│   ├── python/               # Cross-platform scripts
+│   └── checklists/           # Manual procedures
+├── templates/                 # Session Files
+│   ├── orchestration.md      # Control rules
+│   ├── code.md              # Current state
+│   └── patterns.md          # Implementation patterns
+├── prompts/                   # 24 Framework Prompts
+│   └── *.md                  # Individual prompt definitions
+├── docs/                      # Documentation
+│   └── ai-framework-visualization.html  # Interactive diagram
+└── prompts.md                 # Complete prompt library
 ```
 
-## 🛡️ **Problem Coverage Matrix**
+## 📋 The 24 Framework Prompts
+
+### Session Management
+- **start** - Initialize NEW session (first time only)
+- **resume** - Re-enter EXISTING session (use every return)
+- **set_context** - Load framework rules
+- **handoff** - End session properly
+
+### Planning & Decision
+- **assess** - Full project analysis with DRS
+- **decide** - Get next optimal action
+- **plan** - Plan implementation approach
+- **select_pattern** - Choose implementation pattern
+
+### Development Actions
+- **enhance** - Add new features (scope-controlled)
+- **correct** - Fix bugs with minimal changes
+- **debug** - Enter debug mode
+
+### Validation & Compliance
+- **verify** - Check all 13 components
+- **evidence** - Capture functionality proof
+- **checkpoint** - Validate time gates
+
+### Deployment
+- **deploy_decide** - Check deployment readiness
+- **deploy** - Execute deployment (DRS≥85)
+- **pr** - Create pull request
+
+### Problem Resolution
+- **blocked** - Handle blockers systematically
+- **decline** - DRS recovery procedures
+- **uncertainty** - Request guidance
+- **emergency** - Contract change request (LAST RESORT)
+
+### Setup (Non-Kiro Only)
+- **setup** - Create framework files
+- **init_requirements** - Define what to build
+- **init_design** - Define how to build
+- **init_tasks** - Define steps to build
+
+## 🛡️ Problem Coverage Matrix
 
 ### **All 13 AI Assistant Failure Patterns Addressed**
 
@@ -75,7 +158,7 @@ ai-framework/
 | **L. Data Integrity** | 95% | Data integrity validation, transaction safety |
 | **M. Resource Management** | 85% | Enhanced production readiness, lifecycle management |
 
-## 📊 **DRS (Deployability Readiness Score) Components**
+## 📊 DRS (Deployability Readiness Score) Components
 
 The framework uses a **13-component scoring system** (total 100 points) to objectively measure deployment readiness:
 
@@ -97,109 +180,103 @@ The framework uses a **13-component scoring system** (total 100 points) to objec
 
 **Deployment Gate:** DRS ≥ 85 required for production deployment
 
-## 🚀 **Quick Start**
+## ⏰ Time Gates & Requirements
 
-### **1. Choose Your Implementation**
-- **Bash**: Use `reference/bash/` for Linux/Mac/WSL
-- **PowerShell**: Use `reference/powershell/` for Windows
-- **Python**: Use `reference/python/` for universal compatibility
-- **Manual**: Use `reference/checklists/` when automation isn't available
+| Time | Requirement | Evidence Needed |
+|------|-------------|----------------|
+| **0-30min** | Contract lock + Real connection | Frozen hashes, API responding |
+| **30-60min** | Working thin slice | ONE test passing E2E |
+| **60-90min** | Production-ready | Error handling, tests green |
+| **90-120min** | Ship-ready | DRS ≥ 85, rollback tested |
 
-### **2. Read Core Specifications**
-Start with these essential specs:
-1. `specs/framework-overview.md` - Complete system understanding
-2. `specs/drs-calculation.md` - Deployability measurement
-3. `specs/contract-integrity.md` - Interface protection
-4. `specs/security-validation.md` - Security requirements
+### Hard Stop Conditions
+- Contract hash mismatch → STOP
+- Mock detected after 30 minutes → STOP
+- More than 5 files changed → STOP
+- More than 200 lines added → STOP
+- DRS decreased by >10% → STOP
 
-### **3. Integrate with Development Workflow**
-- **Session Start**: Use enhanced prompts (A-T) for guidance
-- **Continuous Validation**: Check framework compliance every 30 minutes
-- **Evidence Generation**: Capture proof of real functionality
-- **Deployment Decision**: Use objective DRS assessment
+## 🔧 Implementation Options
 
-### **4. MCP Server Integration (Optional)**
-For intelligent, context-aware guidance:
-```bash
-cd ai-framework-mcp-server
-npm install && npm run build
-# Configure in your IDE's MCP settings
-```
+### Choose Your Platform
 
-## 📚 **Key Documentation**
+| Platform | Location | Use When |
+|----------|----------|----------|
+| **Bash** | `reference/bash/` | Linux, Mac, WSL, Git Bash |
+| **PowerShell** | `reference/powershell/` | Windows native |
+| **Python** | `reference/python/` | Cross-platform, CI/CD |
+| **Manual** | `reference/checklists/` | Scripts don't work |
+| **MCP Server** | `ai-framework-mcp-server/` | IDE integration (Kiro, VSCode) |
 
-### **Essential Reading**
-- **`docs/ai-framework-visualization.html`** - Interactive system diagram
-- **`specs/framework-overview.md`** - Complete framework specification
-- **`prompts.md`** - Enhanced AI behavior instructions (A-T)
-- **`MCP-SERVER-INTEGRATION.md`** - Intelligent guidance setup
+### Essential Files
 
-### **Implementation Guides**
-- **`FRAMEWORK-APPROACH.md`** - Specification-first methodology
-- **`IMPLEMENTATION-GUIDE.md`** - Platform-specific adaptation
-- **`docs/GETTING-STARTED.md`** - Step-by-step setup
-- **`docs/TROUBLESHOOTING.md`** - Common issues and solutions
+| File | Purpose | When to Use |
+|------|---------|-------------|
+| `IMPLEMENTATION-GUIDE.md` | How to run checks | First time setup |
+| `templates/orchestration.md` | Control rules | Every session start |
+| `templates/patterns.md` | Implementation patterns | Before coding |
+| `specs/drs-calculation.md` | Scoring methodology | Deployment decision |
+| `docs/TROUBLESHOOTING.md` | Problem solving | When stuck |
 
-## 🔧 **Framework Philosophy**
+## 💡 Core Principles
 
-### **Specification-First, Implementation-Flexible**
-The framework separates **WHAT** must be checked (specifications) from **HOW** to check it (implementations). This ensures:
-- **Universal Compatibility**: Works on any platform or environment
-- **Adaptability**: Customize for your specific needs
-- **Reliability**: Manual fallback always available
-- **Evolution**: Easy to add new platforms and tools
+### Contracts are FROZEN
+- No interface changes without CCR approval
+- Hash verification prevents drift
+- Breaking changes blocked automatically
 
-### **Evidence-Based Development**
-Every claim must be backed by evidence:
-- **Real Service Integration**: No mocks after 30 minutes
-- **Objective Measurement**: DRS provides quantifiable readiness
-- **Proof Capture**: Evidence files demonstrate actual functionality
-- **Time-Bounded**: Evidence must be fresh (< 2 hours)
+### Real Services ONLY
+- Mocks allowed for first 30 minutes only
+- After that, must connect to real services
+- Evidence required proving real integration
 
-### **Systematic Protection**
-Comprehensive coverage of AI assistant failure patterns:
-- **Preventive**: Stop problems before they occur
-- **Detective**: Identify issues during development
-- **Corrective**: Provide clear remediation guidance
-- **Adaptive**: Learn from patterns and improve over time
+### Scope is LIMITED
+- Maximum 5 files per session
+- Maximum 200 lines of code
+- Exceeding limits = automatic stop
 
-## 🎯 **Success Metrics**
+### Progress is MEASURABLE
+- DRS score tracks actual deployability
+- Not activity, but results
+- Objective criteria, not subjective judgment
 
-### **Framework Effectiveness: Near-Complete Coverage**
-- **13/13 Problem Areas** comprehensively addressed
-- **0 Critical Gaps** remaining (eliminated all gaps >70% uncovered)
-- **Systematic Protection** against all identified failure patterns
-- **Designed to address >99% of common AI assistant failure patterns**
+### Evidence is REQUIRED
+- Capture proof every 30 minutes
+- API responses, test results, metrics
+- Must be fresh (< 2 hours old)
 
-### **Quality Improvements**
-- **Security Incidents**: Reduced by 95% through systematic validation
-- **Data Integrity Issues**: Eliminated through transaction safety
-- **Production Failures**: Reduced by 90% through readiness validation
-- **Context Loss**: Minimized through decision tracking
+## 🎯 Success Metrics
 
-### **Development Efficiency**
-- **Deployment Confidence**: Objective readiness assessment
-- **Issue Detection**: Problems caught during development, not production
-- **Consistency**: Reduced technical debt through systematic validation
-- **Knowledge Preservation**: Context maintained across sessions
+Your session succeeds when:
+- ✅ DRS Score ≥ 85
+- ✅ All time gates passed
+- ✅ Evidence captured every 30 min
+- ✅ No framework violations
+- ✅ Real services connected
+- ✅ Scope within limits
 
-## 🤝 **Contributing**
+## 🆘 When Things Go Wrong
 
-The AI Framework is designed for community contribution:
-- **New Implementations**: Add support for additional platforms/languages
-- **Enhanced Specifications**: Improve existing validation requirements
-- **Reference Examples**: Share successful implementation patterns
-- **Documentation**: Help others understand and adopt the framework
+1. **DRS Dropping**: Run `decline` immediately
+2. **Stuck/Blocked**: Run `blocked` with description
+3. **Low Confidence**: Run `uncertainty` with question
+4. **Contract Must Change**: Run `emergency` (LAST RESORT)
 
-See `docs/CONTRIBUTING.md` for detailed contribution guidelines.
+## 📚 Additional Resources
 
-## 📄 **License**
+- **Interactive Visualization**: Open `docs/ai-framework-visualization.html` in browser
+- **Troubleshooting Guide**: See `docs/TROUBLESHOOTING.md`
+- **Team Setup**: See `docs/TEAM-SETUP.md`
+- **Customization**: See `docs/CUSTOMIZATION.md`
 
-The AI Framework is designed to be freely used and adapted for any development team seeking to improve their AI-assisted development practices.
+## 🎉 Framework Status
 
----
-
-## 🎉 **Framework Status: COMPLETE AND PRODUCTION READY**
+**PRODUCTION READY v2.0**
+- ✅ 24 prompts implemented
+- ✅ 13 validation components
+- ✅ MCP server integration
+- ✅ Cross-platform support
+- ✅ Comprehensive documentation
 
 **The AI Framework v2.0 represents the definitive solution for controlling AI assistant behavior and ensuring the delivery of secure, reliable, and deployable code with comprehensive coverage of identified failure patterns.**
 
