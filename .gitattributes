@@ -1,0 +1,114 @@
+# Git Line Ending Configuration for AI Control Framework
+# Ensures consistent line endings across Windows/Unix/Mac development
+
+# Default behavior - auto normalize line endings
+* text=auto
+
+# Source Code Files
+*.sh text eol=lf
+*.bash text eol=lf
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+*.py text eol=lf
+*.rb text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.java text eol=lf
+*.cs text eol=crlf
+*.cpp text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.go text eol=lf
+*.rs text eol=lf
+*.php text eol=lf
+*.pl text eol=lf
+
+# Configuration Files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.xml text eol=lf
+*.config text eol=lf
+.env* text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.editorconfig text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.markdown text eol=lf
+*.txt text eol=lf
+*.rst text eol=lf
+README* text eol=lf
+LICENSE* text eol=lf
+CHANGELOG* text eol=lf
+AUTHORS* text eol=lf
+CONTRIBUTORS* text eol=lf
+
+# Web Files
+*.html text eol=lf
+*.htm text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.sass text eol=lf
+*.less text eol=lf
+*.svg text eol=lf
+
+# Docker Files
+Dockerfile* text eol=lf
+docker-compose*.yml text eol=lf
+.dockerignore text eol=lf
+
+# Shell/Batch Scripts (explicit)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+*.fish text eol=lf
+
+# Framework Specific Files
+ai-framework/**/*.sh text eol=lf
+ai-framework/**/*.ps1 text eol=crlf
+ai-framework/**/*.md text eol=lf
+evidence/**/*.json text eol=lf
+evidence/**/*.txt text eol=lf
+
+# Binary Files (do not modify)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.jar binary
+*.war binary
+*.ear binary
+*.class binary
+*.pyc binary
+*.pyo binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+
+# Special handling for specific files
+.contract-hashes text eol=lf
+.drs-score text eol=lf
+.drs-history text eol=lf
+CLAUDE.md text eol=lf
+QUICK-REFERENCE.md text eol=lf
+run-check.sh text eol=lf

@@ -73,6 +73,14 @@ else
     echo "Warning: ai-framework not found at $SCRIPT_DIR/ai-framework"
 fi
 
+# Copy MCP server files
+if [ -d "$SCRIPT_DIR/ai-framework-mcp-server" ]; then
+    cp -r "$SCRIPT_DIR/ai-framework-mcp-server" "$TEST_DIR/" 2>/dev/null || true
+    echo "Copied MCP server from: $SCRIPT_DIR/ai-framework-mcp-server"
+else
+    echo "Note: MCP server not found at $SCRIPT_DIR/ai-framework-mcp-server (optional component)"
+fi
+
 # Now change to test directory
 cd "$TEST_DIR"
 
@@ -91,7 +99,8 @@ echo "1. INSTALLATION TESTS"
 echo "═══════════════════════════════════════════════════════"
 
 run_test "Framework directories exist" "[ -d ai-framework/reference ] && [ -d ai-framework/specs ]"
-run_test "Reference scripts exist" "[ -f ai-framework/reference/bash/check-contracts.sh ]"
+run_test "Reference scripts exist (bash)" "[ -f ai-framework/reference/bash/check-contracts.sh ]"
+run_test "Reference scripts exist (PowerShell)" "[ -f ai-framework/reference/powershell/Check-Contracts.ps1 ]"
 run_test "CLAUDE.md exists" "[ -f CLAUDE.md ]"
 run_test "Templates exist" "[ -d ai-framework/templates ]"
 
@@ -111,7 +120,7 @@ run_test "Specifications exist" "[ -f ai-framework/specs/contract-integrity.md ]
 
 # Modify contract to test violation detection
 echo "openapi: 3.0.1" > api/openapi.yaml
-run_test "Reference implementations exist" "[ -d ai-framework/reference/bash ] && [ -d ai-framework/reference/python ] && [ -d ai-framework/reference/checklists ]"
+run_test "Reference implementations exist" "[ -d ai-framework/reference/bash ] && [ -d ai-framework/reference/python ] && [ -d ai-framework/reference/powershell ] && [ -d ai-framework/reference/checklists ]"
 
 echo ""
 echo "═══════════════════════════════════════════════════════"
@@ -214,7 +223,25 @@ run_test "Pre-commit hook runs" "git commit -m 'Test commit'" 0
 
 echo ""
 echo "═══════════════════════════════════════════════════════"
-echo "10. DOCUMENTATION TESTS"
+echo "10. MCP SERVER TESTS"
+echo "═══════════════════════════════════════════════════════"
+
+run_test "MCP server directory exists" "[ -d ai-framework-mcp-server ]"
+run_test "MCP server package.json exists" "[ -f ai-framework-mcp-server/package.json ]"
+run_test "MCP server TypeScript config exists" "[ -f ai-framework-mcp-server/tsconfig.json ]"
+run_test "MCP server source exists" "[ -f ai-framework-mcp-server/src/index.ts ]"
+run_test "MCP integration guide exists" "[ -f ai-framework/MCP-SERVER-INTEGRATION.md ]"
+
+if command -v npm &> /dev/null; then
+    run_test "MCP server can build" "cd ai-framework-mcp-server && npm install --silent 2>/dev/null && npm run build --silent 2>/dev/null && [ -f dist/index.js ] && cd .."
+else
+    echo -e "${YELLOW}⚠ Skipping: MCP server build test (npm not found)${NC}"
+    WARNINGS=$((WARNINGS + 1))
+fi
+
+echo ""
+echo "═══════════════════════════════════════════════════════"
+echo "11. DOCUMENTATION TESTS"
 echo "═══════════════════════════════════════════════════════"
 
 run_test "Code.md template exists" "[ -f ai-framework/templates/code.md ]"

@@ -1,0 +1,9 @@
+{
+  "name": "user-api",
+  "version": "1.0.0",
+  "description": "Example API using AI Control Framework",
+  "scripts": {
+    "test": "echo 'No tests yet'",
+    "start": "node index.js"
+  }
+}

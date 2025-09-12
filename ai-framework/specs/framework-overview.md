@@ -10,11 +10,17 @@ The framework defines WHAT must be checked, not HOW to check it. This ensures th
 ### 1. Specifications (THIS DIRECTORY)
 Language-agnostic definitions of what each check must accomplish:
 - `contract-integrity.md` - Prevent interface drift
+- `behavioral-contracts.md` - Validate module behaviors and data flows
+- `security-validation.md` - Prevent security vulnerabilities and ensure compliance
+- `data-integrity.md` - Ensure data consistency and business rule compliance
 - `mock-detection.md` - Enforce real service usage
 - `scope-control.md` - Limit change size
+- `architecture-stability.md` - Prevent architectural drift
+- `integration-evidence.md` - Prove end-to-end functionality
+- `production-readiness.md` - Ensure deployment and operational readiness (includes resource management)
+- `context-preservation.md` - Maintain consistency across sessions
 - `drs-calculation.md` - Measure deployability
-- `session-management.md` - Control work sessions
-- `safety-checks.md` - Master validation
+- `framework-overview.md` - This file - complete system overview
 
 ### 2. Reference Implementations
 Example implementations in various languages/platforms:
@@ -60,10 +66,17 @@ Whether automated or manual, run these checks:
 At minimum, your implementation must:
 
 1. **Track Contracts** - Know when interfaces change
-2. **Detect Mocks** - Find hardcoded test data
-3. **Count Scope** - Track files and lines changed
-4. **Calculate DRS** - Produce 0-100 score
-5. **Manage Sessions** - Track time and type
+2. **Validate Behaviors** - Ensure module behaviors remain consistent
+3. **Validate Security** - Prevent vulnerabilities and ensure compliance
+4. **Ensure Data Integrity** - Validate data consistency and business rules
+5. **Detect Mocks** - Find hardcoded test data
+6. **Count Scope** - Track files and lines changed
+7. **Monitor Architecture** - Detect structural drift
+8. **Prove Integration** - Validate end-to-end workflows
+9. **Ensure Production Readiness** - Validate deployment, operations, and resource management
+10. **Preserve Context** - Maintain consistency across development sessions
+11. **Calculate DRS** - Produce 0-100 score
+12. **Understand Framework** - Apply this framework-overview.md guidance
 
 ### Full Implementation
 A complete implementation should also:
@@ -180,10 +193,16 @@ Your implementation is successful when:
 
 The framework's value comes from the discipline it enforces, not the specific implementation. Whether you use Bash, PowerShell, Python, or manual checklists, the important thing is that you:
 
-1. **Freeze contracts** - Prevent drift
-2. **Timeout mocks** - Force real integration
-3. **Limit scope** - Stay focused
-4. **Measure deployability** - Know when ready
+1. **Freeze contracts** - Prevent interface and behavioral drift
+2. **Validate security** - Prevent vulnerabilities and ensure compliance
+3. **Ensure data integrity** - Validate data consistency and business rules
+4. **Timeout mocks** - Force real integration
+5. **Limit scope** - Stay focused
+6. **Maintain architecture** - Prevent structural decay
+7. **Prove integration** - Validate end-to-end functionality
+8. **Ensure production readiness** - Validate deployment, operations, and resource management
+9. **Preserve context** - Maintain consistency across sessions
+10. **Measure deployability** - Know when ready
 
 The HOW is flexible. The WHAT is not.
 

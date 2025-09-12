@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Framework version
-VERSION="1.1.0"
+VERSION="2.0.0"
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
 echo -e "${BLUE}       AI Control Framework Installer v${VERSION}         ${NC}"
@@ -42,16 +42,74 @@ echo ""
 # Create directory structure
 echo "Creating framework structure..."
 mkdir -p ai-framework
+mkdir -p ai-framework/templates
+mkdir -p ai-framework-mcp-server
+mkdir -p ai-framework-mcp-server/src
+mkdir -p ai-framework-mcp-server/dist
 mkdir -p evidence
 
 # Copy framework files
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Copying framework files..."
-cp -r "$SCRIPT_DIR/ai-framework/"* ai-framework/ 2>/dev/null || true
+if [ -d "$SCRIPT_DIR/ai-framework" ]; then
+    cp -r "$SCRIPT_DIR/ai-framework/." ai-framework/ 2>/dev/null || {
+        echo "Warning: Failed to copy some framework files. Trying alternative method..."
+        for item in "$SCRIPT_DIR/ai-framework"/*; do
+            if [ -e "$item" ]; then
+                cp -r "$item" ai-framework/
+            fi
+        done
+    }
+    echo -e "${GREEN}✓ Framework files copied${NC}"
+else
+    echo "Error: Source ai-framework directory not found at $SCRIPT_DIR/ai-framework"
+    exit 1
+fi
+
+# Copy MCP server files
+echo "Copying MCP server files..."
+if [ -d "$SCRIPT_DIR/ai-framework-mcp-server" ]; then
+    cp -r "$SCRIPT_DIR/ai-framework-mcp-server/." ai-framework-mcp-server/ 2>/dev/null || {
+        echo "Warning: Failed to copy some MCP server files. Trying alternative method..."
+        for item in "$SCRIPT_DIR/ai-framework-mcp-server"/*; do
+            if [ -e "$item" ]; then
+                cp -r "$item" ai-framework-mcp-server/
+            fi
+        done
+    }
+    echo -e "${GREEN}✓ MCP server files copied${NC}"
+    
+    # Check if npm is available and install dependencies
+    if command -v npm &> /dev/null; then
+        echo "Installing MCP server dependencies..."
+        cd ai-framework-mcp-server
+        npm install --silent 2>/dev/null && npm run build --silent 2>/dev/null && {
+            echo -e "${GREEN}✓ MCP server built successfully${NC}"
+        } || {
+            echo -e "${YELLOW}⚠ MCP server build failed. Manual build may be required.${NC}"
+        }
+        cd ..
+    else
+        echo -e "${YELLOW}Note: npm not found. Install Node.js to build MCP server.${NC}"
+    fi
+else
+    echo -e "${YELLOW}Note: MCP server not found at $SCRIPT_DIR/ai-framework-mcp-server (optional component)${NC}"
+fi
+
+# Copy CLAUDE.md to project root if it exists
+if [ -f "$SCRIPT_DIR/CLAUDE.md" ]; then
+    cp "$SCRIPT_DIR/CLAUDE.md" .
+fi
+
+# Copy PowerShell validation script if it exists
+if [ -f "$SCRIPT_DIR/Validate-Framework.ps1" ]; then
+    cp "$SCRIPT_DIR/Validate-Framework.ps1" .
+fi
 
 # Make reference scripts executable if they exist
 chmod +x ai-framework/reference/bash/*.sh 2>/dev/null || true
+chmod +x ai-framework/reference/powershell/*.ps1 2>/dev/null || true
 
 # Initialize tracking files
 touch .contract-hashes
@@ -78,8 +136,12 @@ run_script() {
     # Try different implementations in order
     if [ -f "ai-framework/reference/bash/${script_name}.sh" ]; then
         bash "ai-framework/reference/bash/${script_name}.sh" "$@"
-    elif [ -f "ai-framework/reference/powershell/${script_name}.ps1" ] && command -v powershell &> /dev/null; then
-        powershell -ExecutionPolicy Bypass -File "ai-framework/reference/powershell/${script_name}.ps1" "$@"
+    elif [ -f "ai-framework/reference/powershell/${script_name}.ps1" ] && (command -v powershell &> /dev/null || command -v pwsh &> /dev/null); then
+        if command -v pwsh &> /dev/null; then
+            pwsh -ExecutionPolicy Bypass -File "ai-framework/reference/powershell/${script_name}.ps1" "$@"
+        else
+            powershell -ExecutionPolicy Bypass -File "ai-framework/reference/powershell/${script_name}.ps1" "$@"
+        fi
     elif command -v python &> /dev/null && [ -f "ai-framework/reference/python/${script_name}.py" ]; then
         python "ai-framework/reference/python/${script_name}.py" "$@"
     else
@@ -180,7 +242,7 @@ cat > QUICK-REFERENCE.md << 'EOF'
 ### Start every session with:
 ```
 I'm using the AI Control Framework. 
-Read CLAUDE.md and templates/code.md.
+Read CLAUDE.md and ai-framework/templates/code.md.
 Run ./run-check.sh continue
 ```
 
@@ -241,7 +303,7 @@ EOF
 fi
 
 # Create initial session file
-cat > templates/code.md << 'EOF'
+cat > ai-framework/templates/code.md << 'EOF'
 # SESSION CONTROL — Read First, Check Often
 **Purpose: Current state tracking for AI agents**
 
@@ -294,13 +356,17 @@ echo "Next steps:"
 echo ""
 echo "1. Open Claude Code in this directory: $PROJECT_DIR"
 echo ""
-echo "2. Copy and paste this initialization prompt:"
+echo "2. To validate the installation, you can run:"
+echo "   Bash: ./validate-framework.sh"
+echo "   PowerShell: ./Validate-Framework.ps1"
+echo ""
+echo "3. Copy and paste this initialization prompt:"
 echo ""
 echo -e "${BLUE}Initialize the AI Control Framework for this project.${NC}"
-echo -e "${BLUE}Read all template files in templates/${NC}"
+echo -e "${BLUE}Read all template files in ai-framework/templates/${NC}"
 echo -e "${BLUE}Help me set up: [describe your project]${NC}"
 echo ""
-echo "3. For every future session, start with:"
+echo "4. For every future session, start with:"
 echo ""
 echo -e "${BLUE}I'm using the AI Control Framework.${NC}"
 echo -e "${BLUE}Read CLAUDE.md and ai-framework/IMPLEMENTATION-GUIDE.md${NC}"

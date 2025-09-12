@@ -3,23 +3,22 @@
 
 ## Mission (ONE Thing)
 
-- **Goal:** [TO BE DEFINED - Set specific test/feature goal]
-- **Pattern:** [TO BE SELECTED - Choose from patterns.md]
-- **Session Type:** [ASSESSMENT/DEVELOPMENT/DEPLOYMENT]
-- **Scope:** [Depends on session type - see orchestration.md]
+- **Goal:** Implement core functionality with test coverage
+- **Pattern:** See patterns.md for applicable patterns
+- **Scope:** 5 files max, 200 LOC max
 
 ## Contracts (Frozen)
 
-- **Files:** [TO BE DEFINED - List contract files when created]
-- **Hash:** [RUN ./check-contracts.sh to initialize]
-- **Status:** AWAITING INITIALIZATION
+- **Files:** interfaces/, api/contracts/, models/
+- **Hash:** Run check-contracts.sh to initialize
+- **Status:** PENDING INITIALIZATION
 
 ## Real Services (No Mocks)
 
-- **API Endpoint:** [TO BE CONFIGURED]
-- **Auth Service:** [TO BE CONFIGURED]
-- **Database:** [TO BE CONFIGURED]
-- **Last Real Call:** [NOT YET CONNECTED]
+- **API Endpoint:** https://api.example.com (configure your endpoint)
+- **Auth Service:** https://auth.example.com (configure your auth)
+- **Database:** postgresql://localhost:5432/dbname (configure your DB)
+- **Last Real Call:** Pending first connection
 
 ## Deployability Score
 

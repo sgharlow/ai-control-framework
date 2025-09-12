@@ -21,90 +21,168 @@ Provide an objective, quantifiable measure of code readiness for production depl
 
 ## Scoring Components
 
-### Standard Weights (Total = 100)
+### Final Comprehensive Weights (Total = 100)
 
 | Component | Points | What It Measures |
 |-----------|--------|------------------|
-| Contract Integrity | 20 | Interfaces defined and frozen |
-| No Mocks | 20 | Using real services |
-| Tests Passing | 15 | Automated validation |
-| Error Handling | 10 | Graceful failure management |
-| Scope Compliance | 10 | Within defined limits |
-| API Evidence | 15 | Real endpoints connected |
-| Documentation | 10 | Code is maintainable |
+| Contract Integrity | 7 | Interfaces defined and frozen |
+| Behavioral Contracts | 7 | Module behaviors consistent |
+| Security Validation | 16 | Security vulnerabilities prevented |
+| Data Integrity | 9 | Data consistency and business rules |
+| No Mocks | 7 | Using real services |
+| Tests Passing | 7 | Automated validation |
+| Integration Evidence | 9 | End-to-end workflows proven |
+| Architecture Stability | 7 | System structure maintained |
+| Production Readiness | 14 | Deployment and operations ready |
+| Context Preservation | 7 | Consistency maintained |
+| Error Handling | 4 | Graceful failure management |
+| Scope Compliance | 4 | Within defined limits |
+| Documentation | 2 | Code is maintainable |
 
 ## Calculation Algorithm
 
 ### Step 1: Check Each Component
 
-#### Contract Integrity (20 points)
+#### Contract Integrity (7 points)
 ```
 if contracts_defined AND contracts_unchanged:
-    score += 20
+    score += 7
 else if contracts_defined:
-    score += 10  # Partial credit
+    score += 4  # Partial credit
 else:
     score += 0
 ```
 
-#### No Mocks (20 points)
+#### Behavioral Contracts (7 points)
+```
+if all_behavioral_contracts_pass:
+    score += 7
+else if most_behavioral_contracts_pass (>80%):
+    score += 5
+else if some_behavioral_contracts_pass (>50%):
+    score += 3
+else:
+    score += 0
+```
+
+#### Security Validation (16 points)
+```
+if no_security_issues_detected:
+    score += 16
+else if minor_security_issues:
+    score += 10
+else if major_security_issues:
+    score += 5
+else:
+    score += 0
+```
+
+#### Data Integrity (9 points)
+```
+if all_data_integrity_checks_pass:
+    score += 9
+else if minor_data_integrity_issues:
+    score += 6
+else if major_data_integrity_issues:
+    score += 3
+else:
+    score += 0
+```
+
+#### No Mocks (7 points)
 ```
 if no_mocks_detected:
-    score += 20
+    score += 7
 else if mocks_in_tests_only:
-    score += 10  # Partial credit
+    score += 4  # Partial credit
 else:
     score += 0
 ```
 
-#### Tests Passing (15 points)
+#### Tests Passing (7 points)
 ```
 if all_tests_pass:
-    score += 15
+    score += 7
 else if most_tests_pass (>80%):
-    score += 10
-else if some_tests_pass (>50%):
     score += 5
+else if some_tests_pass (>50%):
+    score += 3
 else:
     score += 0
 ```
 
-#### Error Handling (10 points)
+#### Integration Evidence (9 points)
+```
+if all_workflows_pass AND evidence_fresh:
+    score += 9
+else if most_workflows_pass AND evidence_recent:
+    score += 6
+else if some_workflows_pass AND evidence_stale:
+    score += 3
+else:
+    score += 0
+```
+
+#### Architecture Stability (7 points)
+```
+if all_architecture_rules_pass:
+    score += 7
+else if minor_architecture_violations:
+    score += 4
+else:
+    score += 0
+```
+
+#### Error Handling (4 points)
 ```
 if comprehensive_error_handling:
-    score += 10
+    score += 4
 else if basic_error_handling:
-    score += 5
+    score += 2
 else:
     score += 0
 ```
 
-#### Scope Compliance (10 points)
+#### Scope Compliance (4 points)
 ```
 if within_all_limits:
-    score += 10
+    score += 4
 else if minor_violation (<20% over):
-    score += 5
+    score += 2
 else:
     score += 0
 ```
 
-#### API Evidence (15 points)
-```
-if real_api_calls_verified:
-    score += 15
-else if api_configured:
-    score += 7
-else:
-    score += 0
-```
-
-#### Documentation (10 points)
+#### Documentation (2 points)
 ```
 if comprehensive_docs:
-    score += 10
+    score += 2
 else if basic_docs:
+    score += 1
+else:
+    score += 0
+```
+
+#### Production Readiness (14 points)
+```
+if all_production_checks_pass:
+    score += 14
+else if most_production_checks_pass (>80%):
+    score += 10
+else if some_production_checks_pass (>50%):
     score += 5
+else:
+    score += 0
+```
+
+#### Context Preservation (7 points)
+```
+if context_fully_preserved:
+    score += 7
+else if context_mostly_preserved:
+    score += 5
+else if context_partially_preserved:
+    score += 3
 else:
     score += 0
 ```
@@ -115,27 +193,29 @@ else:
 ```
 ═══════════════════════════════════════
 DEPLOYABILITY RATING SCORE (DRS)
-Time: 2024-01-15 14:30:00
+Time: 2024-12-19 16:30:00
 ═══════════════════════════════════════
 
 Component Scores:
-✓ Contract Integrity........ 20/20
-✓ No Mocks.................. 20/20
-✓ Tests Passing............. 15/15
-⚠ Error Handling............ 5/10
-✓ Scope Compliance.......... 10/10
-✗ API Evidence.............. 0/15
-⚠ Documentation............. 5/10
+✓ Contract Integrity........ 15/15
+✓ Behavioral Contracts...... 15/15
+✓ No Mocks.................. 15/15
+✓ Tests Passing............. 10/10
+⚠ Integration Evidence...... 10/15
+✓ Architecture Stability.... 10/10
+⚠ Error Handling............ 4/8
+✓ Scope Compliance.......... 7/7
+⚠ Documentation............. 2/5
 
-TOTAL DRS: 75/100
+TOTAL DRS: 88/100
 
-Status: NEARLY READY
-Next Actions:
-- Connect and verify API endpoints (+15)
-- Improve error handling (+5)
-- Complete documentation (+5)
+Status: DEPLOYABLE ✓
+Recommendations for Excellence:
+- Complete integration evidence (+5)
+- Improve error handling (+4)
+- Complete documentation (+3)
 
-Estimated time to deployment: 2-3 hours
+Estimated time to 95+: 1-2 hours
 ═══════════════════════════════════════
 ```
 
@@ -156,6 +236,18 @@ Missing: API evidence, error handling
 **Evidence:**
 - `.contract-hashes` file exists
 - Hash comparison passes
+
+### Behavioral Contracts
+**What to Check:**
+- API response formats unchanged
+- Database query results consistent
+- Cross-module data flows validated
+- Integration behaviors verified
+
+**Evidence:**
+- `evidence/api-contract-results.json`
+- `evidence/db-contract-results.json`
+- `evidence/integration-contract-results.json`
 
 ### No Mocks
 **What to Check:**
@@ -200,16 +292,31 @@ Missing: API evidence, error handling
 - Git diff statistics
 - File count under threshold
 
-### API Evidence
+### Integration Evidence
 **What to Check:**
-- Real endpoints configured
-- Successful API calls logged
-- Authentication working
+- End-to-end workflows proven
+- Cross-module integrations validated
+- Data consistency verified
+- Performance benchmarks met
 
 **Evidence:**
-- `evidence/` directory with captures
-- Network logs
-- API response samples
+- `evidence/end-to-end-workflows.json`
+- `evidence/cross-module-integration.json`
+- `evidence/data-consistency-checks.json`
+- `evidence/performance-benchmarks.json`
+
+### Architecture Stability
+**What to Check:**
+- Dependency graph unchanged
+- Layer boundaries respected
+- Pattern consistency maintained
+- Complexity within limits
+
+**Evidence:**
+- `evidence/dependency-graph.json`
+- `evidence/layer-analysis.json`
+- `evidence/pattern-compliance.json`
+- `evidence/complexity-metrics.json`
 
 ### Documentation
 **What to Check:**
