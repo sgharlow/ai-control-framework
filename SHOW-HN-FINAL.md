@@ -70,19 +70,19 @@ For those asking about the DRS score, here's the 13-component breakdown:
 
 | Component | Points | What It Checks |
 |-----------|--------|----------------|
-| Contract Integrity | 8 | API/DB schemas unchanged |
-| Behavioral Contracts | 8 | Function signatures stable |
-| Security | 18 | No secrets, HTTPS, input validation |
-| Data Integrity | 10 | No mock data in prod paths |
-| No Mocks | 8 | All services connected |
-| Tests | 7 | Suite passing |
-| Integration | 10 | Captured real API responses |
-| Architecture | 7 | No structural changes |
-| Prod Readiness | 15 | Logging, monitoring, rollback |
-| Context | 8 | Session state preserved |
+| Contract Integrity | 7 | API/DB schemas unchanged |
+| Behavioral Contracts | 7 | Function signatures stable |
+| Security Validation | 16 | No secrets, HTTPS, input validation |
+| Data Integrity | 9 | No mock data in prod paths |
+| No Mocks | 7 | All services connected |
+| Tests Passing | 7 | Suite passing |
+| Integration Evidence | 9 | Captured real API responses |
+| Architecture Stability | 7 | No structural changes |
+| Production Readiness | 14 | Logging, monitoring, rollback |
+| Context Preservation | 7 | Session state preserved |
 | Error Handling | 4 | Graceful failures |
-| Scope | 4 | Within file/line limits |
-| Docs | 3 | README, comments |
+| Scope Compliance | 4 | Within file/line limits |
+| Documentation | 2 | README, comments |
 
 The weights came from analyzing what actually caused my deployment failures.
 ```
@@ -191,7 +191,7 @@ I built a framework that forces AI coding assistants to ship real code.
 Results: 67% rework → 12%
 
 HN discussion: [link]
-GitHub: github.com/sgharlow/ai-control-framework
+GitHub: https://github.com/sgharlow/ai-control-framework
 ```
 
 ### LinkedIn (separate post, T+4h)

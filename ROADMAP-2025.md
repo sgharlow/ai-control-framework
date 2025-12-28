@@ -225,4 +225,4 @@ The AI Control Framework (v2.0) is production-ready with 100% test coverage. Thi
 ---
 
 *Roadmap created December 24, 2025*
-*Next review: January 1, 2025*
+*Next review: January 1, 2026*

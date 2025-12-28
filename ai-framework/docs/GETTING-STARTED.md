@@ -32,7 +32,7 @@ Can you run Bash scripts?
 ### 3. Start Your First Session
 
 ```
-I'm using the AI Control Framework v1.1.0
+I'm using the AI Control Framework v2.0.0
 
 CRITICAL: First read ai-framework/IMPLEMENTATION-GUIDE.md
 Then read CLAUDE.md and ai-framework/templates/code.md
