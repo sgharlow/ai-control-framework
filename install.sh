@@ -28,6 +28,9 @@ fi
 
 PROJECT_DIR="$1"
 
+# IMPORTANT: Capture source directory BEFORE changing to project dir
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Verify directory exists or create it
 if [ ! -d "$PROJECT_DIR" ]; then
     echo -e "${YELLOW}Creating project directory: $PROJECT_DIR${NC}"
@@ -49,7 +52,6 @@ mkdir -p ai-framework-mcp-server/dist
 mkdir -p evidence
 
 # Copy framework files
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Define files/directories to exclude
 EXCLUDE_PATTERNS=(
@@ -138,11 +140,17 @@ if [ -d "$SCRIPT_DIR/ai-framework-mcp-server" ]; then
     if command -v npm &> /dev/null; then
         echo "Installing MCP server dependencies..."
         cd ai-framework-mcp-server
-        npm install --silent 2>/dev/null && npm run build --silent 2>/dev/null && {
-            echo -e "${GREEN}✓ MCP server built successfully${NC}"
-        } || {
-            echo -e "${YELLOW}⚠ MCP server build failed. Manual build may be required.${NC}"
-        }
+        if npm install 2>&1; then
+            if npm run build 2>&1; then
+                echo -e "${GREEN}✓ MCP server built successfully${NC}"
+            else
+                echo -e "${YELLOW}⚠ MCP server TypeScript build failed.${NC}"
+                echo -e "${YELLOW}  Run manually: cd ai-framework-mcp-server && npm run build${NC}"
+            fi
+        else
+            echo -e "${YELLOW}⚠ npm install failed.${NC}"
+            echo -e "${YELLOW}  Run manually: cd ai-framework-mcp-server && npm install${NC}"
+        fi
         cd ..
     else
         echo -e "${YELLOW}Note: npm not found. Install Node.js to build MCP server.${NC}"
@@ -156,9 +164,13 @@ if [ -f "$SCRIPT_DIR/CLAUDE.md" ]; then
     cp "$SCRIPT_DIR/CLAUDE.md" .
 fi
 
-# Copy PowerShell validation script if it exists
+# Copy validation scripts if they exist
 if [ -f "$SCRIPT_DIR/Validate-Framework.ps1" ]; then
     cp "$SCRIPT_DIR/Validate-Framework.ps1" .
+fi
+if [ -f "$SCRIPT_DIR/validate-framework.sh" ]; then
+    cp "$SCRIPT_DIR/validate-framework.sh" .
+    chmod +x validate-framework.sh
 fi
 
 # Make reference scripts executable if they exist
