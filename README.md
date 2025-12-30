@@ -7,19 +7,9 @@
 [![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
 
-```
-┌─────────────────────────────────────┐
-│   DEPLOYABILITY SCORE: 85/100      │
-│   ═══════════════════════════════  │
-│   ✓ Contract Integrity     7/7     │
-│   ✓ No Mocks               7/7     │
-│   ✓ Tests Passing          7/7     │
-│   ✓ Real Services         10/10    │
-│   ✓ Error Handling         4/4     │
-│                                     │
-│   ★ READY TO DEPLOY ★              │
-└─────────────────────────────────────┘
-```
+![AI Control Framework Demo](demo/ai-control-framework-demo.gif)
+
+*Run one command. Get a deployability score. Know exactly what to fix.*
 
 ---
 
