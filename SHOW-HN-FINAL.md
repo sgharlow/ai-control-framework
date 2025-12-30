@@ -220,7 +220,7 @@ Link in comments.
 - [x] README polished with install instructions
 - [x] GitHub Discussions enabled
 - [x] v2.0.0 release tagged
-- [ ] `install.sh` tested on fresh machine (USER task)
+- [x] `install.sh` tested on fresh machine
 - [x] Demo GIF in README
 - [ ] At least 1 GitHub star (USER task)
 - [x] QUICK-WIN-DEMO.md created

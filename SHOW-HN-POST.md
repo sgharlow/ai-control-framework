@@ -148,7 +148,7 @@ Would love feedback, especially from others who've struggled with AI coding assi
 
 Before posting:
 - [x] README has install instructions that work
-- [ ] `install.sh` tested on fresh machine
+- [x] `install.sh` tested on fresh machine
 - [x] GitHub Discussions enabled
 - [x] CONTRIBUTING.md exists
 - [ ] At least 1 GitHub star (looks less empty)
