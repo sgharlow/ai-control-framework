@@ -48,7 +48,7 @@ I built a framework that enforces discipline through external scripts—not just
 - Bash + PowerShell scripts
 - 13 specification docs
 - MCP server for Claude Code
-- 33 tests (100% passing)
+- 136 tests (100% passing)
 
 Works with any AI that can read files (Claude, Cursor, Copilot, Aider).
 
@@ -221,7 +221,7 @@ Link in comments.
 - [x] GitHub Discussions enabled
 - [x] v2.0.0 release tagged
 - [ ] `install.sh` tested on fresh machine (USER task)
-- [ ] Demo GIF in README (USER task - use demo/demo-script.sh)
+- [x] Demo GIF in README
 - [ ] At least 1 GitHub star (USER task)
 - [x] QUICK-WIN-DEMO.md created
 - [x] CONTRIBUTING.md exists
@@ -239,4 +239,4 @@ If post doesn't gain traction in first 2 hours:
 ---
 
 *Final copy prepared December 24, 2025*
-*Last updated: Ready for Jan 8-10 launch*
+*Last updated: December 29, 2025 — Ready for Jan 8-10 launch*

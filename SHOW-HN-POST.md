@@ -62,7 +62,7 @@ The framework works with any AI assistant (Claude Code, Cursor, Copilot, etc.) â
 - 20 ready-to-use prompts
 - MCP server for Claude Code integration
 
-It's MIT licensed. I've been using v2.0 in production for a month with 100% test pass rate (33/33 tests).
+It's MIT licensed. I've been using v2.0 in production for a month with 100% test pass rate (136/136 tests).
 
 GitHub: https://github.com/sgharlow/ai-control-framework
 
@@ -147,14 +147,15 @@ Would love feedback, especially from others who've struggled with AI coding assi
 ## Pre-Launch Checklist
 
 Before posting:
-- [ ] README has install instructions that work
+- [x] README has install instructions that work
 - [ ] `install.sh` tested on fresh machine
-- [ ] GitHub Discussions enabled
-- [ ] CONTRIBUTING.md exists
+- [x] GitHub Discussions enabled
+- [x] CONTRIBUTING.md exists
 - [ ] At least 1 GitHub star (looks less empty)
-- [ ] No broken links in README
-- [ ] Demo GIF or video in README
+- [x] No broken links in README
+- [x] Demo GIF in README
 
 ---
 
 *Draft created December 24, 2025*
+*Last updated: December 29, 2025*
