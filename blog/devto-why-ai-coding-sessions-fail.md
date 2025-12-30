@@ -204,7 +204,7 @@ cd /path/to/your/project
 
 The framework works with any AI assistant that can read files: Claude Code, Cursor, Copilot, Aider.
 
-It's [MIT licensed](https://github.com/sgharlow/ai-control-framework/blob/main/LICENSE) and has [100% test coverage](https://github.com/sgharlow/ai-control-framework) (33/33 tests passing).
+It's [MIT licensed](https://github.com/sgharlow/ai-control-framework/blob/main/LICENSE) and has [100% test coverage](https://github.com/sgharlow/ai-control-framework) (136/136 tests passing).
 
 ---
 
