@@ -222,7 +222,7 @@ Link in comments.
 - [x] v2.0.0 release tagged
 - [x] `install.sh` tested on fresh machine
 - [x] Demo GIF in README
-- [ ] At least 1 GitHub star (USER task)
+- [x] At least 1 GitHub star
 - [x] QUICK-WIN-DEMO.md created
 - [x] CONTRIBUTING.md exists
 - [x] No broken links in README

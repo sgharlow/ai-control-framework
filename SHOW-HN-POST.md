@@ -151,7 +151,7 @@ Before posting:
 - [x] `install.sh` tested on fresh machine
 - [x] GitHub Discussions enabled
 - [x] CONTRIBUTING.md exists
-- [ ] At least 1 GitHub star (looks less empty)
+- [x] At least 1 GitHub star
 - [x] No broken links in README
 - [x] Demo GIF in README
 
