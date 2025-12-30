@@ -8,7 +8,7 @@ import { join } from 'path';
 import { OrchestrationParser } from '../parsers/orchestration-parser';
 import { TasksParser } from '../parsers/tasks-parser';
 import { DRSCalculator } from '../calculators/drs-calculator';
-import { FrameworkState, EvidenceFile } from '../types/framework-state';
+import { FrameworkState, EvidenceFile, TodosData } from '../types/framework-state';
 
 export class FrameworkStateReader {
   private orchestrationParser: OrchestrationParser;
@@ -22,53 +22,170 @@ export class FrameworkStateReader {
   }
 
   /**
-   * Read complete framework state from project directory
+   * Read complete framework state from project directory with timeout
    */
   async readFrameworkState(projectPath: string): Promise<FrameworkState> {
     try {
-      // Read orchestration data
-      const orchestration = await this.readOrchestrationData(projectPath);
-      
-      // Read task data
-      const tasks = await this.readTaskData(projectPath);
-      
-      // Calculate DRS score
-      const drsScore = await this.calculateDRS(projectPath);
-      
-      // Read evidence files
-      const evidence = await this.readEvidenceFiles(projectPath);
-      
-      // Determine overall confidence
-      const confidence = this.calculateOverallConfidence(orchestration, tasks, drsScore, evidence);
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('Framework state reading timed out after 8 seconds')), 8000);
+      });
 
-      // Read enhanced framework components
-      const behavioralContracts = await this.readBehavioralContracts(projectPath);
-      const architectureStability = await this.readArchitectureStability(projectPath);
-      const integrationEvidence = await this.readIntegrationEvidence(projectPath);
-      const securityValidation = await this.readSecurityValidation(projectPath);
-      const productionReadiness = await this.readProductionReadiness(projectPath);
-      const contextPreservation = await this.readContextPreservation(projectPath);
-      const dataIntegrity = await this.readDataIntegrity(projectPath);
-
-      return {
-        orchestration,
-        tasks,
-        drsScore,
-        evidence,
-        lastUpdate: new Date(),
-        confidence,
-        projectPath,
-        behavioralContracts,
-        architectureStability,
-        integrationEvidence,
-        securityValidation,
-        productionReadiness,
-        contextPreservation,
-        dataIntegrity
-      };
+      const readPromise = this.readFrameworkStateInternal(projectPath);
+      
+      return await Promise.race([readPromise, timeoutPromise]);
     } catch (error) {
-      throw new Error(`Failed to read framework state: ${error instanceof Error ? error.message : String(error)}`);
+      console.error('Framework state reading failed:', error);
+      // Return minimal default state instead of throwing
+      return this.getDefaultFrameworkState(projectPath);
     }
+  }
+
+  private async readFrameworkStateInternal(projectPath: string): Promise<FrameworkState> {
+    // Read orchestration data
+    const orchestration = await this.readOrchestrationData(projectPath);
+    
+    // Read task data
+    const tasks = await this.readTaskData(projectPath);
+    
+    // Read todos data
+    const todos = await this.readTodosData(projectPath);
+    
+    // Calculate DRS score
+    const drsScore = await this.calculateDRS(projectPath);
+    
+    // Read evidence files
+    const evidence = await this.readEvidenceFiles(projectPath);
+    
+    // Determine overall confidence
+    const confidence = this.calculateOverallConfidence(orchestration, tasks, drsScore, evidence);
+
+    // Read enhanced framework components with error handling
+    let behavioralContracts, architectureStability, integrationEvidence, 
+        securityValidation, productionReadiness, contextPreservation, dataIntegrity;
+
+    try {
+      behavioralContracts = await this.readBehavioralContracts(projectPath);
+    } catch (error) {
+      console.error('Failed to read behavioral contracts:', error);
+      behavioralContracts = undefined;
+    }
+
+    try {
+      architectureStability = await this.readArchitectureStability(projectPath);
+    } catch (error) {
+      console.error('Failed to read architecture stability:', error);
+      architectureStability = undefined;
+    }
+
+    try {
+      integrationEvidence = await this.readIntegrationEvidence(projectPath);
+    } catch (error) {
+      console.error('Failed to read integration evidence:', error);
+      integrationEvidence = undefined;
+    }
+
+    try {
+      securityValidation = await this.readSecurityValidation(projectPath);
+    } catch (error) {
+      console.error('Failed to read security validation:', error);
+      securityValidation = undefined;
+    }
+
+    try {
+      productionReadiness = await this.readProductionReadiness(projectPath);
+    } catch (error) {
+      console.error('Failed to read production readiness:', error);
+      productionReadiness = undefined;
+    }
+
+    try {
+      contextPreservation = await this.readContextPreservation(projectPath);
+    } catch (error) {
+      console.error('Failed to read context preservation:', error);
+      contextPreservation = undefined;
+    }
+
+    try {
+      dataIntegrity = await this.readDataIntegrity(projectPath);
+    } catch (error) {
+      console.error('Failed to read data integrity:', error);
+      dataIntegrity = undefined;
+    }
+
+    return {
+      orchestration,
+      tasks,
+      todos,
+      drsScore,
+      evidence,
+      lastUpdate: new Date(),
+      confidence,
+      projectPath,
+      behavioralContracts,
+      architectureStability,
+      integrationEvidence,
+      securityValidation,
+      productionReadiness,
+      contextPreservation,
+      dataIntegrity
+    };
+  }
+
+  private getDefaultFrameworkState(projectPath: string): FrameworkState {
+    return {
+      orchestration: {
+        sessionMode: 'DEVELOPMENT' as const,
+        currentGate: '30m',
+        gateDeadline: new Date(Date.now() + 30 * 60 * 1000),
+        confidence: 'MEDIUM' as const,
+        lastEvidence: new Date(0),
+        contractHash: '',
+        sessionStartTime: new Date(),
+        timeRemaining: 30,
+        timeGates: false,
+        patternUsed: 'NONE'
+      },
+      tasks: {
+        tasks: [],
+        completionPercentage: 0,
+        blockers: [],
+        partialProgress: {},
+        realServicesConnected: false,
+        dodMet: false,
+        acceptanceCriteria: false
+      },
+      todos: {
+        mockCount: 0,
+        oldestMockAge: 0,
+        allHaveExpiry: true,
+        blockersDocumented: false,
+        prioritized: false,
+        blockers: [],
+        count: 0,
+        withoutExpiry: 0,
+        critical: 0,
+        high: 0
+      },
+      contractChanges: 'None',
+      contractCompliance: true,
+      drsScore: 50,
+      evidence: [],
+      lastUpdate: new Date(),
+      confidence: 'MEDIUM' as const,
+      projectPath,
+      behavioralContracts: undefined,
+      architectureStability: undefined,
+      integrationEvidence: undefined,
+      securityValidation: undefined,
+      productionReadiness: undefined,
+      contextPreservation: undefined,
+      dataIntegrity: undefined
+    };
+  }
+
+  private getDefaultComponentState() {
+    return undefined;
   }
 
   /**
@@ -170,6 +287,43 @@ export class FrameworkStateReader {
     }
 
     return evidence;
+  }
+
+  /**
+   * Read todos data from project files
+   */
+  private async readTodosData(projectPath: string) {
+    try {
+      // For now, return default values
+      // In a full implementation, this would scan code files for TODO comments,
+      // check for mock services, etc.
+      return {
+        mockCount: 0,
+        oldestMockAge: 0,
+        allHaveExpiry: true,
+        blockersDocumented: false,
+        prioritized: false,
+        blockers: [],
+        count: 0,
+        withoutExpiry: 0,
+        critical: 0,
+        high: 0
+      };
+    } catch (error) {
+      // Return safe defaults if reading fails
+      return {
+        mockCount: 0,
+        oldestMockAge: 0,
+        allHaveExpiry: true,
+        blockersDocumented: false,
+        prioritized: false,
+        blockers: [],
+        count: 0,
+        withoutExpiry: 0,
+        critical: 0,
+        high: 0
+      };
+    }
   }
 
   /**

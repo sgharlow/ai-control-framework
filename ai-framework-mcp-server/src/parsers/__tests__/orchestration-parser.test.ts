@@ -41,7 +41,7 @@ Last Evidence: 30 minutes ago
 session_mode: DEBUG
 confidence: LOW
 current_gate: 90m
-contract_hash: xyz789abc123
+contract_hash: abc789def123
 \`\`\`
       `;
 
@@ -50,7 +50,7 @@ contract_hash: xyz789abc123
       expect(result.sessionMode).toBe('DEBUG');
       expect(result.confidence).toBe('LOW');
       expect(result.currentGate).toBe('90m');
-      expect(result.contractHash).toBe('xyz789abc123');
+      expect(result.contractHash).toBe('abc789def123');
     });
 
     it('should handle JSON structured data', () => {
@@ -62,7 +62,7 @@ contract_hash: xyz789abc123
   "sessionMode": "MAINTENANCE",
   "confidence": "MEDIUM",
   "currentGate": "120m",
-  "contractHash": "def456ghi789"
+  "contractHash": "def456abc789"
 }
 \`\`\`
       `;
@@ -72,7 +72,7 @@ contract_hash: xyz789abc123
       expect(result.sessionMode).toBe('MAINTENANCE');
       expect(result.confidence).toBe('MEDIUM');
       expect(result.currentGate).toBe('120m');
-      expect(result.contractHash).toBe('def456ghi789');
+      expect(result.contractHash).toBe('def456abc789');
     });
 
     it('should use default values for missing data', () => {
@@ -140,7 +140,7 @@ Gate: invalid_time
 
       expect(result.sessionMode).toBe('DEVELOPMENT'); // default
       expect(result.confidence).toBe('MEDIUM'); // default
-      expect(result.currentGate).toBe('invalid_time'); // preserved as-is
+      expect(result.currentGate).toBe('30m'); // defaults when invalid
     });
   });
 

@@ -34,6 +34,11 @@ describe('ContextAnalyzer', () => {
         blockers: [],
         partialProgress: {}
       },
+      todos: {
+        mockCount: 0,
+        oldestMockAge: 0,
+        allHaveExpiry: true
+      },
       drsScore: 70,
       evidence: [
         {
@@ -102,14 +107,29 @@ describe('ContextAnalyzer', () => {
         orchestration: {
           ...createTestState().orchestration,
           sessionMode: 'DEBUG'
+        },
+        // Add blockers to avoid "DEBUG mode but no blockers" violation
+        tasks: {
+          tasks: [],
+          completionPercentage: 50,
+          blockers: [
+            {
+              id: 'blocker-1',
+              description: 'Test blocker for debug mode',
+              timestamp: new Date(),
+              attemptedFixes: [],
+              requiredAction: 'Investigate issue'
+            }
+          ],
+          partialProgress: {}
         }
       });
 
       const result = analyzer.analyzeContext(debugState);
 
       expect(result.context.projectState).toBe('DEBUG');
-      // Check that debug recommendations are present (may be after violation warnings)
-      const hasDebugRecommendation = result.recommendations.some(r => 
+      // Check that debug recommendations are present
+      const hasDebugRecommendation = result.recommendations.some(r =>
         r.includes('S. CORRECT') || r.includes('H. DEBUG')
       );
       expect(hasDebugRecommendation).toBe(true);

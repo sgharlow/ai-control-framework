@@ -87,8 +87,8 @@ export class OrchestrationParser {
     // Look for structured data blocks
     const structuredData = this.parseStructuredData(content);
     if (structuredData) {
+      // Structured data overrides defaults (spread order matters - later values win)
       return {
-        ...structuredData,
         sessionMode,
         currentGate,
         gateDeadline,
@@ -96,7 +96,8 @@ export class OrchestrationParser {
         lastEvidence,
         contractHash,
         sessionStartTime,
-        timeRemaining
+        timeRemaining,
+        ...structuredData
       };
     }
 

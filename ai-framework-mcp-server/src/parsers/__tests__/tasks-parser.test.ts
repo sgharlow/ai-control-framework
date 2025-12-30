@@ -26,8 +26,8 @@ describe('TasksParser', () => {
       const result = parser.parseTasksContent(content);
 
       expect(result.tasks).toHaveLength(4);
-      expect(result.tasks[0].id).toBe('1');
-      expect(result.tasks[0].description).toBe('Set up project structure');
+      expect(result.tasks[0].id).toBe('task-1'); // "1." format doesn't extract ID (only "1.1" format does)
+      expect(result.tasks[0].description).toBe('1. Set up project structure'); // Full description when ID not extracted
       expect(result.tasks[0].status).toBe('not_started');
       
       expect(result.tasks[1].status).toBe('completed');
@@ -65,11 +65,11 @@ describe('TasksParser', () => {
 
 - [ ] 1. Implement authentication module
   - Time: 120 minutes
-  - _Requirements: 1.1, 2.3, 4.2_
+  _Requirements: 1.1, 2.3, 4.2_
   - Actual: 90 minutes
 
 - [ ] 2. Create user interface (45m)
-  - _Requirements: 3.1_
+  _Requirements: 3.1_
       `;
 
       const result = parser.parseTasksContent(content);

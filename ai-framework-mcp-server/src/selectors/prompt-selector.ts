@@ -57,7 +57,8 @@ export class PromptSelector {
     }
 
     // ai-framework principle: Time gates must be respected
-    if (criteria.timeConstraints.remainingMinutes <= 0) {
+    // Check for time-critical scenarios (approaching gate, final minutes, or exceeded)
+    if (criteria.timeConstraints.remainingMinutes <= 15) {
       return this.selectTimeGatePrompt(criteria);
     }
 

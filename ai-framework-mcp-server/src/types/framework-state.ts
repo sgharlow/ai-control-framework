@@ -11,6 +11,8 @@ export interface OrchestrationData {
   contractHash: string;
   sessionStartTime: Date;
   timeRemaining: number; // minutes
+  timeGates?: boolean;
+  patternUsed?: string;
 }
 
 export interface TaskData {
@@ -18,6 +20,9 @@ export interface TaskData {
   completionPercentage: number;
   blockers: Blocker[];
   partialProgress: Record<string, number>;
+  realServicesConnected?: boolean;
+  dodMet?: boolean;
+  acceptanceCriteria?: boolean;
 }
 
 export interface Task {
@@ -47,14 +52,30 @@ export interface EvidenceFile {
   description: string;
 }
 
+export interface TodosData {
+  mockCount: number;
+  oldestMockAge: number; // in minutes
+  allHaveExpiry: boolean;
+  blockersDocumented?: boolean;
+  prioritized?: boolean;
+  blockers?: Blocker[];
+  count?: number;
+  withoutExpiry?: number;
+  critical?: number;
+  high?: number;
+}
+
 export interface FrameworkState {
   orchestration: OrchestrationData;
   tasks: TaskData;
+  todos: TodosData;
   drsScore: number;
   evidence: EvidenceFile[];
   lastUpdate: Date;
   confidence: 'HIGH' | 'MEDIUM' | 'LOW';
   projectPath: string;
+  contractChanges?: string;
+  contractCompliance?: boolean;
   behavioralContracts?: BehavioralContractStatus;
   architectureStability?: ArchitectureStabilityStatus;
   integrationEvidence?: IntegrationEvidenceStatus;

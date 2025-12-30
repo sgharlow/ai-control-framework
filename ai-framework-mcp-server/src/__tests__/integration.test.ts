@@ -121,6 +121,11 @@ Last Evidence: 30 minutes ago
           blockers: [],
           partialProgress: {}
         },
+        todos: {
+          mockCount: 0,
+          oldestMockAge: 0,
+          allHaveExpiry: true
+        },
         drsScore: 70,
         evidence: [
           {
@@ -165,6 +170,11 @@ Last Evidence: 30 minutes ago
           completionPercentage: 90,
           blockers: [],
           partialProgress: {}
+        },
+        todos: {
+          mockCount: 0,
+          oldestMockAge: 0,
+          allHaveExpiry: true
         },
         drsScore: 75, // Below deployment threshold
         evidence: [
@@ -338,6 +348,11 @@ Last Evidence: 30 minutes ago
       const state: FrameworkState = {
         orchestration,
         tasks,
+        todos: {
+          mockCount: 0,
+          oldestMockAge: 0,
+          allHaveExpiry: true
+        },
         drsScore: 75,
         evidence: [
           {
