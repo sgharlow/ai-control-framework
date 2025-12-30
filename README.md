@@ -4,7 +4,7 @@
 
 [![Version](https://img.shields.io/badge/version-2.0.0-blue)]()
 [![DRS Target](https://img.shields.io/badge/DRS%20target-85%25-green)]()
-[![Tests](https://img.shields.io/badge/tests-33%2F33%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
 
 ```

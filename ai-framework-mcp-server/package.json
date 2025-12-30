@@ -1,6 +1,6 @@
 {
   "name": "ai-framework-mcp-server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "MCP server for AI Framework prompt enhancement and context injection",
   "main": "dist/index.js",
 
