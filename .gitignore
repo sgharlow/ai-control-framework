@@ -44,3 +44,6 @@ __pycache__/
 *.pyc
 .env
 .env.local
+
+# Calendar reminders (local only)
+*.ics

@@ -1,0 +1,15 @@
+═══════════════════════════════════════════════════════════
+  RESULTS
+═══════════════════════════════════════════════════════════
+
+  Before framework:  "Is it ready?" → "Maybe..." 😬
+  After framework:   "Is it ready?" → "DRS 87. Ship it." ✅
+
+  Time saved: 3-5 days of rework → 45 minutes of fixes
+
+  Try it now:
+
+  git clone https://github.com/sgharlow/ai-control-framework
+  ./install.sh your-project
+
+  Stop hoping AI code will work. Start knowing it will deploy.

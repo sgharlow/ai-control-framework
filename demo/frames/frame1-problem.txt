@@ -1,0 +1,10 @@
+
+  ╔══════════════════════════════════════════════════════════╗
+  ║          AI CONTROL FRAMEWORK - DEMO                     ║
+  ║          Stop shipping non-deployable AI code            ║
+  ╚══════════════════════════════════════════════════════════╝
+
+▶ The Problem: Is this AI-generated code ready to deploy?
+
+   Most developers: "Uh... maybe? Let me check..." 🤔
+   With this framework: Run one command. Get a score.

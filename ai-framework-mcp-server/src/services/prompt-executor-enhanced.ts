@@ -310,9 +310,9 @@ Remember: The framework prevents false progress. Every action must increase depl
 
 #### 2. Real Service Connections (Critical)
 - Status: ${state.tasks.realServicesConnected ? '✅ Connected' : '❌ Not connected'}
-- Mock Count: ${state.todos.mockCount || 0}
-- Mock Age: ${state.todos.oldestMockAge || 0} minutes
-${state.todos.mockCount > 0 && state.todos.oldestMockAge > 30 ? '⚠️ CRITICAL: Mocks expired! Replace immediately.' : ''}
+- Mock Count: ${state.todos?.mockCount || 0}
+- Mock Age: ${state.todos?.oldestMockAge || 0} minutes
+${(state.todos?.mockCount || 0) > 0 && (state.todos?.oldestMockAge || 0) > 30 ? '⚠️ CRITICAL: Mocks expired! Replace immediately.' : ''}
 
 #### 3. Evidence Freshness (9 points)
 - Last Capture: ${state.evidence.length > 0 ? 
@@ -880,8 +880,8 @@ Requirement                          Status   Details
 ---------------------------------------------------------
 No expired mocks (>30min)           ${this.checkMockExpiry(state) ? '✅' : '❌'}      ${this.getMockDetails(state)}
 All TODOs have expiry               ${this.checkTodoExpiry(state) ? '✅' : '❌'}      ${this.getTodoDetails(state)}
-Blockers documented                 ${state.todos.blockersDocumented ? '✅' : '❌'}      ${state.todos.blockers?.length || 0} blockers
-Critical items prioritized          ${state.todos.prioritized ? '✅' : '❌'}      ${this.getPriorityDetails(state)}
+Blockers documented                 ${state.todos?.blockersDocumented ? '✅' : '❌'}      ${state.todos?.blockers?.length || 0} blockers
+Critical items prioritized          ${state.todos?.prioritized ? '✅' : '❌'}      ${this.getPriorityDetails(state)}
 \`\`\`
 
 #### 4. DEPLOY.MD COMPLIANCE
@@ -945,7 +945,7 @@ Metric              Start    Now     Trend
 DRS Score           ${state.drsHistory?.[0] || 0}      ${state.drsScore}     ${this.getTrend(state.drsHistory?.[0] || 0, state.drsScore)}
 Violations          ${state.violationHistory?.[0] || 0}      ${violations.length}     ${this.getTrend(state.violationHistory?.[0] || 0, violations.length, true)}
 Evidence Age        ${state.evidenceAgeHistory?.[0] || 999}min   ${this.getCurrentEvidenceAge(state)}min  ${this.getTrend(state.evidenceAgeHistory?.[0] || 999, this.getCurrentEvidenceAge(state), true)}
-Mock Count          ${state.mockCountHistory?.[0] || 0}      ${state.todos.mockCount || 0}     ${this.getTrend(state.mockCountHistory?.[0] || 0, state.todos.mockCount || 0, true)}
+Mock Count          ${state.mockCountHistory?.[0] || 0}      ${state.todos?.mockCount || 0}     ${this.getTrend(state.mockCountHistory?.[0] || 0, state.todos?.mockCount || 0, true)}
 \`\`\`
 
 ### NEXT ACTIONS
@@ -1047,7 +1047,7 @@ Remember: Compliance is not optional. The framework protects you from false prog
     if (!state.orchestration.patternUsed) {
       actions.push('Select pattern from PATTERNS.md');
     }
-    if (state.todos.mockCount > 0 && state.todos.oldestMockAge > 25) {
+    if ((state.todos?.mockCount || 0) > 0 && (state.todos?.oldestMockAge || 0) > 25) {
       actions.push('Replace expiring mocks with real services');
     }
     
@@ -1672,25 +1672,25 @@ npm test 2>&1 | tee evidence/$(date +%Y%m%d_%H%M%S)/test-results.txt`;
   }
 
   private checkMockExpiry(state: any): boolean {
-    if (state.todos.mockCount === 0) return true;
-    return state.todos.oldestMockAge < 30;
+    if ((state.todos?.mockCount || 0) === 0) return true;
+    return (state.todos?.oldestMockAge || 0) < 30;
   }
 
   private getMockDetails(state: any): string {
-    if (state.todos.mockCount === 0) return 'No mocks in use';
-    return `${state.todos.mockCount} mocks, oldest: ${state.todos.oldestMockAge} min`;
+    if ((state.todos?.mockCount || 0) === 0) return 'No mocks in use';
+    return `${state.todos?.mockCount || 0} mocks, oldest: ${state.todos?.oldestMockAge || 0} min`;
   }
 
   private checkTodoExpiry(state: any): boolean {
-    return state.todos.allHaveExpiry !== false;
+    return (state.todos?.allHaveExpiry ?? true) !== false;
   }
 
   private getTodoDetails(state: any): string {
-    return `${state.todos.count || 0} TODOs, ${state.todos.withoutExpiry || 0} without expiry`;
+    return `${state.todos?.count || 0} TODOs, ${state.todos?.withoutExpiry || 0} without expiry`;
   }
 
   private getPriorityDetails(state: any): string {
-    return `${state.todos.critical || 0} critical, ${state.todos.high || 0} high priority`;
+    return `${state.todos?.critical || 0} critical, ${state.todos?.high || 0} high priority`;
   }
 
   private checkAllGatesGreen(state: any): boolean {

@@ -331,7 +331,7 @@ export class PromptExecutor {
       `   - Confidence ≥ MEDIUM: ${analysis.confidence !== 'LOW' ? 'YES' : 'NO'}`,
       '',
       '3. todos.md Compliance:',
-      `   - Mocks < 72h: ${state.todos.mockCount === 0 ? 'YES' : 'CHECK'}`,
+      `   - Mocks < 72h: ${(state.todos?.mockCount || 0) === 0 ? 'YES' : 'CHECK'}`,
       '',
       '4. deploy.md Compliance:',
       `   - All Gates Green: ${state.drsScore >= 85 ? 'YES' : 'NO'}`,

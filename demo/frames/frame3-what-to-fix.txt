@@ -1,0 +1,9 @@
+▶ Step 2: Framework tells you exactly what to fix
+
+   To reach DRS 85 (deploy-ready):
+
+   1. Replace 7 mock data patterns with real API calls
+   2. Freeze contracts: ./ai-framework/scripts/freeze-contracts.sh
+   3. Fix 2 failing tests in auth.test.ts
+
+   No guessing. No hoping. Just a clear checklist.
