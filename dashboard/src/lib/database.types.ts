@@ -103,3 +103,46 @@ export interface Database {
 
 export type DRSSession = Database['public']['Tables']['drs_sessions']['Row'];
 export type DRSEvent = Database['public']['Tables']['drs_events']['Row'];
+
+// Pro tier types
+export interface Team {
+  id: string;
+  name: string;
+  owner_id: string | null;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
+  plan: 'free' | 'pro' | 'enterprise';
+  seat_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TeamMember {
+  id: string;
+  team_id: string;
+  user_id: string;
+  role: 'owner' | 'admin' | 'member';
+  invited_at: string;
+  joined_at: string | null;
+}
+
+export interface LicenseKey {
+  id: string;
+  key: string;
+  user_id: string | null;
+  team_id: string | null;
+  plan: 'pro' | 'enterprise';
+  status: 'active' | 'expired' | 'revoked';
+  expires_at: string | null;
+  activated_at: string;
+  created_at: string;
+}
+
+export interface StripeEvent {
+  id: string;
+  stripe_event_id: string;
+  event_type: string;
+  processed_at: string;
+  payload: Json | null;
+  error: string | null;
+}
