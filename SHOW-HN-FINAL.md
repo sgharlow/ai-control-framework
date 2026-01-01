@@ -17,7 +17,9 @@
 ## POST BODY (Copy/Paste Ready)
 
 ```
-I've been using Claude Code and Cursor heavily for 18 months. After tracking 50+ sessions, I found the same patterns killing productivity:
+95% of AI pilots fail to reach production (MIT). 42% of AI projects were abandoned in 2025—up from 17% in 2024 (S&P Global).
+
+I've been using Claude Code and Cursor heavily for 18 months. After tracking 50+ sessions, I found the patterns that explain these numbers:
 
 - Beautiful code that breaks on deploy (mocks never replaced)
 - Interfaces changing mid-session, breaking working features
@@ -239,4 +241,4 @@ If post doesn't gain traction in first 2 hours:
 ---
 
 *Final copy prepared December 24, 2025*
-*Last updated: December 29, 2025 — Ready for Jan 8-10 launch*
+*Last updated: January 1, 2026 — Added market stats (95%/42%), ready for Jan 8-10 launch*

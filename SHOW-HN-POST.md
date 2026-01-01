@@ -26,6 +26,8 @@
 ## Post Body
 
 ```
+95% of AI pilots fail to reach production (MIT). 42% of AI projects were abandoned in 2025—up from 17% in 2024 (S&P Global).
+
 I've been using Claude Code and Cursor heavily for the past year, and I kept hitting the same problems:
 
 - Code that "looks done" but breaks when you try to deploy it

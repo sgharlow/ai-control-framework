@@ -7,6 +7,12 @@
 [![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
 
+> **95% of generative AI pilots fail to move to production** — MIT/Fortune, 2025
+>
+> **42% of AI projects were abandoned in 2025** (up from 17% in 2024) — S&P Global
+
+This framework exists because AI coding tools are powerful but undisciplined. Without guardrails, they produce impressive demos that never ship.
+
 ![AI Control Framework Demo](demo/ai-control-framework-demo.gif)
 
 *Run one command. Get a deployability score. Know exactly what to fix.*

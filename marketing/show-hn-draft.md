@@ -10,7 +10,9 @@
 
 ## Post Body (Option A - Problem-focused)
 
-After spending weeks debugging AI-generated code that "worked in Claude" but crashed in production, I built a framework to prevent this from happening again.
+95% of AI pilots fail to reach production (MIT). 42% of AI projects were abandoned in 2025, up from 17% in 2024 (S&P Global).
+
+After spending weeks debugging AI-generated code that "worked in Claude" but crashed in production, I built a framework to address why this keeps happening.
 
 **The core problem:** AI assistants write code that looks good but isn't production-ready. The most common failures:
 - Mock data that never gets replaced with real services (68% of failed deployments)
@@ -43,7 +45,9 @@ Happy to answer questions about specific failure patterns or the DRS calculation
 
 ## Post Body (Option B - Technical/HN-style)
 
-I work with AI coding assistants daily. After tracking deployment failures for 6 months, I found 13 predictable patterns that cause AI code to fail in production. This framework addresses all of them.
+95% of AI pilots fail to reach production. 42% of AI projects were abandoned in 2025 (up from 17% in 2024).
+
+I work with AI coding assistants daily. After tracking deployment failures for 6 months, I found 13 predictable patterns that explain these numbers. This framework addresses all of them.
 
 **Key innovation: Objective deployability scoring**
 
@@ -77,6 +81,8 @@ GitHub: [link]
 ---
 
 ## Post Body (Option C - Story-driven)
+
+MIT found 95% of AI pilots fail to reach production. S&P Global reports 42% of AI projects were abandoned in 2025.
 
 Three weeks into a feature that Claude said was "ready to deploy," I discovered the payment integration was still using mock data. The tests passed because they were testing against the mocks.
 
