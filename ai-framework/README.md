@@ -1,6 +1,39 @@
 # AI Control Framework v2.0
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/sgharlow/ai-control-framework/releases)
+[![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen.svg)](#)
+[![DRS Coverage](https://img.shields.io/badge/DRS%20Coverage-100%25-success.svg)](#)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey.svg)](#)
+
 **The definitive solution for controlling AI assistant behavior and ensuring deployable, secure, and reliable code delivery.**
+
+> *"Stop wasting 70% of AI coding time on non-deployable output."*
+
+---
+
+## The Problem
+
+```
+Before AI Control Framework:
+==========================
+Hour 1: AI generates "complete" authentication system
+Hour 2: Debugging why tests fail in CI
+Hour 3: Discovering mock services never got replaced
+Hour 4: Finding hardcoded secrets blocking deployment
+Hour 5: Starting over with proper implementation
+
+After AI Control Framework:
+==========================
+Minute 5:  DRS Score = 52/100 - "Not deployable"
+Minute 6:  Framework identifies: mock service, hardcoded secret
+Minute 30: Issues fixed, DRS Score = 87/100
+Minute 31: Deploy to production
+```
+
+**Time saved: 4+ hours per feature.**
+
+---
 
 ## 🎯 What is AI Control Framework?
 
@@ -29,6 +62,8 @@ This framework **prevents all of these issues** through systematic validation an
 - **4 time gates** at 30/60/90/120 minutes with specific requirements
 
 ## 🚀 Quick Start
+
+> **New here?** Try the [5-Minute Quick Win Demo](./QUICK-WIN-DEMO.md) to see the framework in action.
 
 ### 1. Initialize Your Project
 
@@ -161,6 +196,33 @@ ai-framework/
 ## 📊 DRS (Deployability Readiness Score) Components
 
 The framework uses a **13-component scoring system** (total 100 points) to objectively measure deployment readiness:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    DRS SCORE VISUALIZATION                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Security Validation     ████████████████████ 18 pts            │
+│  Production Readiness    ███████████████ 15 pts                 │
+│  Data Integrity          ██████████ 10 pts                      │
+│  Integration Evidence    ██████████ 10 pts                      │
+│  Contract Integrity      ████████ 8 pts                         │
+│  Behavioral Contracts    ████████ 8 pts                         │
+│  No Mocks               ████████ 8 pts                          │
+│  Context Preservation    ████████ 8 pts                         │
+│  Tests Passing          ███████ 7 pts                           │
+│  Architecture Stability  ███████ 7 pts                          │
+│  Error Handling         ████ 4 pts                              │
+│  Scope Compliance       ████ 4 pts                              │
+│  Documentation          ███ 3 pts                               │
+│                         ─────────────                           │
+│                         TOTAL: 100 pts                          │
+│                                                                 │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │ DEPLOYMENT GATE: DRS ≥ 85 required for production       │   │
+│  └─────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 | Component | Points | Critical For |
 |-----------|--------|--------------|
