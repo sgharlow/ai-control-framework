@@ -26,16 +26,15 @@ Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 - **Next.js 14** - React framework
 - **Tailwind CSS** - Styling
 - **Recharts** - Data visualization
-- **Supabase** - Database & Auth (Pro tier)
-- **Stripe** - Payments (Pro tier)
+- **Supabase** - Database & Auth (planned)
+- **Stripe** - Payments (planned)
 
-## Pro Tier Features
+## Planned Features
 
 - Team management & leaderboard
 - 30-day DRS trends
 - Slack/Discord alerts
 - Custom reports & export
-- Priority support
 
 ## Environment Variables
 

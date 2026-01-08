@@ -232,6 +232,20 @@ Yes, if they can read project files. Optimized for Claude Code.
 | v2.0 | **Current** | MCP server, 13-component DRS, 100% test coverage |
 | v2.1 | Planned | Multi-agent, analytics dashboard |
 
+
+## Roadmap: Pro Features (Coming Soon)
+
+We're exploring a hosted dashboard for teams. Planned features:
+
+- 📊 **DRS Analytics Dashboard** — Track scores over time, identify patterns
+- 👥 **Team Management** — Shared metrics, leaderboards, team insights
+- 🔔 **Slack/Discord Alerts** — Get notified on violations or milestones
+- 📈 **Session History** — Review past sessions, export reports
+
+**Interested?** [Join the discussion](https://github.com/sgharlow/ai-control-framework/discussions) and tell us what features matter most to you.
+
+The core framework will always be free and open source.
+
 ---
 
 ## Contributing
