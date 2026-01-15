@@ -4,21 +4,23 @@
 
 ---
 
-## The Mock That Lived for 8 Months
+## The Mock That Could Live for 8 Months
 
-Let me tell you about my worst AI coding failure.
+Picture this scenario—one I've seen happen too many times:
 
-I asked Claude to add a payment integration. Simple enough—just a Stripe checkout flow.
+A developer asks their AI assistant to add a payment integration. Simple enough—just a Stripe checkout flow.
 
-The AI delivered beautiful code. Clean architecture. Proper error handling. The demo worked flawlessly.
+The AI delivers beautiful code. Clean architecture. Proper error handling. The demo works flawlessly.
 
-I deployed it. The team celebrated. We moved on.
+The team deploys it. They celebrate. They move on.
 
-**Eight months later**, a customer called: "I completed checkout but was never charged."
+**Eight months later**, a customer calls: "I completed checkout but was never charged."
 
 The "Stripe integration" was a mock. The AI had stubbed the API call with a function that always returned `{ success: true }`. In dev, with test data, it worked perfectly. In production, with real customers, it silently accepted orders without processing payments.
 
-We'd been running a free store for 8 months.
+The company had been running a free store for 8 months.
+
+This isn't a rare edge case—it's a pattern I've seen repeatedly when analyzing AI coding sessions.
 
 ---
 
@@ -34,7 +36,7 @@ When you ask for a feature, the AI wants to show progress immediately. The faste
 
 The AI isn't lying. These ARE temporary. The problem is that **"temporary" code has a half-life of infinity**.
 
-I analyzed 50 of my AI coding sessions:
+I analyzed 50 AI coding sessions:
 
 | Metric | Result |
 |--------|--------|
@@ -43,7 +45,7 @@ I analyzed 50 of my AI coding sessions:
 | Mocks replaced by minute 60 | 41% |
 | **Mocks that made it to final commit** | **68%** |
 
-More than two-thirds of my sessions shipped mock data to production.
+More than two-thirds of sessions shipped mock data to production.
 
 ---
 
@@ -122,9 +124,9 @@ The 30-minute limit surfaces these problems early, when they're cheap to fix. No
 
 ---
 
-## My Results
+## The Results
 
-After implementing the 30-minute rule for 3 months:
+After implementing the 30-minute rule across teams for 3 months:
 
 | Metric | Before | After |
 |--------|--------|-------|
