@@ -16,19 +16,26 @@ import { FrameworkStateReader } from './services/framework-state-reader.js';
 import { ContextAnalyzer } from './analyzers/context-analyzer.js';
 import { PromptSelector } from './selectors/prompt-selector.js';
 import { EnhancedPromptExecutor } from './services/prompt-executor-enhanced.js';
+import { validateEnvOrExit, EnvConfig } from './config/env-validator.js';
+
+// Validate environment before server initialization
+const envConfig = validateEnvOrExit();
 
 class AIFrameworkMCPServer {
+  private envConfig: EnvConfig;
   private server: Server;
   private frameworkStateReader: FrameworkStateReader;
   private contextAnalyzer: ContextAnalyzer;
   private promptSelector: PromptSelector;
   private promptExecutor: EnhancedPromptExecutor;
 
-  constructor() {
+  constructor(config: EnvConfig) {
+    this.envConfig = config;
+
     this.server = new Server(
       {
         name: 'ai-framework-mcp-server',
-        version: '1.0.0',
+        version: '2.0.0',
       },
       {
         capabilities: {
@@ -717,12 +724,16 @@ Current Project Context:
   async run() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('AI Framework MCP Server running on stdio');
+    console.error('AI Framework MCP Server v2.0.0 running on stdio');
+    if (this.envConfig.debug) {
+      console.error(`Framework path: ${this.envConfig.aiFrameworkPath}`);
+      console.error(`Log level: ${this.envConfig.logLevel}`);
+    }
   }
 }
 
-// Start the server
-const server = new AIFrameworkMCPServer();
+// Start the server with validated environment config
+const server = new AIFrameworkMCPServer(envConfig);
 server.run().catch((error) => {
   console.error('Server failed to start:', error);
   process.exit(1);
