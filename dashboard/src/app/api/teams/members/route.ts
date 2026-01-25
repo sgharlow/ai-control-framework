@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/lib/database.types';
+import { sendTeamInviteEmail, sendTeamAddedEmail } from '@/lib/email';
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -61,6 +62,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'All seats are used. Please upgrade.' }, { status: 400 });
     }
 
+    // Get team name for email
+    const { data: teamDetails } = await supabase
+      .from('teams')
+      .select('name')
+      .eq('id', teamId)
+      .single();
+
+    const teamName = teamDetails?.name || 'Unknown Team';
+
     // Check if user with email exists
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
     const invitedUser = existingUsers.users.find(u => u.email === email);
@@ -97,8 +107,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to send invite' }, { status: 500 });
     }
 
-    // TODO: Send invitation email using a service like Resend
-    // For now, just return success
+    // Send email notification
+    if (invitedUser) {
+      // User already exists - send "added to team" notification
+      await sendTeamAddedEmail({
+        to: email,
+        teamName,
+        role: role === 'admin' ? 'admin' : 'member',
+      });
+    } else {
+      // New user - send invitation email
+      await sendTeamInviteEmail({
+        to: email,
+        teamName,
+        inviterName: user.email || 'A team admin',
+        role: role === 'admin' ? 'admin' : 'member',
+      });
+    }
 
     return NextResponse.json({
       member,
