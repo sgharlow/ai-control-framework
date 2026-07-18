@@ -33,8 +33,21 @@ are the *what*; the system above is how the same work ships with verification in
 a live civic-tech product built end-to-end with this method: 59+ weeks of immutable public data,
 full algorithmic transparency.
 
+## The book
+
+**[The Foreign Mind: Ender's Reframe for AI Leadership](https://www.amazon.com/dp/B0GYN5CQ9Z)**
+([foreign-mind.com](https://foreign-mind.com)) — the leadership layer of the same thesis: AI
+effectiveness is a leadership capability, not a technical skill. The tools on this page are
+that argument, implemented.
+
+## The evidence
+
+[benchmarks/](https://github.com/sgharlow/ai-control-framework/tree/main/benchmarks) — a
+reproducible audit of the author's own repos: methodology, pinned commits, raw data, and the
+unflattering numbers left in (the disciplined cohort scored *worse* on README claim hygiene;
+the framework's own repo scores 27/100 on its own metric — both published as measured).
+
 ---
 
 Built by [Steve Harlow](https://github.com/sgharlow). Everything here is open source; where a
-claim appears, a check backs it — including the unflattering ones (the framework's own dogfood
-score is published in its README).
+claim appears, a check backs it — including the unflattering ones.

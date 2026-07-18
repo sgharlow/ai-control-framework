@@ -42,16 +42,26 @@ This framework exists because AI coding tools are powerful but undisciplined. Wi
 
 ## The Problem
 
-AI coding assistants (Claude Code, Cursor, Copilot) fail in predictable ways:
+AI coding assistants (Claude Code, Cursor, Copilot) fail in predictable ways. Instead of
+asserting frequencies, this repo **measures them — on the author's own repos** ([methodology,
+pinned commits, raw data](benchmarks/), 2026-07-18, one developer, N=19; observational, not
+causal — read the limitations before quoting):
 
-| Failure Pattern | Frequency | Impact |
-|-----------------|-----------|--------|
-| Mock data never replaced | 68% of sessions | Code breaks in production |
-| Interfaces change silently | 4.2x per feature | "It was working yesterday" |
-| Scope creep | 67% of sessions | 3-5 day rework cycles |
-| No deploy confidence | Always | "Is it ready?" → "Maybe?" |
+| Measured on my own repos | Pre-discipline era (n=13) | Verification-era (n=6) |
+|---|---|---|
+| Real CI (workflows + latest run green) | 15% | 67% |
+| LICENSE present | 38% | 100% |
+| Median DRS (identical at-rest conditions) | 27 | 32 |
+| Genuine mock data in production paths | 2 repos (one posted hardcoded findings as real analysis for a year) | 0 |
+| **Unverifiable README claims** | 15% | **33% — the disciplined era does WORSE here** (test counts asserted with no in-repo workflow); fix queued |
+| Compiles on fresh clone | 73% | 67% (workspace-install limits; details in raw data) |
 
-**This framework addresses 13 specific failure patterns with validated solutions.**
+> Earlier versions of this README asserted "68% of sessions", "4.2x per feature", and a
+> before/after results table. **No dataset behind those numbers exists; they are retired**, not
+> re-derived. What's above is what could actually be measured.
+
+**This framework addresses 13 specific failure patterns; the benchmark measures the statically
+detectable ones.**
 
 ---
 
@@ -68,12 +78,14 @@ AI coding assistants (Claude Code, Cursor, Copilot) fail in predictable ways:
 
 ## Results
 
-| Metric | Before | After |
-|--------|--------|-------|
-| Time to deploy | 3-5 days | 4-6 hours |
-| Rework rate | 67% | 12% |
-| Breaking changes | 4.2/feature | 0.3/feature |
-| Deploy confidence | "Maybe?" | "DRS 87. Ship it." |
+The before/after table that used to sit here (time-to-deploy, rework rate, breaking changes)
+is **retired — it had no dataset behind it.** The measured evidence that exists lives in
+[benchmarks/](benchmarks/): what structural discipline demonstrably changes on this author's
+own repos is real CI (15% → 67%), licensing (38% → 100%), and the absence of mock data in
+production paths — and what it demonstrably does *not* automatically fix is README claim
+hygiene (the disciplined cohort was worse). Session-level outcome deltas remain unmeasured;
+if that measurement is ever built, it will appear in benchmarks/ with its methodology, not here
+as a table.
 
 ---
 
