@@ -47,6 +47,8 @@ reproducible audit of the author's own repos: methodology, pinned commits, raw d
 unflattering numbers left in (the disciplined cohort scored *worse* on README claim hygiene;
 the framework's own repo scores 27/100 on its own metric — both published as measured).
 
+**Follow the work:** [get the free Claude Code Quick Wins Kit](https://learningai365.kit.com/f27ea7c05a) — one list across the recipes, the tools, and the book.
+
 ---
 
 Built by [Steve Harlow](https://github.com/sgharlow). Everything here is open source; where a
