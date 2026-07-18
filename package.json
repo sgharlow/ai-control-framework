@@ -1,6 +1,6 @@
 {
   "name": "ai-control-framework",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Installer for the AI Control Framework: contract freezing, mock timeouts, scope limits, and a 13-component deployability score (DRS) for AI-assisted coding sessions",
   "bin": {
     "ai-control-framework": "bin/cli.js"
