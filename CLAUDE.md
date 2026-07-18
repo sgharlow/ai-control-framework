@@ -1,12 +1,15 @@
 # CLAUDE CODE CONFIGURATION
 **AI Agent Operating Instructions - READ FIRST**
 
-## ✅ FRAMEWORK STATUS: PRODUCTION READY (v2.0)
-- **Integration Test Results**: 136/136 tests passing (100%)
+## FRAMEWORK STATUS (v2.0) — verified 2026-07-18
+- **Validation suite**: 28/28 passing (`validate-framework.sh`; in CI)
+- **Dashboard tests**: 14/14 vitest (in CI, Node 20/22)
+- **MCP Server**: builds clean (`tsc`; in CI, Node 20/22). The ad-hoc `tests/*.js` tool scripts
+  require a live stdio MCP client and are NOT in CI.
 - **DRS Components**: All 13 implemented with correct weights
-- **MCP Server**: Builds and functions correctly
-- **Templates**: No placeholders, ready for use
-- **Last Validated**: 2025-12-28
+- **Retired claim**: an earlier "136/136 integration tests" status referenced
+  `framework-integration-test.sh`, which does not exist in the repo. Do not restate that number.
+- **Dogfood DRS**: 27/100 self-score (see root README for methodology honesty)
 
 ## ⚠️ CRITICAL: IMPLEMENTATION REQUIRED
 

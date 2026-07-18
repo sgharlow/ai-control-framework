@@ -2,8 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/sgharlow/ai-control-framework/releases)
-[![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen.svg)](#)
-[![DRS Coverage](https://img.shields.io/badge/DRS%20Coverage-100%25-success.svg)](#)
+[![CI](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey.svg)](#)
 
 **The definitive solution for controlling AI assistant behavior and ensuring deployable, secure, and reliable code delivery.**

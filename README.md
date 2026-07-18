@@ -4,9 +4,18 @@
 
 [![Version](https://img.shields.io/badge/version-2.0.0-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
+[![CI](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml)
 
-<!-- Test and DRS badges intentionally absent until CI backs them with a live run
-     (tracked: cleanup Sprint 2). This framework's own rule: no claim without a check. -->
+> **What CI actually verifies** (this framework's own rule — no claim without a check): the
+> 28-check validation suite, the MCP server build on Node 20/22, and the dashboard's 14 vitest
+> tests on Node 20/22. An earlier "136/136 tests" badge here referenced a runner that no longer
+> exists in the repo and has been retired.
+>
+> **Dogfood score:** the framework run against its own repo scores **DRS 27/100** (2026-07-18,
+> `ai-framework/reference/bash/drs-calculate.sh`) against its own ship threshold of 85. Published
+> as-is: most DRS components measure live-session artifacts (frozen contracts, fresh evidence,
+> integration proofs) that a framework *repo* does not carry — the score is honest, and low, and
+> that is the point of the tool.
 
 > **95% of generative AI pilots fail to move to production** — MIT/Fortune, 2025
 >

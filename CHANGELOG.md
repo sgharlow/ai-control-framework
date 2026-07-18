@@ -5,6 +5,25 @@ All notable changes to the AI Control Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2026-07-18
+
+### Fixed
+- Dashboard webhook test suite repaired (vi.mock hoisting TDZ, headers mock destroyed by
+  restoreAllMocks, Stripe mock configured on the wrong instance, two test-logic errors) —
+  now 14/14.
+- Committed the dashboard `package-lock.json` (required for reproducible `npm ci` in CI).
+
+### Added
+- GitHub Actions CI: 28-check validation suite + MCP server build + dashboard tests,
+  matrixed on Node 20/22. Live badge replaces static claims.
+
+### Changed
+- **Claim correction:** the "136 Integration Tests" figure from the 2.0.0 notes referenced
+  `framework-integration-test.sh`, which is not present in the repository. The verifiable
+  numbers as of this entry: 28 validation checks + 14 dashboard tests + a clean MCP build.
+  The 2.0.0 entry below is retained as a historical record.
+- Published the framework's own dogfood DRS self-score (27/100) in the README with methodology.
+
 ## [2.0.0] - 2026-01-06
 
 ### Added

@@ -1,25 +1,37 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST, GET } from '../route';
 import Stripe from 'stripe';
+import { headers } from 'next/headers';
 
-// Mock Stripe
+// Mock Stripe — the route instantiates its client ONCE at module import, so the tests must
+// configure the very fn that factory instance holds; a shared hoisted mock is that fn.
+const { mockConstructEvent } = vi.hoisted(() => ({ mockConstructEvent: vi.fn() }));
 vi.mock('stripe', () => {
   return {
     default: vi.fn().mockImplementation(() => ({
       webhooks: {
-        constructEvent: vi.fn(),
+        constructEvent: mockConstructEvent,
       },
     })),
   };
 });
 
-// Mock Supabase
-const mockSupabaseFrom = vi.fn();
-const mockSupabaseSelect = vi.fn();
-const mockSupabaseInsert = vi.fn();
-const mockSupabaseUpdate = vi.fn();
-const mockSupabaseSingle = vi.fn();
-const mockSupabaseEq = vi.fn();
+// Mock Supabase — vi.hoisted so the vi.mock factory (hoisted above module consts) can see these
+const {
+  mockSupabaseFrom,
+  mockSupabaseSelect,
+  mockSupabaseInsert,
+  mockSupabaseUpdate,
+  mockSupabaseSingle,
+  mockSupabaseEq,
+} = vi.hoisted(() => ({
+  mockSupabaseFrom: vi.fn(),
+  mockSupabaseSelect: vi.fn(),
+  mockSupabaseInsert: vi.fn(),
+  mockSupabaseUpdate: vi.fn(),
+  mockSupabaseSingle: vi.fn(),
+  mockSupabaseEq: vi.fn(),
+}));
 
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => ({
@@ -35,10 +47,14 @@ vi.mock('next/headers', () => ({
 }));
 
 describe('Stripe Webhook Handler', () => {
-  let mockStripe: { webhooks: { constructEvent: ReturnType<typeof vi.fn> } };
-
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // Re-establish the headers default every test: restore/clear cycles had wiped the
+    // module-scope implementation, leaving headers() → undefined from the second test on.
+    vi.mocked(headers).mockResolvedValue({
+      get: vi.fn().mockReturnValue('valid-signature'),
+    } as unknown as Awaited<ReturnType<typeof headers>>);
 
     // Setup Supabase chain
     mockSupabaseFrom.mockReturnValue({
@@ -66,17 +82,6 @@ describe('Stripe Webhook Handler', () => {
       }),
     });
 
-    // Setup Stripe mock
-    mockStripe = {
-      webhooks: {
-        constructEvent: vi.fn(),
-      },
-    };
-    vi.mocked(Stripe).mockImplementation(() => mockStripe as unknown as Stripe);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 
   describe('POST handler', () => {
@@ -100,7 +105,7 @@ describe('Stripe Webhook Handler', () => {
     });
 
     it('should reject invalid signatures', async () => {
-      mockStripe.webhooks.constructEvent.mockImplementation(() => {
+      mockConstructEvent.mockImplementation(() => {
         throw new Error('Invalid signature');
       });
 
@@ -120,7 +125,7 @@ describe('Stripe Webhook Handler', () => {
       // Event already exists in database
       mockSupabaseSingle.mockResolvedValueOnce({ data: { id: 'existing-event' } });
 
-      mockStripe.webhooks.constructEvent.mockReturnValue({
+      mockConstructEvent.mockReturnValue({
         id: 'evt_123',
         type: 'checkout.session.completed',
         data: { object: {} },
@@ -147,7 +152,7 @@ describe('Stripe Webhook Handler', () => {
           metadata: { team_name: 'Test Team' },
         };
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_checkout_123',
           type: 'checkout.session.completed',
           data: { object: mockSession },
@@ -181,7 +186,7 @@ describe('Stripe Webhook Handler', () => {
           } as Stripe.ApiList<Stripe.SubscriptionItem>,
         };
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_sub_update_123',
           type: 'customer.subscription.updated',
           data: { object: mockSubscription },
@@ -213,7 +218,7 @@ describe('Stripe Webhook Handler', () => {
           } as Stripe.ApiList<Stripe.SubscriptionItem>,
         };
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_sub_update_enterprise',
           type: 'customer.subscription.updated',
           data: { object: mockSubscription },
@@ -246,7 +251,7 @@ describe('Stripe Webhook Handler', () => {
           }),
         });
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_sub_deleted_123',
           type: 'customer.subscription.deleted',
           data: { object: mockSubscription },
@@ -273,14 +278,20 @@ describe('Stripe Webhook Handler', () => {
           subscription: 'sub_123',
         };
 
-        // Mock team exists
-        mockSupabaseSelect.mockReturnValue({
+        // Sequence the single() results: the blanket select-override used before also made
+        // the stripe_events idempotency lookup "find" the event, short-circuiting the handler.
+        mockSupabaseSingle
+          .mockResolvedValueOnce({ data: null }) // stripe_events: not yet processed
+          .mockResolvedValueOnce({ data: { id: 'team-123' } }); // teams: found
+
+        // License extension awaits update().eq().eq() directly (two eqs, no single)
+        mockSupabaseUpdate.mockReturnValue({
           eq: vi.fn().mockReturnValue({
-            single: vi.fn().mockResolvedValue({ data: { id: 'team-123' } }),
+            eq: vi.fn().mockResolvedValue({ error: null }),
           }),
         });
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_invoice_paid_123',
           type: 'invoice.paid',
           data: { object: mockInvoice },
@@ -303,7 +314,7 @@ describe('Stripe Webhook Handler', () => {
           subscription: null, // One-time payment
         };
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_invoice_paid_onetime',
           type: 'invoice.paid',
           data: { object: mockInvoice },
@@ -326,7 +337,7 @@ describe('Stripe Webhook Handler', () => {
           customer_email: 'test@example.com',
         };
 
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_invoice_failed_123',
           type: 'invoice.payment_failed',
           data: { object: mockInvoice },
@@ -344,7 +355,7 @@ describe('Stripe Webhook Handler', () => {
 
     describe('unhandled events', () => {
       it('should acknowledge unhandled event types', async () => {
-        mockStripe.webhooks.constructEvent.mockReturnValue({
+        mockConstructEvent.mockReturnValue({
           id: 'evt_unknown_123',
           type: 'customer.created',
           data: { object: {} },
