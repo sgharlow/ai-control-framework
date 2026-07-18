@@ -1,0 +1,43 @@
+{
+  "name": "ai-control-framework",
+  "version": "2.0.0",
+  "description": "Installer for the AI Control Framework: contract freezing, mock timeouts, scope limits, and a 13-component deployability score (DRS) for AI-assisted coding sessions",
+  "bin": {
+    "ai-control-framework": "bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "ai-framework/",
+    "CLAUDE.md",
+    "Validate-Framework.ps1",
+    "validate-framework.sh",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "smoke": "bash scripts/installer-smoke.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgharlow/ai-control-framework.git"
+  },
+  "homepage": "https://github.com/sgharlow/ai-control-framework#readme",
+  "bugs": {
+    "url": "https://github.com/sgharlow/ai-control-framework/issues"
+  },
+  "author": "Steve Harlow (https://github.com/sgharlow)",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "ai-coding",
+    "code-quality",
+    "deployment-readiness",
+    "verification",
+    "gates",
+    "agentic"
+  ]
+}
