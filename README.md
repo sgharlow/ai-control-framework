@@ -3,9 +3,10 @@
 **Stop wasting time on non-deployable AI-generated code. Ship with confidence.**
 
 [![Version](https://img.shields.io/badge/version-2.0.0-blue)]()
-[![DRS Target](https://img.shields.io/badge/DRS%20target-85%25-green)]()
-[![Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
+
+<!-- Test and DRS badges intentionally absent until CI backs them with a live run
+     (tracked: cleanup Sprint 2). This framework's own rule: no claim without a check. -->
 
 > **95% of generative AI pilots fail to move to production** — MIT/Fortune, 2025
 >
