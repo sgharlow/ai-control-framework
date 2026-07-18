@@ -1,0 +1,13 @@
+src/lib/code-analysis/analyzer/code-analyzer.ts:5:import { createSemgrep, createMockSemgrep, Semgrep } from '../semgrep';
+src/lib/code-analysis/analyzer/code-analyzer.ts:290:      // Use mock Semgrep in test environment
+src/lib/code-analysis/analyzer/code-analyzer.ts:292:        this.semgrep = createMockSemgrep();
+src/lib/queue-system/processors/pr-processor.ts:32:        const mockFindings = [
+src/lib/queue-system/processors/pr-processor.ts:112:        const aiReviewSummary = this.generateAIReviewSummary(mockFindings, files.length);
+src/lib/queue-system/processors/pr-processor.ts:115:        const comment = this.buildEnhancedComment(mockFindings, aiReviewSummary, files.length);
+src/lib/queue-system/processors/pr-processor.ts:128:        for (const finding of mockFindings.filter(f => f.severity === 'critical' || f.severity === 'high').slice(0, 3)) {
+src/lib/queue-system/processors/pr-processor.ts:149:        console.log(`[EnhancedDemoProcessor] Summary: ${mockFindings.length} issues found, ${mockFindings.filter(f => f.severity === 'critical' || f.severity === 'high').length} high/critical`);
+src/lib/queue-system/processors/pr-processor.ts:156:            findingsCount: mockFindings.length,
+src/lib/queue-system/processors/pr-processor.ts:157:            criticalCount: mockFindings.filter(f => f.severity === 'critical').length,
+src/lib/queue-system/processors/pr-processor.ts:158:            highSeverityCount: mockFindings.filter(f => f.severity === 'high').length,
+src/lib/queue-system/processors/pr-processor.ts:159:            securityIssues: mockFindings.filter(f => f.type === 'security').length,
+src/lib/queue-system/processors/pr-processor.ts:160:            performanceIssues: mockFindings.filter(f => f.type === 'performance').length

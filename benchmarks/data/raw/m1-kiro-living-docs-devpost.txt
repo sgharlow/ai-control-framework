@@ -1,0 +1,2 @@
+src/server.ts:754:      const mockAnalysis: ProjectAnalysis = {
+src/server.ts:761:      this.onboardingManager.updateProfileFromProject(mockAnalysis);

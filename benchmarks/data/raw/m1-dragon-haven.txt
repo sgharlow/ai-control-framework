@@ -1,0 +1,6 @@
+src/sprites.py:153:        # Small wings (stubs)
+src/ui/dialogue_box.py:521:        # Stubble
+src/ui/dialogue_box.py:635:        """Draw Thomas - regretful brother with weathered features and stubborn jaw."""
+src/ui/dialogue_box.py:651:        # Heavy brows (furrowed, stubborn)
+src/ui/dialogue_box.py:654:        # Stubble
+src/ui/dialogue_box.py:657:        # Stubborn jaw set, slight frown

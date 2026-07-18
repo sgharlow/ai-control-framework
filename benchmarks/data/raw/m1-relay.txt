@@ -1,0 +1,8 @@
+lib/ai/openai-client.ts:9: * Single seam so agents/tests mock exactly one place.
+lib/ai/openai-client.ts:29:/** Test seam — inject a stub OpenAI client (or null to reset). */
+lib/crypto/crypto-service.ts:144:   * Injected fetch — defaults to the global. Lets tests stub network calls.
+lib/kms/kms-client.ts:5: * and their tests mock exactly one seam. It performs envelope-encryption key
+lib/kms/kms-client.ts:37:/** Test seam — inject a stub client (or null to reset to lazy construction). */
+lib/notify/email.ts:4: * Thin boundary so routes/tests mock one seam. `sendEmail` throws on failure;
+lib/notify/email.ts:25:/** Test seam — inject a stub Resend client (or null to reset). */
+lib/vault/vault-items.ts:235:  // Already a string (e.g. mocked) — assume base64.
