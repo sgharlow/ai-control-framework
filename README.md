@@ -1,8 +1,19 @@
 # AI Control Framework
 
+<!-- workshown-header -->
+[![Workshown](https://img.shields.io/badge/Workshown-member-0b7285)](https://sgharlow.github.io/ai-control-framework/)
+**Part of [Workshown](https://sgharlow.github.io/ai-control-framework/) — show your work.**
+[ai-control-framework](https://github.com/sgharlow/ai-control-framework) (the how) ·
+[orchestra-lite](https://github.com/sgharlow/orchestra-lite) (the scale) ·
+[ai-pr-bot](https://github.com/sgharlow/ai-pr-bot) (the enforcement) ·
+[skillcrossroads](https://github.com/sgharlow/skillcrossroads) (the grade) ·
+[recipes](https://github.com/sgharlow/claude-code-recipes) (the front door) ·
+[case study](https://github.com/sgharlow/distraction)
+<!-- /workshown-header -->
+
 **Stop wasting time on non-deployable AI-generated code. Ship with confidence.**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue)]()
+[![Version](https://img.shields.io/badge/version-2.1.0-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
 [![CI](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/sgharlow/ai-control-framework/actions/workflows/ci.yml)
 
@@ -156,7 +167,6 @@ DEPLOYABILITY SCORE: 85/100
 ```
 your-project/
 ├── CLAUDE.md                    # AI agent instructions
-├── framework-integration-test.sh
 ├── ai-framework/
 │   ├── specs/                   # 12 specifications
 │   ├── reference/
